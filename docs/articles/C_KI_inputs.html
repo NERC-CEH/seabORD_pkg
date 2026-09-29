@@ -98,6 +98,42 @@
 <p>Load the seabORD package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">seabORD</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="co">### UK outline</span></span>
+<span></span>
+<span><span class="co">#uk_map &lt;- dplyr::select(</span></span>
+<span>  <span class="co">#rnaturalearth::ne_countries(country = "United Kingdom",</span></span>
+<span>                              <span class="co">#scale = "medium",</span></span>
+<span>                              <span class="co">#returnclass = "sf"),</span></span>
+<span>  <span class="co">#name,</span></span>
+<span>  <span class="co">#geometry)</span></span>
+<span></span>
+<span><span class="co">#use coastline</span></span>
+<span><span class="va">uk_map</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/cef_coast_4326.html">cef_coast_4326</a></span></span>
+<span></span>
+<span></span>
+<span><span class="co">### theme definition</span></span>
+<span><span class="fu">sysfonts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html" class="external-link">font_add_google</a></span><span class="op">(</span><span class="st">"Montserrat"</span>, <span class="st">"montserrat"</span><span class="op">)</span>  <span class="co"># Base and heading font</span></span>
+<span><span class="fu">sysfonts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html" class="external-link">font_add_google</a></span><span class="op">(</span><span class="st">"JetBrains Mono"</span>, <span class="st">"jetbrains_mono"</span><span class="op">)</span>  <span class="co"># Code font</span></span>
+<span><span class="fu">showtext</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html" class="external-link">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">theme_bslib</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>  plot.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#fff"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,       <span class="co"># Background color</span></span>
+<span>  panel.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EAEFEC"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,  <span class="co"># Panel background (secondary)</span></span>
+<span>  panel.grid.major <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#EAEFEC"</span><span class="op">)</span>,             <span class="co"># Major grid lines</span></span>
+<span>  panel.grid.minor <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#EAEFEC"</span><span class="op">)</span>,             <span class="co"># Minor grid lines</span></span>
+<span>  axis.text <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#292C2F"</span>, family <span class="op">=</span> <span class="st">"montserrat"</span><span class="op">)</span>,  <span class="co"># Axis text (foreground and font)</span></span>
+<span>  axis.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#292C2F"</span>, family <span class="op">=</span> <span class="st">"montserrat"</span><span class="op">)</span>, <span class="co"># Axis titles</span></span>
+<span>  plot.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#0483A4"</span>, family <span class="op">=</span> <span class="st">"montserrat"</span>, size <span class="op">=</span> <span class="fl">16</span>, face <span class="op">=</span> <span class="st">"bold"</span>, hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, <span class="co"># Title</span></span>
+<span>  legend.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#fff"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,    <span class="co"># Legend background</span></span>
+<span>  legend.key <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#EAEFEC"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,        <span class="co"># Legend key</span></span>
+<span>  legend.text <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#292C2F"</span>, family <span class="op">=</span> <span class="st">"montserrat"</span><span class="op">)</span>, <span class="co"># Legend text</span></span>
+<span>  plot.caption <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#292C2F"</span>, family <span class="op">=</span> <span class="st">"jetbrains_mono"</span><span class="op">)</span>,</span>
+<span>  axis.title.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,  <span class="co"># Remove x-axis label</span></span>
+<span>  axis.title.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,<span class="co"># Caption for code font</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="preparing-the-inputs">Preparing the inputs<a class="anchor" aria-label="anchor" href="#preparing-the-inputs"></a>
 </h2>
@@ -229,7 +265,7 @@ at the given colony/SPA</p></li>
 particular replicate. Prior to running the simulation with ORDs this
 must be determined in a calibration step.</p></li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Par_example</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/example_1_lists.html">example_1_lists</a></span><span class="op">$</span><span class="va">Par</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Par_example</span><span class="op">)</span></span>
@@ -271,13 +307,13 @@ used</p></li>
 </ul>
 <p>make a folder in the directory to store your output (you can place it
 wherever)</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the ouput folder "output_seabORD" if not existing already</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="st">"output_seabORD"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"output_seabORD"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>and then the list of modPar</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modPar_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/example_1_lists.html">example_1_lists</a></span><span class="op">$</span><span class="va">modPar</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">)</span></span>
@@ -303,7 +339,7 @@ the buffer around the ORD which birds avoid</p></li>
 this is the distance (km) extending beyond the FootprintBorder where
 displacement susceptible birds will be displaced to.</p></li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ordPar_example</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/example_1_lists.html">example_1_lists</a></span><span class="op">$</span><span class="va">ordPar</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ordPar_example</span><span class="op">)</span></span>
@@ -348,7 +384,7 @@ up.</p></li>
 </ul>
 <p>There is an example list available in the package that can be
 accessed by simply call in the built-in list “example_switch_list”:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">#get the example switches list</span></span>
 <span><span class="va">switches_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/example_1_lists.html">example_1_lists</a></span><span class="op">$</span><span class="va">switches</span></span>
@@ -379,7 +415,7 @@ debugging and by saving the output as a .rds file.</p>
 <p>Used to indicate where the sea is. Example data to be used as seamask
 can be found built in the package as “seamask_3035_example” to make the
 raster for the seamask:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_data_seamask</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/seamask_3035_example.html">seamask_3035_example</a></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">example_data_seamask</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
@@ -397,7 +433,7 @@ raster for the seamask:</p>
 <span><span class="co">#&gt;   ..$ crs   : chr "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"Unknown based on GRS80 ellipsoid\",\n      "| __truncated__</span></span></code></pre></div>
 <p>We can use this data to make the raster using the
 <strong>raster</strong> package</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">#make a raster with the right dimension/proj/extents etc.</span></span>
 <span><span class="va">seamask_example</span> <span class="op">&lt;-</span> </span>
@@ -426,7 +462,7 @@ raster for the seamask:</p>
 taken from the built-in dataset “spacoordinates” which has data for all
 the sites relevant for the CEF. Get only what’s relevant for this
 example.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#open the dataset provided with the pacakge</span></span>
 <span><span class="va">spadat1_example</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span> <span class="co">#as a tibble</span></span>
@@ -464,7 +500,7 @@ example.</p>
 <h3 id="spadat2">spadat2<a class="anchor" aria-label="anchor" href="#spadat2"></a>
 </h3>
 <p>Can be derived from “spalist”</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spadat2_example</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span> <span class="co">#as a tibble</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/spalist.html">spalist</a></span>, <span class="co">#the whole list</span></span>
@@ -491,7 +527,7 @@ example.</p>
 <p>The species specific data for the Black-legged Kittiwake be derived
 from the built in dataset “energeticsandpreydata” that has data for all
 4 species that seabORD models.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spdat_example</span> <span class="op">&lt;-</span> </span>
 <span>   <span class="co">#tibble::as_tibble( #as a tibble</span></span>
 <span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/energeticsandpreydata.html">energeticsandpreydata</a></span>,</span>
@@ -548,7 +584,7 @@ run which is derived from GPS data and modelled with a GAM incorporating
 important factors known to drive space use in this species. This is a
 raster file that must re-constructed from the data as follows (as for
 seamask).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_data_brd</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/BrdData_example.html">BrdData_example</a></span></span>
 <span><span class="co">#make the raster with the right dimensions..</span></span>
 <span><span class="va">BrdData_example</span> <span class="op">&lt;-</span> </span>
@@ -567,7 +603,7 @@ seamask).</p>
 <span><span class="co">#Set the name of the layer</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">BrdData_example</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Forth.Islands"</span></span></code></pre></div>
 <p>Which has data that plot like this:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BrdData_example_repr</span> <span class="op">&lt;-</span> </span>
 <span>    <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">BrdData_example</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/project.html" class="external-link">project</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">uk_map</span><span class="op">)</span><span class="op">)</span></span>
@@ -597,7 +633,7 @@ from surrounding colonies which may interact with the colony/SPA being
 simulated. This is used throughout the model to estimate how competition
 from other colonies influences intake rate at different foraging
 sites.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_data_frg</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/frgcompdata_example.html">frgcompdata_example</a></span></span>
 <span><span class="co">#make the raster with the right dimensions..</span></span>
 <span><span class="va">FrgCompData_example</span> <span class="op">&lt;-</span></span>
@@ -622,7 +658,7 @@ sites.</p>
 <h3 id="fltdist_base">fltdist_base<a class="anchor" aria-label="anchor" href="#fltdist_base"></a>
 </h3>
 <p>Flight distance by sea, without ORDs. See user guide for details.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">UK9004171_bysea</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/UK9004171_bysea_3035.html">UK9004171_bysea_3035</a></span></span>
 <span><span class="co">#make the raster with the right dimensions..</span></span>
 <span><span class="va">fltdist_base_example</span> <span class="op">&lt;-</span></span>
@@ -650,7 +686,7 @@ sites.</p>
 </h3>
 <p>It’s a TransitionLayer class object. One example provided that can be
 loaded</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">FlightGridcorrection</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/FlightGridcorrection_3035.html">FlightGridcorrection_3035</a></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -658,7 +694,7 @@ loaded</p>
 </h3>
 <p>This is a set of polygons used to represent the ORDs that we are
 intending to predict the impact of.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ORDpoly_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="va"><a href="../reference/ORDpoly_example.html">ORDpoly_example</a></span></span></code></pre></div>
 <p>which is a dataset with this multipolygon shapes:</p>
 <p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>

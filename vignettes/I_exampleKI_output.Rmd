@@ -25,14 +25,6 @@ library(magrittr)
 ```
 
 ```{r}
-### UK outline
-
-#uk_map <- dplyr::select(
-  #rnaturalearth::ne_countries(country = "United Kingdom",
-                              #scale = "medium",
-                              #returnclass = "sf"),
-  #name,
-  #geometry)
 
 #use coastline
 uk_map <- seabORD::cef_coast_4326

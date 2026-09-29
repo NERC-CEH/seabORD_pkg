@@ -28,7 +28,6 @@ library(gridExtra)
 library(magrittr) #used for ggplotting but users won't need this
 ```
 
-
 ```{r}
 
 ### UK outline
@@ -61,7 +60,7 @@ theme_bslib <- ggplot2::theme(
 
 A key component of the seabORD model is the need to calibrate the prey level inputs used for each new species and colony combination. This currently involves re-running the model without ORDs (baseline simulations) with a range of prey levels to ascertain the range of values within which the model returns adult mass and chick mortality rates consistent with pre-defined values representing “moderate” conditions (Figure 1). This is to allow simulation of the range of outcomes expected under these conditions, as the model is highly sensitive to the prey density parameter.
 
-![*Figure 1: : Schematic plot of kittiwake adult mass loss (A) and chicks per nest (B) withdrawn from 300 baseline simulations (no ORD footprints) ranging from a prey value of 50 up to 250. The red lines are for smoothed model outputs, which are overlaid on grey points indicating the individual estimates. For calibration we have upper and lower bound for each output (A & B) which are picked to reflect “moderate” conditions, i.e., what is observed in a typical year for kittiwakes at the Isle of May, and these are indicates by the dashed grey horizontal lines. The grey shaded blocks indicate where the respective outputs fall within these bound, and the light blue shaded block indicates the prey values where there is overlap between the estimates, which is the prey range used in subsequent simulations with ORDs included.*](images/Calibration_plot_schematic_extended_seabordpkg.png)
+![*Figure 1 : Schematic plot of kittiwake adult mass loss (A) and chicks per nest (B) withdrawn from 300 baseline simulations (no ORD footprints) ranging from a prey value of 50 up to 250. The red lines are for smoothed model outputs, which are overlaid on grey points indicating the individual estimates. For calibration we have upper and lower bound for each output (A & B) which are picked to reflect “moderate” conditions, i.e., what is observed in a typical year for kittiwakes at the Isle of May, and these are indicates by the dashed grey horizontal lines. The grey shaded blocks indicate where the respective outputs fall within these bound, and the light blue shaded block indicates the prey values where there is overlap between the estimates, which is the prey range used in subsequent simulations with ORDs included.*](images/Calibration_plot_schematic_extended_seabordpkg.png)
 
 # This example
 
@@ -104,6 +103,7 @@ switches_example <- seabORD::example_lists_calibration_dd$switches
 switches_example$savebirdflightmap <- TRUE # turn this switch on if you want to see an example of the birdflightmap output
 
 ```
+
 ### Assorted spatial inputs
 
 Now load in all the spatial inputs. For more information please see the "Example kittiwake: step 1 - seabORD inputs" article.
@@ -221,6 +221,7 @@ FlightGridcorrection <- seabORD::FlightGridcorrection_3035
 
 #ORDpoly_example <- seabORD::ORDpoly_example # commented out as not required for calibration runs
 ```
+
 ## Set off calibration runs
 
 Now that the inputs have been prepared by loading them into our environment we can set off the run using the following code:
@@ -308,8 +309,8 @@ produpper <- 0.55
 prodlower <- 0.45
 
 # vertical ablines (please feel free to edit) which you can use as a visual guide to ascertain where the moderate conditions overlap between outputs
-lo <- 198
-hi <- 201
+lo <- 212
+hi <- 216
 
   pAd <- ggplot2::ggplot() +
     #geom_hline(yintercept = 0.1, lty=2) +

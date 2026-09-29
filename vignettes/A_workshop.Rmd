@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
     ```{r}
     pacman::p_load(dplyr,forcats,gdistance,ggspatial,magrittr,memoise,methods,
                       nleqslv,purrr,raster,readr,readxl,rlang,sf,sp,stats,stringr,
-                      tabularaster,tibble,tidyr,utils,ggplot2,gridExtra)
+                      tabularaster,tibble,tidyr,utils,ggplot2,gridExtra,sysfonts)
     ```
 
 # How to install seabORD
@@ -54,4 +54,4 @@ path <- file.path("C:","Users","madtig","Desktop","seabORD_pkg-main", fsep = .Pl
 library("seabORD")
 ```
 
-5.  you can now follow the example!
+5.  you can now follow the examples!

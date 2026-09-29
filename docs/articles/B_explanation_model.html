@@ -97,30 +97,138 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">seabORD</span><span class="op">)</span></span></code></pre></div>
-<p>Etiam in porta leo, vel laoreet turpis. Curabitur rhoncus odio vitae
-leo eleifend, sit amet semper nibh condimentum. Donec vitae risus dui.
-Suspendisse tincidunt justo et massa rutrum, at dictum purus placerat.
-Nullam vel commodo est, nec porta leo. In id neque in neque tincidunt
-sollicitudin. Mauris fringilla placerat erat dictum congue. Suspendisse
-et lobortis arcu. Sed ultrices aliquam eleifend. Morbi vestibulum
-efficitur auctor. Suspendisse potenti. Morbi egestas sapien nisi. Donec
-a tortor ut nisl molestie mollis. Fusce ultricies purus sed massa
-dapibus, nec pretium odio dapibus. Mauris tristique, libero vel semper
-efficitur, est nisl semper nisl, non vestibulum eros massa vitae tellus.
-Donec lobortis porttitor nisl, vitae tempor ante gravida ac.</p>
-<p>Etiam in porta leo, vel laoreet turpis. Curabitur rhoncus odio vitae
-leo eleifend, sit amet semper nibh condimentum. Donec vitae risus dui.
-Suspendisse tincidunt justo et massa rutrum, at dictum purus placerat.
-Nullam vel commodo est, nec porta leo. In id neque in neque tincidunt
-sollicitudin. Mauris fringilla placerat erat dictum congue. Suspendisse
-et lobortis arcu. Sed ultrices aliquam eleifend. Morbi vestibulum
-efficitur auctor. Suspendisse potenti. Morbi egestas sapien nisi. Donec
-a tortor ut nisl molestie mollis. Fusce ultricies purus sed massa
-dapibus, nec pretium odio dapibus. Mauris tristique, libero vel semper
-efficitur, est nisl semper nisl, non vestibulum eros massa vitae tellus.
-Donec lobortis porttitor nisl, vitae tempor ante gravida ac.</p>
-<p><img src="images/seabORD_overview_1jpg.png"></p>
-  </main>
+<div class="section level2">
+<h2 id="model-purpose">Model purpose<a class="anchor" aria-label="anchor" href="#model-purpose"></a>
+</h2>
+<p>The purpose of the model is to predict the demographic impacts on
+seabirds of sub-lethal displacement and barrier effects resulting from
+interactions with ORDs, evaluated through predicted changes to adult
+mass, adult survival and productivity. Demographic impacts are derived
+by estimating alterations to time/energy budgets of four different
+seabird species during the chick-rearing period, when exposed to ORDs
+within their foraging ranges. To estimate the impacts of ORDs, baseline
+scenarios (no ORD footprints included) are compared with scenarios
+containing one or more ORDs, providing estimates of potential changes to
+adult mass, adult survival, and breeding success under alternative
+scenarios of ORD exposure.</p>
+</div>
+<div class="section level2">
+<h2 id="in-practice">In practice<a class="anchor" aria-label="anchor" href="#in-practice"></a>
+</h2>
+<p>Figure 1 below provides a view of how the model is applied in
+practice and how it can be used to assess ORD impacts resulting from one
+ORD, or several in combination (cumulative effects).</p>
+<div class="float">
+<img src="images/Schematic_model_in_practice.png" alt="Figure 1: Schematic of SeabORD model and how it is used in practice"><div class="figcaption"><em>Figure 1: Schematic of SeabORD model and how
+it is used in practice</em></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="code-structure-processes">Code structure &amp; processes<a class="anchor" aria-label="anchor" href="#code-structure-processes"></a>
+</h2>
+<p>The model was developed in R (R Core Team, 2024), and code is
+provided in GitHub (<a href="https://github.com/NERC-CEH/seabORD_pkg" class="external-link uri">https://github.com/NERC-CEH/seabORD_pkg</a>).</p>
+<div class="float">
+<img src="images/Code_structure_nested_schematic.jpg" width="450" alt="Figure 2: Schematic of SeabORD model code, divided into two parts with the set up including calibration at the top and the main model below, with nested structure shown by black boxes with looping indicated in blue text where relevant. Purple rounded boxes indicate inputs and outputs of the model, yellow boxes indicate initialisation and housekeeping, with the green boxes corresponding to the main processes elaborated on below"><div class="figcaption"><em>Figure 2: Schematic of SeabORD model code,
+divided into two parts with the set up including calibration at the top
+and the main model below, with nested structure shown by black boxes
+with looping indicated in blue text where relevant. Purple rounded boxes
+indicate inputs and outputs of the model, yellow boxes indicate
+initialisation and housekeeping, with the green boxes corresponding to
+the main processes elaborated on below</em></div>
+</div>
+<p>The model can be separated into the set-up process and main model,
+which has a nested structure (Figure 2). Within each time step the
+adults make foraging decisions and then based on the outcomes of those
+decisions, a pair’s chick’s condition is updated depending on whether
+its parents managed to catch enough prey to feed themselves and their
+chick, with prioritisation of themselves occurring when constraints
+imposed by foraging conditions and/or experienced body condition are
+sufficiently bad. Names in bold refer to the submodels within these
+processes.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong><em>Foraging and adult behaviour</em></strong> – At the
+beginning of a time step, each adult is assigned a location for feeding
+during each foraging trip from the colony based on bird density maps.
+The prey available in this foraging location is used to calculate the
+time taken to forage their required amount in this time step
+(<strong>calc_foragecapture</strong>) using an intake rate based on a
+Type II functional response (Holling, 1959), with an adjustment to
+account for the effect of competition from conspecifics on individual
+instantaneous intake rate. Using this information in conjunction with
+knowledge of associated activities such as flying to and from the
+foraging site (including barrier effects of flying around the ORD), plus
+a knowledge of their own condition and whether or not their chick is
+alive, each adult then chooses the optimal foraging strategy for this
+time step (<strong>calc_strategy</strong>), which is based upon
+attempting to acquire their required energy intake for the day, whilst
+minimising time spent away from their chick to avoid unnattendance. This
+determines how many trips the adult will undertake in this time step and
+what behaviour the adults exhibit with respect to their chick, such as
+potentially leaving them unattended or abandoning the breeding attempt
+due to constraints.</p></li>
+<li><p><strong><em>Consequences for chicks</em></strong> – The amount of
+food captured by each adult during the time step is then converted to
+energy shared between themselves and the chick and summed to estimate
+the energy provided to the chick. The resulting increase in chick body
+mass, based upon food provided by both its parent, is calculated and
+compared to a corresponding optimum body mass for a chick at the given
+stage of the season (<strong>calc_chickcare</strong>). If this value
+falls below a defined threshold the chick starves and suffers mortality.
+At this point the consequences of the adults’ behaviour towards the
+chick determine whether the chick remains alive, or if it dies through
+abandonment, a parent dying, which is followed by several stochastic
+processes relating to other potential causes of death: unattendance by
+the parents (<strong>calc_unattendance</strong>), other mortality from
+causes like storms (<strong>calc_othermortality</strong>), or in the
+case of puffins, mortality from predation via hunger driving them to the
+entrance of the burrow (<strong>calc_puffinmortality</strong>).</p></li>
+<li><p><strong><em>Update adults</em></strong> – Each adult’s state
+variables are then updated with the chick’s status, which can result in
+a change in the feeding mode if their chick dies, having consequences
+for their foraging strategy in the next time step. Adult body masses are
+then updated based on the energy gained and expended foraging and in
+other activities (<strong>calc_adultbmchange</strong>). Daily energy
+requirement for the following the following time step is then calculated
+(<strong>calc_adultdee</strong>).</p></li>
+<li><p><strong><em>Adult survival</em></strong> – Upon completion of all
+time steps for each season (baseline/scenario) within each replicate,
+adult survival over the subsequent winter period is estimated using the
+mass of each adult which survived to the final time step, representing
+the end of the chick-rearing season. Survival is estimated using
+relationships from previously published studies (Oro and Furness 2002;
+Erikstad et al. 2009), by converting the mass of each adult into a
+probability of survival via mass-survival relationships
+(<strong>calc_pSurvival</strong>). This probability is then passed to a
+stochastic process which dictates which individuals survive according to
+their relative probabilities.</p></li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="ord-interactions">ORD interactions<a class="anchor" aria-label="anchor" href="#ord-interactions"></a>
+</h2>
+<div class="float">
+<img src="images/seabORD_overview_1jpg.png" alt="Figure 3: Schematic of ORD interactions in SeabORD"><div class="figcaption"><em>Figure 3: Schematic of ORD interactions in
+SeabORD</em></div>
+</div>
+<p>Adult behaviour concerning sublethal interactions with ORDs is split
+into two widely accepted potential impacts, barrier and displacement
+effects. A barrier effect is thought to occur when a bird is attempting
+to access a foraging site from the colony where the most direct path is
+obstructed, such that avoiding the ORD results in increased travelling
+distance with potential energetic consequences. Barrier effects operate
+within the model by adjusting baseline flight paths (when no ORDs are
+present) using the shortest path directly around the ORD in the scenario
+run (Figure 3, 1b). A displacement effect occurs when an individual is
+excluded from foraging in a potentially productive area within an ORD
+footprint. The model represents this by displacing a bird from its
+previously chosen foraging location inside an ORD footprint into a new
+location in the displacement zone, with new foraging locations chosen
+proportional to the probability of bird usage within the displacement
+zone (Figure 2, 2b).  </p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

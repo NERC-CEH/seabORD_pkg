@@ -26,16 +26,7 @@ library(magrittr) #used for ggplotting but users won't need this
 
 Before following this example, the model is assumed to be already calibrated. If not follow the article on calibration before running this example.
 
-```{r, echo=FALSE}
-
-### UK outline
-
-#uk_map <- dplyr::select(
-  #rnaturalearth::ne_countries(country = "United Kingdom",
-                              #scale = "medium",
-                              #returnclass = "sf"),
-  #name,
-  #geometry)
+```{r}
 
 #use coastline
 uk_map <- seabORD::cef_coast_4326

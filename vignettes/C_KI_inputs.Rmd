@@ -20,7 +20,7 @@ Load the seabORD package
 library(seabORD)
 ```
 
-```{r, echo=FALSE}
+```{r}
 
 
 ### UK outline
@@ -63,7 +63,7 @@ theme_bslib <- ggplot2::theme(
 To run seabORD several inputs are needed:
 
 | arguments | type | description |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Par | List | The main parameters controlling/defining this run e.g., species and colony |
 | modPar | List | Parameters relating to the model mode and computer environment |
 | ordPar | List | Input parameters relating to the ORDs |
