@@ -27,9 +27,9 @@ knitr::opts_chunk$set(
 2.  Install all the required packages using pacman::p_load() - it should skip any packages that you already have installed.
 
     ```{r}
-    pacman::p_load(dplyr,forcats,gdistance,ggspatial,magrittr,memoise,methods,
-                      nleqslv,purrr,raster,readr,readxl,rlang,sf,sp,stats,stringr,
-                      tabularaster,tibble,tidyr,utils,ggplot2,gridExtra,sysfonts)
+    # pacman::p_load(dplyr,forcats,gdistance,ggspatial,magrittr,memoise,methods,
+    #                   nleqslv,purrr,raster,readr,readxl,rlang,sf,sp,stats,stringr,
+    #                   tabularaster,tibble,tidyr,utils,ggplot2,gridExtra,sysfonts)
     ```
 
 # How to install seabORD
