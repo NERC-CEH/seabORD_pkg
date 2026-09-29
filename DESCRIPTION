@@ -3,10 +3,10 @@ Title: seabORD
 Version: 2.0.0
 Authors@R: c(
     person("Deena", "Mobbs", , "dcmo@ceh.ac.uk", role = c("aut", "cre")),
-    person("Kate", "Searle", role = "ctb"),
+    person("Christopher", "Pollock", role = c("ctb", "cre")),
     person("Adam", "Butler", role = "ctb"),
-    person("Christopher", "Pollock", role = "ctb"),
-    person("Maddalena", "Tigli", role = "ctb")
+    person("Maddalena", "Tigli", role = c("ctb", "cre")),
+    person("Kate", "Searle", role = "ctb")
   )
 Maintainer: Deena Mobbs <dcmo@ceh.ac.uk>
 Description: A model to estimate the population consequences of

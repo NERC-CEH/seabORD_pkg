@@ -1,198 +1,68 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/A_workshop.html</loc>
-  </url>
-  <url>
-    <loc>/articles/B_explanation_model.html</loc>
-  </url>
-  <url>
-    <loc>/articles/C_KI_inputs.html</loc>
-  </url>
-  <url>
-    <loc>/articles/D_DistanceDecayMap.html</loc>
-  </url>
-  <url>
-    <loc>/articles/E_KI_calib_decay.html</loc>
-  </url>
-  <url>
-    <loc>/articles/F_exampleKI_calib.html</loc>
-  </url>
-  <url>
-    <loc>/articles/G_KI_run_decay.html</loc>
-  </url>
-  <url>
-    <loc>/articles/H_exampleKI_run.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/I_exampleKI_output.html</loc>
-  </url>
-  <url>
-    <loc>/articles/I_main_functions.html</loc>
-  </url>
-  <url>
-    <loc>/articles/J_species_default.html</loc>
-  </url>
-  <url>
-    <loc>/articles/K_FAQs.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/BrdData_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/BrdData_example_dd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_adultbmchange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_adultdee.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_birddensmap_dd_pinfr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_birddensmap_dd_pinhalf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_chickcare.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_dd_phalf_from_pinfr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_dd_pinfr_from_phalf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_dist_restricted.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_foragecapture.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_othermortality.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_pSurvival.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_puffinmortality.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_strategy.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_unattendmortality.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cef_coast_3035.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cef_coast_4326.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CEF_colsize_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/DBS_map_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/DBS_withORDs_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/energeticsandpreydata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_1_lists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_calibration_output.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_lists_calibration.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_lists_calibration_dd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_lists_dd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_scenario_output.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FlightGridcorrection_3035.html</loc>
-  </url>
-  <url>
-    <loc>/reference/frgcompdata_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/frgcompdata_example_dd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/memoised_calc_foragecapture.html</loc>
-  </url>
-  <url>
-    <loc>/reference/offshorerenewabledevelopmentnames.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ORDpoly_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ORDpoly_example_wfold.html</loc>
-  </url>
-  <url>
-    <loc>/reference/seabord.html</loc>
-  </url>
-  <url>
-    <loc>/reference/seamask_3035_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_initialbirdstate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_initialbirdtype.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_initialchickstate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_medianprey.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_seedvalues.html</loc>
-  </url>
-  <url>
-    <loc>/reference/spacoordinates.html</loc>
-  </url>
-  <url>
-    <loc>/reference/spalist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/specieslist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/UK9002491_bysea_3035.html</loc>
-  </url>
-  <url>
-    <loc>/reference/UK9004171_bysea_3035.html</loc>
-  </url>
-  <url>
-    <loc>/reference/voptimise.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/A_workshop.html</loc></url>
+<url><loc>/articles/B_explanation_model.html</loc></url>
+<url><loc>/articles/C_KI_inputs.html</loc></url>
+<url><loc>/articles/D_DistanceDecayMap.html</loc></url>
+<url><loc>/articles/E_KI_calib_decay.html</loc></url>
+<url><loc>/articles/F_exampleKI_calib.html</loc></url>
+<url><loc>/articles/G_KI_run_decay.html</loc></url>
+<url><loc>/articles/H_exampleKI_run.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/I_exampleKI_output.html</loc></url>
+<url><loc>/articles/I_main_functions.html</loc></url>
+<url><loc>/articles/J_species_default.html</loc></url>
+<url><loc>/articles/K_FAQs.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/BrdData_example.html</loc></url>
+<url><loc>/reference/BrdData_example_dd.html</loc></url>
+<url><loc>/reference/calc_adultbmchange.html</loc></url>
+<url><loc>/reference/calc_adultdee.html</loc></url>
+<url><loc>/reference/calc_birddensmap_dd_pinfr.html</loc></url>
+<url><loc>/reference/calc_birddensmap_dd_pinhalf.html</loc></url>
+<url><loc>/reference/calc_chickcare.html</loc></url>
+<url><loc>/reference/calc_dd_phalf_from_pinfr.html</loc></url>
+<url><loc>/reference/calc_dd_pinfr_from_phalf.html</loc></url>
+<url><loc>/reference/calc_dist_restricted.html</loc></url>
+<url><loc>/reference/calc_foragecapture.html</loc></url>
+<url><loc>/reference/calc_othermortality.html</loc></url>
+<url><loc>/reference/calc_pSurvival.html</loc></url>
+<url><loc>/reference/calc_puffinmortality.html</loc></url>
+<url><loc>/reference/calc_strategy.html</loc></url>
+<url><loc>/reference/calc_unattendmortality.html</loc></url>
+<url><loc>/reference/cef_coast_3035.html</loc></url>
+<url><loc>/reference/cef_coast_4326.html</loc></url>
+<url><loc>/reference/CEF_colsize_table.html</loc></url>
+<url><loc>/reference/DBS_map_example.html</loc></url>
+<url><loc>/reference/DBS_withORDs_example.html</loc></url>
+<url><loc>/reference/energeticsandpreydata.html</loc></url>
+<url><loc>/reference/example_1_lists.html</loc></url>
+<url><loc>/reference/example_calibration_output.html</loc></url>
+<url><loc>/reference/example_lists_calibration.html</loc></url>
+<url><loc>/reference/example_lists_calibration_dd.html</loc></url>
+<url><loc>/reference/example_lists_dd.html</loc></url>
+<url><loc>/reference/example_scenario_output.html</loc></url>
+<url><loc>/reference/FlightGridcorrection_3035.html</loc></url>
+<url><loc>/reference/frgcompdata_example.html</loc></url>
+<url><loc>/reference/frgcompdata_example_dd.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/memoised_calc_foragecapture.html</loc></url>
+<url><loc>/reference/offshorerenewabledevelopmentnames.html</loc></url>
+<url><loc>/reference/ORDpoly_example.html</loc></url>
+<url><loc>/reference/ORDpoly_example_wfold.html</loc></url>
+<url><loc>/reference/seabord.html</loc></url>
+<url><loc>/reference/seamask_3035_example.html</loc></url>
+<url><loc>/reference/set_initialbirdstate.html</loc></url>
+<url><loc>/reference/set_initialbirdtype.html</loc></url>
+<url><loc>/reference/set_initialchickstate.html</loc></url>
+<url><loc>/reference/set_medianprey.html</loc></url>
+<url><loc>/reference/set_seedvalues.html</loc></url>
+<url><loc>/reference/spacoordinates.html</loc></url>
+<url><loc>/reference/spalist.html</loc></url>
+<url><loc>/reference/specieslist.html</loc></url>
+<url><loc>/reference/UK9002491_bysea_3035.html</loc></url>
+<url><loc>/reference/UK9004171_bysea_3035.html</loc></url>
+<url><loc>/reference/voptimise.html</loc></url>
 </urlset>
+

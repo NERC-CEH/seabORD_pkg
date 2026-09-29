@@ -63,7 +63,7 @@ theme_bslib <- ggplot2::theme(
 To run seabORD several inputs are needed:
 
 | arguments | type | description |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Par | List | The main parameters controlling/defining this run e.g., species and colony |
 | modPar | List | Parameters relating to the model mode and computer environment |
 | ordPar | List | Input parameters relating to the ORDs |
@@ -84,29 +84,29 @@ The package comes with some example input data to run the model with. Here's an 
 
 List for biological parameters:
 
--   **thisSpecies**: The species being used. You can select from "KI" (kittiwake), "GU" (guillemot), "RA" (razorbill), or "PU" (puffin)
+- **thisSpecies**: The species being used. You can select from "KI" (kittiwake), "GU" (guillemot), "RA" (razorbill), or "PU" (puffin)
 
--   **colonies**: The code number for the colony/SPA being modelled
+- **colonies**: The code number for the colony/SPA being modelled
 
--   **Nscalefactor**: What proportion of the total population do you want to run the model for i.e., Nscalefactor = 1 is for 100% of the population, where 0.1 would represent 10% of the population which may be useful for test runs.
+- **Nscalefactor**: What proportion of the total population do you want to run the model for i.e., Nscalefactor = 1 is for 100% of the population, where 0.1 would represent 10% of the population which may be useful for test runs.
 
--   **Prob_Displacement**: The proportion of individual birds which will experience displacement effects *if* interacting with an ORD during a certain trip. E.g., if Prob_Displacement = 0.6, 60% of individuals will be displacement susceptible.
+- **Prob_Displacement**: The proportion of individual birds which will experience displacement effects *if* interacting with an ORD during a certain trip. E.g., if Prob_Displacement = 0.6, 60% of individuals will be displacement susceptible.
 
--   **Prob_Barrier**: The proportion of individuals which experience displacement effects, which will also experience barrier effects. E.g., if Prob_Barrier = 1, 100% of individuals which are displacement susceptible will also be barrier effect susceptible (i.e., 60% of total population)
+- **Prob_Barrier**: The proportion of individuals which experience displacement effects, which will also experience barrier effects. E.g., if Prob_Barrier = 1, 100% of individuals which are displacement susceptible will also be barrier effect susceptible (i.e., 60% of total population)
 
--   **PreyType**: This dictates the type of prey layer used in the simulation, which is typically set to "uniform", meaning all prey cells begin with the same prey value.
+- **PreyType**: This dictates the type of prey layer used in the simulation, which is typically set to "uniform", meaning all prey cells begin with the same prey value.
 
--   **collision**: Not currently used
+- **collision**: Not currently used
 
--   **SiteSelectionMethod**: Set to "Map" currently, but options to add in a distance decay module.
+- **SiteSelectionMethod**: Set to "Map" currently, but options to add in a distance decay module.
 
--   **MaxDistancekm**: Not currently used in this version
+- **MaxDistancekm**: Not currently used in this version
 
--   **PropInRange**: Not currently used in this version
+- **PropInRange**: Not currently used in this version
 
--   **Npairspercol**: The number of pairs of adult birds at the given colony/SPA
+- **Npairspercol**: The number of pairs of adult birds at the given colony/SPA
 
--   **Pmedian**: The value of prey in cells in this particular replicate. Prior to running the simulation with ORDs this must be determined in a calibration step.
+- **Pmedian**: The value of prey in cells in this particular replicate. Prior to running the simulation with ORDs this must be determined in a calibration step.
 
 ```{r}
 Par_example <-  seabORD::example_1_lists$Par
@@ -118,15 +118,15 @@ str(Par_example)
 
 List for model parameters.
 
--   **Nparallel**: This is used for parallel runs only (i.e., set to "NA" for runs on local machine) to indicate which replicate is being run which will dictate the seed being so that reproducibility is conducted in the same fashion as for local runs.
+- **Nparallel**: This is used for parallel runs only (i.e., set to "NA" for runs on local machine) to indicate which replicate is being run which will dictate the seed being so that reproducibility is conducted in the same fashion as for local runs.
 
--   **initialseed**: A seed for reproducibility.
+- **initialseed**: A seed for reproducibility.
 
--   **reference**: A name to be attached to folders and files emanating from this particular simulation which will be generated from other outputs in the order of: model environment; model mode (calibration/scenario); species, colony ID. E.g., "serial_scenario_KI_UK9004171"
+- **reference**: A name to be attached to folders and files emanating from this particular simulation which will be generated from other outputs in the order of: model environment; model mode (calibration/scenario); species, colony ID. E.g., "serial_scenario_KI_UK9004171"
 
--   **outputdir**: The file directory where outputs from your model will be saved to.
+- **outputdir**: The file directory where outputs from your model will be saved to.
 
--   **Nreplicates**: The number of replicates being used
+- **Nreplicates**: The number of replicates being used
 
 make a folder in the directory to store your output (you can place it wherever)
 
@@ -149,13 +149,13 @@ str(modPar_example)
 
 List for wind farm parameters
 
--   **include_ORDs**: Code names of ORDs to be included in this run, e.g., "NEART" is Neart na Gaoithe
+- **include_ORDs**: Code names of ORDs to be included in this run, e.g., "NEART" is Neart na Gaoithe
 
--   **parnames**: Further naming of wind farms to be included
+- **parnames**: Further naming of wind farms to be included
 
--   **FootprintBorder**: The extension distance (km) of the buffer around the ORD which birds avoid
+- **FootprintBorder**: The extension distance (km) of the buffer around the ORD which birds avoid
 
--   **BufferZone**: Also known as the displacement zone, this is the distance (km) extending beyond the FootprintBorder where displacement susceptible birds will be displaced to.
+- **BufferZone**: Also known as the displacement zone, this is the distance (km) extending beyond the FootprintBorder where displacement susceptible birds will be displaced to.
 
 ```{r}
 ordPar_example <-  seabORD::example_1_lists$ordPar
@@ -167,31 +167,31 @@ str(ordPar_example)
 
 This parameter requires a llist() object that defines the optional features of the run. It accepts the following options:
 
--   **environment** : "serial" or "parallel"
+- **environment** : "serial" or "parallel"
 
--   **modelmode**: "scenario" or "calibration"
+- **modelmode**: "scenario" or "calibration"
 
--   **debugmode**: 0, 1, or 2 - typically used during development so can be ignored
+- **debugmode**: 0, 1, or 2 - typically used during development so can be ignored
 
--   **bycol**: TRUE or FALSE
+- **bycol**: TRUE or FALSE
 
--   **bysus**: TRUE or FALSE
+- **bysus**: TRUE or FALSE
 
--   **bych**: TRUE or FALSE
+- **bych**: TRUE or FALSE
 
--   **printdaily**: TRUE or FALSE - an option to print out daily outputs from each timestep for all modelled indiviudals
+- **printdaily**: TRUE or FALSE - an option to print out daily outputs from each timestep for all modelled indiviudals
 
--   **printseason**: TRUE or FALSE - more detailed outputs from each season (baseline/scenario), as opposed to teh higher level summary issued as standard.
+- **printseason**: TRUE or FALSE - more detailed outputs from each season (baseline/scenario), as opposed to teh higher level summary issued as standard.
 
--   **printpair**: TRUE or FALSE - more detailed outputs from each pair.
+- **printpair**: TRUE or FALSE - more detailed outputs from each pair.
 
--   **minout**: TRUE or FALSE - *to be completed*
+- **minout**: TRUE or FALSE - *to be completed*
 
--   **silent**: TRUE or FALSE - *to be completed*
+- **silent**: TRUE or FALSE - *to be completed*
 
--   **saverds**: TRUE or FALSE - This should nearly always be set to TRUE, as this is the standard output summary.
+- **saverds**: TRUE or FALSE - This should nearly always be set to TRUE, as this is the standard output summary.
 
--   **savebirdflightmap**: TRUE or FALSE - an option to view a map of foraging locations from this simulation, which can be used as a visual check that the simulations are executing as intended i.e., have you run a simulation with the correct colony and wind farm set up.
+- **savebirdflightmap**: TRUE or FALSE - an option to view a map of foraging locations from this simulation, which can be used as a visual check that the simulations are executing as intended i.e., have you run a simulation with the correct colony and wind farm set up.
 
 There is an example list available in the package that can be accessed by simply call in the built-in list "example_switch_list":
 
