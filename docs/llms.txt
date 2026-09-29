@@ -1,4 +1,4 @@
-# SeabORD-R V2
+# seabORD-R
 
 ***Version 2.0.0***
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-**SeabORD-R** is an R package for predicting the demographic impacts of
+**seabORD-R** is an R package for predicting the demographic impacts of
 displacement and barrier effects from offshore renewable developments
 (ORDs) on seabird populations.
 
@@ -19,7 +19,10 @@ Potential impacts of offshore renewable developments are assessed by
 comparing a baseline scenario with one or more development scenarios
 containing offshore renewable infrastructure.
 
-![](reference/figures/SeabORD_conceptual_inbox.png)
+![Conceptual diagram of the SeabORD
+model](reference/figures/SeabORD_conceptual_inbox.png)
+
+Conceptual diagram of the SeabORD model
 
 ## Citation
 
