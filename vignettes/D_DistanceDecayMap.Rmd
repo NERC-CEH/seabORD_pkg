@@ -40,9 +40,14 @@ This example will include the following steps:
 
 Load the data into environment:
 
-```{r}
+```{r,echo=FALSE}
 
 library(magrittr)
+library(seabORD)
+
+```
+
+```{r}
 
 # Load in the sea mask of the UK (shows which cells are on land and sea)
 example_data_seamask <- seabORD::seamask_3035_example
