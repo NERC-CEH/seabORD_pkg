@@ -13,7 +13,7 @@ xmin <- as.vector(ext(seamask_3035_r)[1])
 xmax <- as.vector(ext(seamask_3035_r)[2])
 ymin <- as.vector(ext(seamask_3035_r)[3])
 ymax <- as.vector(ext(seamask_3035_r)[4])
-crs <- crs(seamask_3035_r)
+crs <- terra::crs(seamask_3035_r)
 
 seamask_3035_metadata <- list(
   n_rows = nrows,
