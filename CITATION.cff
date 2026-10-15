@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: "If you use seabORD, please cite it as follows."
+type: software
+
+title: "seabORD"
+abstract: >
+  A model to estimate the population consequences of displacement
+  from proposed offshore renewable energy developments for key
+  seabird species.
+
+version: 2.0.0
+
+authors:
+  - family-names: Mobbs
+    given-names: Deena
+    email: dcmo@ceh.ac.uk
+
+  - family-names: Pollock
+    given-names: Christopher
+
+  - family-names: Butler
+    given-names: Adam
+
+  - family-names: Tigli
+    given-names: Maddalena
+
+  - family-names: Searle
+    given-names: Kate
+
+repository-code: https://github.com/NERC-CEH/seabORD_pkg
+url: https://nerc-ceh.github.io/seabORD_pkg/index.html
+
+license: GPL-3.0
+
+preferred-citation:
+  type: manual
+  title: "seabORD"
+  authors:
+    - family-names: Mobbs
+      given-names: Deena
+    - family-names: Pollock
+      given-names: Christopher
+    - family-names: Butler
+      given-names: Adam
+    - family-names: Tigli
+      given-names: Maddalena
+    - family-names: Searle
+      given-names: Kate
+  year: 2026
+  notes: "R package version 2.0.0"
