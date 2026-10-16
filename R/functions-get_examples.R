@@ -1897,3 +1897,372 @@ check_calibration_inputs <- function(
   invisible(TRUE)
 
 }
+
+
+#' Plot a BirdFlightMap raster
+#'
+#' Plots a BirdFlightMap output from a seabORD simulation together with
+#' the UK coastline for geographical context.
+#'
+#' @param BirdFlightMap A BirdFlightMap raster, such as
+#'   `sbordout$BirdFlightMap`.
+#'
+#' @param xlim Numeric vector of length 2 defining the longitude limits.
+#'   Defaults to `c(-3, 0.5)`.
+#'
+#' @param ylim Numeric vector of length 2 defining the latitude limits.
+#'   Defaults to `c(56.25, 58.25)`.
+#'
+#' @param title Character string giving the plot title.
+#'
+#' @return A `ggplot` object.
+#'
+#' @details
+#' The BirdFlightMap is reprojected to the coordinate reference system
+#' of the coastline dataset (`cef_coast_4326`) before plotting.
+#'
+#' @examples
+#' \dontrun{
+#' sbordout <- seabORD::example_calibration_output_dd
+#'
+#' plot_BirdFlightMap(
+#'   sbordout$BirdFlightMap
+#' )
+#' }
+#'
+#' @export
+plot_BirdFlightMap <- function(
+    BirdFlightMap,
+    xlim = c(-3, 0.5),
+    ylim = c(56.25, 58.25),
+    title = "Coastline and BirdFlightMap"
+) {
+
+  uk_map <- seabORD::cef_coast_4326 %>%
+    dplyr::filter(
+      ID_0 %in% c("GBR", "FRO", "GGY", "IMN")
+    )
+
+  BirdFlightMap <- terra::rast(BirdFlightMap) %>%
+    terra::project(
+      terra::crs(uk_map)
+    )
+
+  BirdFlightMap_df <- as.data.frame(
+    BirdFlightMap,
+    xy = TRUE
+  )
+
+  layer_name <- names(BirdFlightMap)[1]
+
+  ggplot2::ggplot() +
+    ggplot2::geom_raster(
+      data = BirdFlightMap_df,
+      ggplot2::aes(
+        x = x,
+        y = y,
+        fill = .data[[layer_name]]
+      )
+    ) +
+    ggplot2::geom_sf(
+      data = uk_map,
+      fill = NA,
+      color = "#D63333",
+      linewidth = 1.5
+    ) +
+    ggplot2::scale_fill_viridis_c(
+      na.value = "grey",
+      direction = -1,
+      name = "BirdFlightMap"
+    ) +
+    ggplot2::coord_sf(
+      xlim = xlim,
+      ylim = ylim
+    ) +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = title
+    )
+}
+
+
+
+#' Identify prey values meeting calibration criteria
+#'
+#' Evaluates adult mass loss and chick productivity outputs from a
+#' seabORD calibration run and identifies prey values that satisfy both
+#' calibration criteria simultaneously.
+#'
+#' @param sbordout A seabORD output object containing calibration
+#'   results, including `output_a0$data` and `output_c0$data`.
+#'
+#' @param masslower Lower acceptable bound for proportional adult mass
+#'   loss. Defaults to `0.09`.
+#'
+#' @param massupper Upper acceptable bound for proportional adult mass
+#'   loss. Defaults to `0.11`.
+#'
+#' @param prodlower Lower acceptable bound for chick productivity
+#'   (`ChicksPerNest`). Defaults to `0.45`.
+#'
+#' @param produpper Upper acceptable bound for chick productivity
+#'   (`ChicksPerNest`). Defaults to `0.55`.
+#'
+#' @return A data frame containing:
+#' \describe{
+#'   \item{Prey}{The prey value tested during calibration.}
+#'   \item{adult_ok}{Logical indicating whether adult mass loss falls
+#'   within the specified bounds.}
+#'   \item{chick_ok}{Logical indicating whether chick productivity falls
+#'   within the specified bounds.}
+#'   \item{overlap}{Logical indicating whether both criteria are met
+#'   simultaneously.}
+#' }
+#'
+#' @details
+#' Adult mass loss is calculated as:
+#' \deqn{
+#' (BM\_adult\_t0.mn - BM\_adult.mn) / BM\_adult\_t0.mn
+#' }
+#'
+#' Prey values where both `adult_ok` and `chick_ok` are `TRUE` represent
+#' the calibration range that satisfies the specified moderate
+#' conditions.
+#'
+#' @examples
+#' \dontrun{
+#' sbordout <- seabORD::example_calibration_output_dd
+#'
+#' calibration_range <- find_calibration_range(
+#'   sbordout = sbordout,
+#'   masslower = 0.09,
+#'   massupper = 0.11,
+#'   prodlower = 0.45,
+#'   produpper = 0.55
+#' )
+#'
+#' # View prey values satisfying both criteria
+#' calibration_range[calibration_range$overlap, ]
+#' }
+#'
+#' @export
+find_calibration_range <- function(
+    sbordout,
+    masslower = 0.09,
+    massupper = 0.11,
+    prodlower = 0.45,
+    produpper = 0.55
+) {
+
+  adults <- sbordout$output_a0$data %>%
+    dplyr::mutate(
+      percentage_loss =
+        (BM_adult_t0.mn - BM_adult.mn) /
+        BM_adult_t0.mn,
+      adult_ok =
+        percentage_loss >= masslower &
+        percentage_loss <= massupper
+    ) %>%
+    dplyr::select(
+      Prey,
+      adult_ok
+    )
+
+  chicks <- sbordout$output_c0$data %>%
+    dplyr::mutate(
+      chick_ok =
+        ChicksPerNest >= prodlower &
+        ChicksPerNest <= produpper
+    ) %>%
+    dplyr::select(
+      Prey,
+      chick_ok
+    )
+
+  out <- dplyr::left_join(
+    adults,
+    chicks,
+    by = "Prey"
+  ) %>%
+    dplyr::mutate(
+      overlap = adult_ok & chick_ok
+    )
+
+  out
+}
+
+#' Plot calibration outputs across prey values
+#'
+#' Creates calibration plots showing the relationship between prey
+#' values and key model outputs used for seabORD calibration. The
+#' function displays adult mass loss and chick productivity across the
+#' range of prey values tested and highlights the prey range satisfying
+#' the specified calibration criteria.
+#'
+#' @param sbordout A seabORD output object containing calibration
+#'   results, including `output_a0$data` and `output_c0$data`.
+#'
+#' @param calibration A data frame returned by
+#'   [find_calibration_range()] containing prey values and logical
+#'   indicators of whether adult, chick and combined calibration
+#'   criteria are met.
+#'
+#' @param masslower Lower acceptable bound for proportional adult mass
+#'   loss. Defaults to `0.09`.
+#'
+#' @param massupper Upper acceptable bound for proportional adult mass
+#'   loss. Defaults to `0.11`.
+#'
+#' @param prodlower Lower acceptable bound for chick productivity
+#'   (`ChicksPerNest`). Defaults to `0.45`.
+#'
+#' @param produpper Upper acceptable bound for chick productivity
+#'   (`ChicksPerNest`). Defaults to `0.55`.
+#'
+#' @return
+#' A two-panel plot (a `gtable` object produced by
+#' [gridExtra::grid.arrange()]) showing:
+#' \itemize{
+#'   \item Adult mass loss as a function of prey value.
+#'   \item Chick productivity (chicks per nest) as a function of prey
+#'   value.
+#' }
+#'
+#' The light blue shaded region indicates prey values that satisfy both
+#' the adult mass-loss and chick-productivity criteria simultaneously.
+#' Grey dashed horizontal lines indicate the calibration bounds used to
+#' define acceptable ("moderate") conditions.
+#'
+#' @details
+#' Adult mass loss is calculated as:
+#' \deqn{
+#' (BM\_adult\_t0.mn - BM\_adult.mn) / BM\_adult\_t0.mn
+#' }
+#'
+#' The calibration range is determined using
+#' [find_calibration_range()]. Prey values within the shaded region
+#' satisfy both the adult and chick calibration criteria and may be used
+#' as candidate prey values for subsequent scenario simulations.
+#'
+#' @examples
+#' \dontrun{
+#' sbordout <- seabORD::example_calibration_output_dd
+#'
+#' calibration <- seabORD::find_calibration_range(
+#'   sbordout = sbordout,
+#'   masslower = 0.09,
+#'   massupper = 0.11,
+#'   prodlower = 0.45,
+#'   produpper = 0.55
+#' )
+#'
+#' seabORD::plot_calibration_outputs(
+#'   sbordout = sbordout,
+#'   calibration = calibration,
+#'   masslower = 0.09,
+#'   massupper = 0.11,
+#'   prodlower = 0.45,
+#'   produpper = 0.55
+#' )
+#' }
+#'
+#' @seealso
+#' [find_calibration_range()] for identifying prey values that satisfy
+#' the calibration criteria.
+#'
+#' @export
+plot_calibration_outputs <- function(
+    sbordout,
+    calibration,
+    masslower = 0.09,
+    massupper = 0.11,
+    prodlower = 0.45,
+    produpper = 0.55
+) {
+
+  valid_prey <- calibration$Prey[calibration$overlap]
+
+  xmin <- min(valid_prey)
+  xmax <- max(valid_prey)
+
+  adult_data <- sbordout$output_a0$data %>%
+    dplyr::mutate(
+      percentage_loss =
+        (BM_adult_t0.mn - BM_adult.mn) /
+        BM_adult_t0.mn
+    )
+
+  pAd <- ggplot2::ggplot(
+    adult_data,
+    ggplot2::aes(
+      x = Prey,
+      y = percentage_loss
+    )
+  ) +
+    ggplot2::annotate(
+      "rect",
+      xmin = xmin,
+      xmax = xmax,
+      ymin = -Inf,
+      ymax = Inf,
+      fill = "lightblue",
+      alpha = 0.3
+    ) +
+    ggplot2::geom_hline(
+      yintercept = c(masslower, massupper),
+      linetype = 2,
+      colour = "darkgrey"
+    ) +
+    ggplot2::geom_point(
+      colour = "#D63333"
+    ) +
+    ggplot2::geom_line(
+      colour = "#D63333"
+    ) +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = "Adult mass loss",
+      x = "Prey",
+      y = "Proportional mass loss"
+    )
+
+  pCh <- ggplot2::ggplot(
+    sbordout$output_c0$data,
+    ggplot2::aes(
+      x = Prey,
+      y = ChicksPerNest
+    )
+  ) +
+    ggplot2::annotate(
+      "rect",
+      xmin = xmin,
+      xmax = xmax,
+      ymin = -Inf,
+      ymax = Inf,
+      fill = "lightblue",
+      alpha = 0.3
+    ) +
+    ggplot2::geom_hline(
+      yintercept = c(prodlower, produpper),
+      linetype = 2,
+      colour = "darkgrey"
+    ) +
+    ggplot2::geom_point(
+      colour = "#D63333"
+    ) +
+    ggplot2::geom_line(
+      colour = "#D63333"
+    ) +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = "Chicks per nest",
+      x = "Prey",
+      y = "Chicks per nest"
+    )
+
+  gridExtra::grid.arrange(
+    pAd,
+    pCh,
+    ncol = 1
+  )
+}
