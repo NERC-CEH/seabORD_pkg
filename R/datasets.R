@@ -451,3 +451,45 @@
 #' @source NEED EXPL
 "example_lists_dd"
 
+#' UK coastline in ETRS89 / LAEA Europe (EPSG:3035)
+#'
+#' A simple-feature (`sf`) object containing the coastline of the United
+#' Kingdom extracted from the CEF coastline dataset and reprojected to
+#' ETRS89 / LAEA Europe (EPSG:3035).
+#'
+#' The dataset is primarily intended for plotting and spatial operations
+#' involving seabORD example rasters and model inputs, which are supplied
+#' in the same projected coordinate reference system.
+#'
+#' @format An `sf` object containing coastline geometries for the United
+#'   Kingdom.
+#'
+#' @details
+#' The dataset was derived from the built-in `cef_coast_3035` coastline
+#' dataset by selecting features where `COUNTRY == "United Kingdom"` and
+#' retaining the geometry in the ETRS89 / LAEA Europe projection
+#' (EPSG:3035).
+#'
+#' The dataset can be used to provide geographical context when plotting
+#' seabORD spatial inputs and outputs, including:
+#' \itemize{
+#'   \item seamasks
+#'   \item bird distribution maps (`BrdData`)
+#'   \item competition distribution maps (`FrgCompData`)
+#'   \item flight-distance rasters
+#'   \item offshore renewable development (ORD) footprints
+#' }
+#'
+#' @examples
+#' # Load the coastline
+#' data("uk_coast_3035", package = "seabORD")
+#'
+#' # Inspect the object
+#' uk_coast_3035
+#'
+#' # Plot the coastline
+#' plot(sf::st_geometry(uk_coast_3035))
+#'
+#' @source Derived from the built-in `cef_coast_3035` coastline dataset.
+#'
+"uk_coast_3035"

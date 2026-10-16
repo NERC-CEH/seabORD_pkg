@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 
 1.  unzip folder on computer and know the path to it (e.g.,):
 
-    "C:/Users/madtig/Desktop/seabORD_pkg-main"
+    "your_folder/seabORD_pkg-main"
 
 2.  open R Studio (not in the project of the zip file necessarily; just opening R should be enough)
 
