@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(seabORD)
 ```
 
-# Introduction
+# Introduction & background
 
 A key component of the seabORD model is the need to calibrate the prey level inputs used for each new species and colony combination. This currently involves re-running the model without ORDs (baseline simulations) with a range of prey levels to ascertain the range of values within which the model returns adult mass and chick mortality rates consistent with pre-defined values representing “moderate” conditions (Figure 1). This is to allow simulation of the range of outcomes expected under these conditions, as the model is highly sensitive to the prey density parameter.
 
@@ -32,9 +32,9 @@ In this example we will run 20 baseline runs (no wind farm footprints included) 
 
 The inputs for a calibration are largely the same as when running a full run except there are no ORDs included. We will first load in our parameter sets (Par, modPar, ordPar, switches), followed by the various spatial inputs used to set up the landscape and environment attributes.
 
-### Parameters sets
-
 Get the input parameters set-up example for the calibration exercise. For more information please see the "Example kittiwake: step 1 - seabORD inputs" article.
+
+### Parameters sets
 
 #### Par
 
@@ -55,7 +55,7 @@ str(modPar_example)
 Create the output folder , for example "output_seabORD_calibration" and assign it
 
 ```{r, eval = FALSE}
-#set the output of ModPar
+#set the output location in ModPar
 #  specifically for calibration outputs if it doesn't alreay exist
 if (!dir.exists("output_seabORD_calibration")) {
   dir.create("output_seabORD_calibration")
@@ -100,7 +100,7 @@ str(switches_example)
 
 ### Assorted spatial inputs
 
-Get the spatial input examples for the calibration exercise. For more information please see the "Example kittiwake: step 1 - seabORD inputs" article.
+Get the spatial input examples for the calibration exercise.
 
 #### seamask
 
@@ -136,6 +136,8 @@ spdat_example  <- seabORD::get_spdat_example("KI")
 ```
 
 #### BrdData
+
+BrdData_example_dd \<- seabORD::get_example_brddata_dd()
 
 ```{r}
 BrdData_example_dd <- seabORD::get_example_brddata_dd()
@@ -224,6 +226,8 @@ Now we will plot the adult outputs (sbordout\$output_a0) and the chick outputs (
 
 ```{r}
 
+# Identify prey values that simultaneously satisfy
+# the adult mass loss and productivity constraints
 calibration <- seabORD::find_calibration_range(
   sbordout,
   masslower = 0.09,
@@ -231,9 +235,7 @@ calibration <- seabORD::find_calibration_range(
   prodlower = 0.45,
   produpper = 0.55
 )
-```
-
-```{r}
+#plot it
 seabORD::plot_calibration_outputs(
   sbordout,
   calibration = calibration,

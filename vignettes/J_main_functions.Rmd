@@ -52,11 +52,11 @@ $$ M_{d+1} = M_{d} +  [(Egain_{d} - DEE_{d} / KG] $$ where $M_{d+1}$ is the revi
 
 ## Input parameters
 
--   *alive* A flag, 0 or 1, indicating if the bird is alive during the timestep
--   *BM_adult* The current body mass
--   *Egain_adult* The energy acquired from food for this adult (chick food has been subtracted) for this timestep
--   *Ereq_adult* The energy that was required for this timestep (based on previous timestep activity)
--   *adult_edensity* Energy density of the adult bird tissue, kJ per gram
+- *alive* A flag, 0 or 1, indicating if the bird is alive during the timestep
+- *BM_adult* The current body mass
+- *Egain_adult* The energy acquired from food for this adult (chick food has been subtracted) for this timestep
+- *Ereq_adult* The energy that was required for this timestep (based on previous timestep activity)
+- *adult_edensity* Energy density of the adult bird tissue, kJ per gram
 
 ## Output
 
@@ -181,18 +181,18 @@ This function calculates the energy expenditure timestep t for adult birds, base
 
 ## Input parameters
 
--   *alive* Is the bird dead or alive? 0,1
--   *colony_h* Time spent at the colony, hours
--   *flying_h* Time spent flying, hours
--   *foraging_h* Time spent foraging, hours
--   *at_sea_h* Time spent resting at sea, hours
--   *energy_nest* Energy cost of nesting at colony, kJ per day
--   *energy_flight* Energy cost of flight, kJ per day
--   *energy_forage* Energy cost of foraging, kJ per day
--   *energy_searest* Energy cost of resting at sea, kJ per day
--   *energy_warming* Energy cost of warming food, kJ per day
--   *assim_eff* Assimilation efficiency
--   *daylength* Length of this species' time step, hours
+- *alive* Is the bird dead or alive? 0,1
+- *colony_h* Time spent at the colony, hours
+- *flying_h* Time spent flying, hours
+- *foraging_h* Time spent foraging, hours
+- *at_sea_h* Time spent resting at sea, hours
+- *energy_nest* Energy cost of nesting at colony, kJ per day
+- *energy_flight* Energy cost of flight, kJ per day
+- *energy_forage* Energy cost of foraging, kJ per day
+- *energy_searest* Energy cost of resting at sea, kJ per day
+- *energy_warming* Energy cost of warming food, kJ per day
+- *assim_eff* Assimilation efficiency
+- *daylength* Length of this species' time step, hours
 
 ## Output
 
@@ -202,15 +202,15 @@ A revised adult DEE for time step
 
 the function will calculate the **adult DEE** as follows:
 
--   Energy spent on **nesting**: $\frac{energynest \times colonyh}{daylength}$
+- Energy spent on **nesting**: $\frac{energynest \times colonyh}{daylength}$
 
--   Energy spent on **flying**: $\frac{energyflight \times flyingh}{daylength}$
+- Energy spent on **flying**: $\frac{energyflight \times flyingh}{daylength}$
 
--   Energy spent on **foraging**: $\frac{energyforage \times foragingh}{daylength}$
+- Energy spent on **foraging**: $\frac{energyforage \times foragingh}{daylength}$
 
--   Energy spent **at sea**: $\frac{energysearest \times atseah}{daylength}$
+- Energy spent **at sea**: $\frac{energysearest \times atseah}{daylength}$
 
--   Energy spent on **warming**: $\frac{energywarming \times daylength}{24}$
+- Energy spent on **warming**: $\frac{energywarming \times daylength}{24}$
 
 $Ereqadult = \frac{energy nesting  + energy flying + energy foraging + energy at sea + energy warming }{assim_eff}$
 
@@ -310,12 +310,12 @@ Calculate the probability of survival over the whole year based on the body mass
 
 ## Input parameters
 
--   *sp* The species two-letter code
--   *bmi* Body mass for the individual adult bird (g)
--   *bm* Body mass of the adult birds alive at the end of the breeding season, mean (g)
--   *sd* Body mass of the adult birds alive at the end of the breeding season, standard deviation
--   *basesurv* Baseline survival
--   *beta* Mass-survival slope
+- *sp* The species two-letter code
+- *bmi* Body mass for the individual adult bird (g)
+- *bm* Body mass of the adult birds alive at the end of the breeding season, mean (g)
+- *sd* Body mass of the adult birds alive at the end of the breeding season, standard deviation
+- *basesurv* Baseline survival
+- *beta* Mass-survival slope
 
 ## Output
 
@@ -383,10 +383,10 @@ If a puffin chick is hungry, there is an increased risk of predation. This funct
 
 ## Input parameters
 
--   *CoD* Cause of death
--   *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
--   *BM_condition* Body mass relative condition, 0-1
--   *BM_Chick_mortf* Critical mass below which chick is dead, 0-1
+- *CoD* Cause of death
+- *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
+- *BM_condition* Body mass relative condition, 0-1
+- *BM_Chick_mortf* Critical mass below which chick is dead, 0-1
 
 ## Output
 
@@ -480,9 +480,9 @@ Chicks can be lost from other causes such as flooding, storms etc. This function
 
 ## Input parameters
 
--   *CoD* Cause of death
--   *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
--   *seasonlength* Species parameter, number of timesteps in the breeding season
+- *CoD* Cause of death
+- *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
+- *seasonlength* Species parameter, number of timesteps in the breeding season
 
 ## Output
 
@@ -542,10 +542,10 @@ If a chick is left alone at the nest, there is an increased risk of death from p
 
 ## Input parameters
 
--   *CoD* Cause of death
--   *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
--   *unattend_hrs* Number of hrs the chick was left unattended
--   *max_hrs* Species parameter: Critical time threshold for unattendance at nest above which a chick is assumed to die through exposure or predation
+- *CoD* Cause of death
+- *alive* Flag to indicate if the chick is currently alive (1) or dead (0)
+- *unattend_hrs* Number of hrs the chick was left unattended
+- *max_hrs* Species parameter: Critical time threshold for unattendance at nest above which a chick is assumed to die through exposure or predation
 
 ## Output
 
@@ -650,10 +650,10 @@ For each chick, get the food provided by each of the parent birds and increase t
 
 ## Input parameters
 
--   *parent* A tibble containing the required variables from the adult birds (BirdID, PairID, feeding_mode, Ereq_intakef_c, colony_h, MF).
--   *ChickState* List holding the current state of all the chicks and metadata.
--   *Opt_BM_chick* The optimum body mass for the chick at this stage of the season (a chick that has received full requirements every day).
--   *Species* List holding the species-specific variables (uses daylength, BM_Chick_mortf and chick_mass_a)
+- *parent* A tibble containing the required variables from the adult birds (BirdID, PairID, feeding_mode, Ereq_intakef_c, colony_h, MF).
+- *ChickState* List holding the current state of all the chicks and metadata.
+- *Opt_BM_chick* The optimum body mass for the chick at this stage of the season (a chick that has received full requirements every day).
+- *Species* List holding the species-specific variables (uses daylength, BM_Chick_mortf and chick_mass_a)
 
 ## Output
 
@@ -796,10 +796,10 @@ The solution to this cannot be written down analytically, but it can be calculat
 
 ## Input parameters
 
--   *x0* Prey quantity at time 0, g
--   *a* Species maximum intake rate, kg/min
--   *h* Species IR_half (modified to account for neighbours), kg/km2
--   *maxt* The maximum number of minutes available
+- *x0* Prey quantity at time 0, g
+- *a* Species maximum intake rate, kg/min
+- *h* Species IR_half (modified to account for neighbours), kg/km2
+- *maxt* The maximum number of minutes available
 
 ## Output
 

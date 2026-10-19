@@ -6,8 +6,8 @@
 \usage{
 plot_BirdFlightMap(
   BirdFlightMap,
-  xlim = c(-3, 0.5),
-  ylim = c(56.25, 58.25),
+  xlim = NULL,
+  ylim = NULL,
   title = "Coastline and BirdFlightMap"
 )
 }
@@ -15,11 +15,13 @@ plot_BirdFlightMap(
 \item{BirdFlightMap}{A BirdFlightMap raster, such as
 \code{sbordout$BirdFlightMap}.}
 
-\item{xlim}{Numeric vector of length 2 defining the longitude limits.
-Defaults to \code{c(-3, 0.5)}.}
+\item{xlim}{Optional numeric vector of length 2 defining the longitude
+limits. If \code{NULL}, limits are automatically calculated from cells with
+values greater than zero.}
 
-\item{ylim}{Numeric vector of length 2 defining the latitude limits.
-Defaults to \code{c(56.25, 58.25)}.}
+\item{ylim}{Optional numeric vector of length 2 defining the latitude
+limits. If \code{NULL}, limits are automatically calculated from cells with
+values greater than zero.}
 
 \item{title}{Character string giving the plot title.}
 }

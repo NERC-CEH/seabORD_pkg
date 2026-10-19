@@ -1874,15 +1874,14 @@ check_calibration_inputs <- function(
   n_reps <- modPar$Nreplicates
 
   if (n_reps != n_prey) {
-    stop(
+    message(
       paste0(
         "Input mismatch: modPar$Nreplicates = ",
         n_reps,
         " but length(Par$Pmedian) = ",
         n_prey,
         ". These values should be identical for calibration runs."
-      ),
-      call. = FALSE
+      )
     )
   }
 
@@ -1907,11 +1906,13 @@ check_calibration_inputs <- function(
 #' @param BirdFlightMap A BirdFlightMap raster, such as
 #'   `sbordout$BirdFlightMap`.
 #'
-#' @param xlim Numeric vector of length 2 defining the longitude limits.
-#'   Defaults to `c(-3, 0.5)`.
+#' @param xlim Optional numeric vector of length 2 defining the longitude
+#'   limits. If `NULL`, limits are automatically calculated from cells with
+#'   values greater than zero.
 #'
-#' @param ylim Numeric vector of length 2 defining the latitude limits.
-#'   Defaults to `c(56.25, 58.25)`.
+#' @param ylim Optional numeric vector of length 2 defining the latitude
+#'   limits. If `NULL`, limits are automatically calculated from cells with
+#'   values greater than zero.
 #'
 #' @param title Character string giving the plot title.
 #'
@@ -1933,8 +1934,8 @@ check_calibration_inputs <- function(
 #' @export
 plot_BirdFlightMap <- function(
     BirdFlightMap,
-    xlim = c(-3, 0.5),
-    ylim = c(56.25, 58.25),
+    xlim = NULL,
+    ylim = NULL,
     title = "Coastline and BirdFlightMap"
 ) {
 
@@ -1954,6 +1955,47 @@ plot_BirdFlightMap <- function(
   )
 
   layer_name <- names(BirdFlightMap)[1]
+
+  # Derive plotting extent if not supplied
+  if (is.null(xlim) || is.null(ylim)) {
+
+    nonzero_cells <- BirdFlightMap_df %>%
+      dplyr::filter(.data[[layer_name]] > 0)
+
+    if (nrow(nonzero_cells) > 0) {
+
+      x_buffer <- diff(range(nonzero_cells$x)) * 0.01
+      y_buffer <- diff(range(nonzero_cells$y)) * 0.01
+
+      if (is.null(xlim)) {
+        xlim <- c(
+          min(nonzero_cells$x) - x_buffer,
+          max(nonzero_cells$x) + x_buffer
+        )
+      }
+
+      if (is.null(ylim)) {
+        ylim <- c(
+          min(nonzero_cells$y) - y_buffer,
+          max(nonzero_cells$y) + y_buffer
+        )
+      }
+
+    } else {
+
+      bb <- sf::st_bbox(uk_map)
+
+      if (is.null(xlim)) {
+        xlim <- c(bb["xmin"], bb["xmax"])
+      }
+
+      if (is.null(ylim)) {
+        ylim <- c(bb["ymin"], bb["ymax"])
+      }
+
+    }
+  }
+
 
   ggplot2::ggplot() +
     ggplot2::geom_raster(
@@ -2253,6 +2295,10 @@ plot_calibration_outputs <- function(
     ggplot2::geom_line(
       colour = "#D63333"
     ) +
+    ggplot2::geom_vline(
+      xintercept = c(xmin, xmax),
+      colour = "black"
+    ) +
     seabORD::theme_seabord() +
     ggplot2::labs(
       title = "Chicks per nest",
@@ -2265,4 +2311,166 @@ plot_calibration_outputs <- function(
     pCh,
     ncol = 1
   )
+}
+
+
+
+#' Create a prey calibration sequence in Par
+#'
+#' Generates a sequence of prey values spanning a specified range and
+#' assigns it to `Par$Pmedian`. The number of values generated is
+#' determined by `modPar$Nreplicates`.
+#'
+#' @param Par A seabORD parameter list.
+#' @param modPar A seabORD model parameter list containing
+#'   `Nreplicates`.
+#' @param Pmin Minimum prey value.
+#' @param Pmax Maximum prey value.
+#'
+#' @return The updated `Par` object with `Pmedian` populated.
+#'
+#' @examples
+#' Par_example <- create_prey_sequence(
+#'   Par = Par_example,
+#'   modPar = modPar_example,
+#'   Pmin = 150,
+#'   Pmax = 200
+#' )
+#'
+#' @export
+create_prey_sequence_in_par <- function(
+    Par,
+    modPar,
+    Pmin,
+    Pmax
+) {
+
+  if (modPar$Nreplicates > 1) {
+
+    Par$Pmedian <- seq(
+      from = Pmin,
+      to = Pmax,
+      by = (Pmax - Pmin) /
+        (modPar$Nreplicates - 1)
+    )
+
+  } else {
+
+    Par$Pmedian <- Pmax
+
+  }
+
+  Par
+
+}
+
+
+#' Plot adult body mass by season
+#'
+#' Creates a boxplot of adult body mass grouped by season.
+#'
+#' @param sbordout_output_adults
+#'
+#' @param title Character string giving the plot title.
+#'
+#' @return A `ggplot` object.
+#'
+#' @examples
+#' plot_adult_body_mass(
+#'   adults = adults
+#' )
+#'
+#' @export
+plot_adult_body_mass <- function(
+    sbordout_output_adults,
+    title = "Adult body mass by season"
+) {
+
+  adults <- sbordout_output_adults$data
+
+  ggplot2::ggplot(
+    adults,
+    ggplot2::aes(
+      x = Season,
+      y = BM_adult.mn
+    )
+  ) +
+    ggplot2::geom_boxplot() +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = title,
+      x = "Season",
+      y = "Adult body mass"
+    )
+
+}
+
+
+#' Plot chick survival by season
+#'
+#' Creates a boxplot of the number of chicks alive grouped by season.
+#'
+#' @param sbordout_output_chicks
+#'
+#' @param title Character string giving the plot title.
+#'
+#' @return A `ggplot` object.
+#'
+#' @examples
+#' plot_chick_survival(
+#'   chicks = chicks
+#' )
+#'
+#' @export
+plot_chick_survival <- function(
+    sbordout_output_chicks,
+    title = "Chicks alive by season"
+) {
+
+  chicks <- sbordout_output_chicks$data
+
+  ggplot2::ggplot(
+    chicks,
+    ggplot2::aes(
+      x = Season,
+      y = N_alive_ch
+    )
+  ) +
+    ggplot2::geom_boxplot() +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = title,
+      x = "Season",
+      y = "Number of chicks alive"
+    )
+
+}
+
+
+#' Plot flight distance by season
+#'
+#' @param sbordout A seabORD model output object.
+#'
+#' @return A `ggplot` object.
+#'
+#' @export
+plot_flight_distance <- function(
+    sbordout_output_flight
+) {
+
+  ggplot2::ggplot(
+    sbordout_output_flight$data,
+    ggplot2::aes(
+      x = Season,
+      y = Tot_basickm.mn
+    )
+  ) +
+    ggplot2::geom_boxplot() +
+    seabORD::theme_seabord() +
+    ggplot2::labs(
+      title = "Flight distance by season",
+      x = "Season",
+      y = "Flight distance (km)"
+    )
+
 }
