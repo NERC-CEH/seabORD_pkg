@@ -44,7 +44,7 @@ This example will include the following steps:
 4.  Plot the distance decay map with OWFs
 5.  Assess the interaction with OWFs
 
-## 1. DBS (Distance By Sea) map
+## devtools::build_vignettes()1. DBS (Distance By Sea) map
 
 First we set the colony location, in this case Whinnyfold, but you could change this to any colony around the UK that you wish to model.
 
@@ -53,7 +53,7 @@ First we set the colony location, in this case Whinnyfold, but you could change 
 ```{r}
 #Set the location of an example colony e.g., at Whinnyfold:
 example_colony_3035 <- seabORD::create_colony_point(lon = -1.85849,
-                                           lat = 57.388807)
+                                                    lat = 57.388807)
 
 # check the colony location is beside sea cells using a plot:
 seabORD::plot_colony_location(colony = example_colony_3035)
@@ -71,7 +71,7 @@ You will also need the seamask, and you can load the example one.
 
 ```{r}
 # Load the flight gird correction layer
-example_FlightGridcorrection_3035 <- seabORD::FlightGridcorrection_3035
+example_FlightGridcorrection_3035 <- seabORD::get_example_fgc_3035()
 
 
 # Load in the sea mask of the UK (shows which cells are on land and sea)
@@ -82,8 +82,8 @@ Calculate (slow):
 
 ```{r, eval = FALSE}
 example_DBS_map <- seabORD::calc_dist_restricted(mymap=example_data_seamask,
-                                         obspolys=NULL,               # not including ORDs this time
-                                         targetcoords = example_colony_3035,   #
+                                         obspolys=NULL,
+                                         targetcoords = example_colony_3035,
                                   FlightGridcorrection_3035 = example_FlightGridcorrection_3035,
                                   directions=16,
                                   obspenalty=1e+08,
@@ -134,7 +134,7 @@ You can use the example ORDs
 
 ```{r}
 # Load in the wind farm polygons.
-example_ORDpolys <- seabORD::ORDpoly_example_wfold
+example_ORDpolys <- seabORD::get_example_ORDpoly(type = "dd")
 ```
 
 This plotting function adds a buffer around the ORDs.
@@ -190,7 +190,7 @@ example_DBS_withORDs <- seabORD::calc_dist_restricted (
 Load example (used throughout this vignette):
 
 ```{r}
-example_DBS_withORDs <- seabORD::get_example_DBS_map_with_ORDs()
+example_DBS_withORDs <- seabORD::get_example_DBS_map(type = "ords")
 ```
 
 The obstruction map identifies locations where travel distances increase when ORDs are included in the Distance By Sea calculation. Red cells represent areas where flight paths are altered sufficiently to exceed the threshold specified by `smalltol`.

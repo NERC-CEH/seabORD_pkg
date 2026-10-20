@@ -23,4 +23,4 @@ CEF_colsize_table
 \description{
 Needs a description
 }
-\keyword{datasets}
+\keyword{internal}

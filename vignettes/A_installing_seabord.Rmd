@@ -1,0 +1,57 @@
+---
+title: "Installing seabORD"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Installing seabORD}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Installing seabORD
+
+This vignette explains how to install the development version of **seabORD** directly from GitHub.
+
+*must have: RStudio with up to date R*
+
+## Prerequisites
+
+To install packages from GitHub, you will need the **remotes** package:
+
+```{r, eval=FALSE}
+install.packages("remotes")
+```
+
+## Installing seabORD
+
+Install the latest development version from GitHub with:
+
+```{r, eval=FALSE}
+remotes::install_github("NERC-CEH/seabORD_pkg") 
+```
+
+## Load the package
+
+Once installation is complete, load the package:
+
+```{r, ,warning = FALSE, message = FALSE}
+library(seabORD)
+```
+
+## Updating seabORD
+
+To update to the latest development version, rerun:
+
+```{r, eval=FALSE}
+remotes::install_github("NERC-CEH/seabORD_pkg")
+```
+
+## Next steps
+
+Follow the tutorial and examples and start playing with seabORD!

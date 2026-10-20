@@ -28,4 +28,4 @@ example_scenario_output
 \description{
 This dataset is stored in an \code{.rds} file NEED EXPL
 }
-\keyword{datasets}
+\keyword{internal}

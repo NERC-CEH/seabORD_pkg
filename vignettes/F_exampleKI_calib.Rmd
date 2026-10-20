@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, warning = FALSE, message = FALSE}
-library(seabORD)
-```
-
 # Introduction & background
 
 A key component of the seabORD model is the need to calibrate the prey level inputs used for each new species and colony combination. This currently involves re-running the model without ORDs (baseline simulations) with a range of prey levels to ascertain the range of values within which the model returns adult mass and chick mortality rates consistent with pre-defined values representing “moderate” conditions (Figure 1). This is to allow simulation of the range of outcomes expected under these conditions, as the model is highly sensitive to the prey density parameter.
@@ -42,15 +38,14 @@ NOTE: "NScalefactor" is set to 0.1 meaning we are running with 10% of the popula
 
 ```{r}
 
-Par_example <- seabORD::example_lists_calibration$Par
-str(Par_example)
+Par_example <- seabORD::get_example_par(type = "cal")
 
 ```
 
 #### modPar
 
 ```{r}
-modPar_example <- seabORD::example_lists_calibration$modPar
+modPar_example <- seabORD::get_example_modpar(type = "cal")
 str(modPar_example)
 ```
 
@@ -83,7 +78,7 @@ ordPar should be empty, as there doesn't need to be as we are only running basel
 
 ```{r}
 
-ordPar_example <-  seabORD::example_lists_calibration$ordPar
+ordPar_example <-  seabORD::get_example_ordPar(type = "cal")
 str(ordPar_example) 
 ```
 
@@ -92,7 +87,7 @@ str(ordPar_example)
 Turn on the switch "savebirdflightmap", to see an example of the birdflightmap output
 
 ```{r}
-switches_example <- seabORD::example_lists_calibration$switches
+switches_example <- seabORD::get_example_switches(type = "cal")
 switches_example$savebirdflightmap <- TRUE
 
 str(switches_example)
@@ -111,19 +106,19 @@ seamask_example <- seabORD::get_example_seamask()
 #### spadat1
 
 ```{r}
-spadat1_example <- seabORD::get_example_spadat1("UK9004171")
+spadat1_example <- seabORD::get_example_spadat1()
 ```
 
 #### spadat2
 
 ```{r}
-spadat2_example <- seabORD::get_example_spadat2("UK9004171")
+spadat2_example <- seabORD::get_example_spadat2()
 ```
 
 #### spdat
 
 ```{r}
-spdat_example  <- seabORD::get_spdat_example("KI")
+spdat_example  <- seabORD::get_example_spdat()
 ```
 
 #### BrdData
@@ -147,7 +142,7 @@ fltdist_base_example <- seabORD::get_example_fltdist_base()
 #### FlightGridcorrection
 
 ```{r}
-FlightGridcorrection_example <- seabORD::FlightGridcorrection_3035
+FlightGridcorrection_example <- seabORD::get_example_fgc_3035()
 ```
 
 #### ORDpoly
@@ -187,7 +182,7 @@ if (switches_example$saverds) {
 Load example calibration output (used throughout this vignette)
 
 ```{r}
-sbordout <- seabORD::example_calibration_output
+sbordout <- seabORD::get_example_output(type = "cal")
 ```
 
 ## Plot the outputs and determine prey values

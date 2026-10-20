@@ -4,7 +4,7 @@
 \alias{get_example_brddata}
 \title{Load example seabird density raster data}
 \usage{
-get_example_brddata()
+get_example_brddata(type = NULL)
 }
 \value{
 A \code{RasterLayer} containing example seabird density data for the Forth

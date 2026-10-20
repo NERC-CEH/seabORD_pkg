@@ -20,4 +20,4 @@ frgcompdata_example_dd
 \description{
 NEED EXPL
 }
-\keyword{datasets}
+\keyword{internal}

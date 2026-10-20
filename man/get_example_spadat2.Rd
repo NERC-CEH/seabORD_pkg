@@ -4,7 +4,7 @@
 \alias{get_example_spadat2}
 \title{Load an example SPA site designation record}
 \usage{
-get_example_spadat2(site_code = "UK9004171")
+get_example_spadat2(type = NULL)
 }
 \arguments{
 \item{site_code}{Character string giving the site code to extract.

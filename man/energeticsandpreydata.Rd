@@ -56,4 +56,4 @@ energeticsandpreydata
 \description{
 A dataset containing information on various bird species' energetics and prey data, including metabolic rates, energy requirements, and survival rates under different conditions.
 }
-\keyword{datasets}
+\keyword{internal}

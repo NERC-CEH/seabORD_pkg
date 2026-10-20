@@ -28,4 +28,4 @@ spalist
 \description{
 This dataset contains information about Special Protection Areas (SPAs), including site codes, site names.
 }
-\keyword{datasets}
+\keyword{internal}

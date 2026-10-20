@@ -4,7 +4,7 @@
 \alias{get_example_fltdist_base}
 \title{Load example flight distance raster}
 \usage{
-get_example_fltdist_base()
+get_example_fltdist_base(type = NULL)
 }
 \value{
 A \code{RasterLayer} containing example flight distances from SPA

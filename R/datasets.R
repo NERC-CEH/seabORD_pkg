@@ -19,6 +19,7 @@
 #'   \item{DispMat}{character: Indicates if dispersal matrices are available for the species.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "specieslist"
 
 #' SPA Site List Dataset
@@ -39,6 +40,7 @@
 #'   \item{Altnames.FR}{character:NEED EXPL.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "spalist"
 
 
@@ -55,6 +57,7 @@
 #'   \item{spacolsize}{Numeric: NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "CEF_colsize_table"
 
 
@@ -104,6 +107,7 @@
 #'   \item{chicksurv_good}{Numeric: The chick survival rate under good conditions.}
 #' }
 #' @source  NEED EXPL
+#' @keywords internal
 "energeticsandpreydata"
 
 #' cef_coast_4326
@@ -117,6 +121,7 @@
 #'   \item{geometry}{Numeric: NEED EXPL}
 #' }
 #' @source  NEED EXPL
+#' @keywords internal
 "cef_coast_4326"
 
 #' seamask_3035_example
@@ -129,6 +134,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source Generated from "seamask_3035.tif".
+#' @keywords internal
 "seamask_3035_example"
 
 #' Spatial Coordinates of Sites
@@ -162,6 +168,7 @@
 #'   \item{fltxy.near}{Logical: Whether the flight path is near the site in XY space.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "spacoordinates"
 
 
@@ -175,6 +182,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source Generated from "UK9004171_bysea_3035.tif".
+#' @keywords internal
 "UK9004171_bysea_3035"
 
 
@@ -190,6 +198,7 @@
 #'   \item{matrix class}{The data is stored in a sparse matrix format (`dsTMatrix`), which is efficient for handling large datasets with a significant number of zero values.}
 #' }
 #' @source  NEED EXPL
+#' @keywords internal
 "FlightGridcorrection_3035"
 
 #' offshorerenewabledevelopmentnames
@@ -205,6 +214,7 @@
 #'   \item{Emodnet_Status}{Character: NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "offshorerenewabledevelopmentnames"
 
 #' example_1_lists
@@ -219,6 +229,7 @@
 #'   \item{\code{ordPar}}{A list NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "example_1_lists"
 
 #' BrdData_example
@@ -231,6 +242,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "BrdData_example"
 
 #' frgcompdata_example
@@ -243,6 +255,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "frgcompdata_example"
 
 
@@ -265,6 +278,7 @@
 #'   \item{Shape_Area}{NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "ORDpoly_example"
 
 #' example_calibration_output
@@ -285,6 +299,7 @@
 #'   \item{birdflightamp}{raster}
 #' }
 #' @source \href{https://example.com}{Example Source}
+#' @keywords internal
 "example_calibration_output"
 
 
@@ -300,6 +315,7 @@
 #'   \item{\code{ordPar}}{A list NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "example_lists_calibration"
 
 
@@ -321,6 +337,7 @@
 #'   \item{birdflightamp}{raster}
 #' }
 #' @source \href{https://example.com}{Example Source}
+#' @keywords internal
 "example_scenario_output"
 
 
@@ -335,6 +352,7 @@
 #'   \item{geometry}{Numeric: NEED EXPL}
 #' }
 #' @source  NEED EXPL
+#' @keywords internal
 "cef_coast_3035"
 
 
@@ -357,6 +375,7 @@
 #'   \item{Shape_Area}{NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "ORDpoly_example_wfold"
 
 #' DBS_map_example.R
@@ -369,6 +388,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source Generated from "DBS_map.tif".
+#' @keywords internal
 "DBS_map_example"
 
 #' DBS_withORDs_example.R
@@ -381,6 +401,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source Generated from "DBS_withORDs.tif".
+#' @keywords internal
 "DBS_withORDs_example"
 
 
@@ -396,6 +417,7 @@
 #'   \item{\code{ordPar}}{A list NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "example_lists_calibration_dd"
 
 
@@ -410,6 +432,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source Generated from "UK9002491_bysea_3035.tif".
+#' @keywords internal
 "UK9002491_bysea_3035"
 
 
@@ -423,6 +446,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "BrdData_example_dd"
 
 #' frgcompdata_example_dd
@@ -435,6 +459,7 @@
 #'   \item{metadata}{List of metadata: extent, resolution, and CRS.}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "frgcompdata_example_dd"
 
 #' example_lists_dd
@@ -449,6 +474,7 @@
 #'   \item{\code{ordPar}}{A list NEED EXPL}
 #' }
 #' @source NEED EXPL
+#' @keywords internal
 "example_lists_dd"
 
 #' UK coastline in ETRS89 / LAEA Europe (EPSG:3035)
@@ -491,5 +517,5 @@
 #' plot(sf::st_geometry(uk_coast_3035))
 #'
 #' @source Derived from the built-in `cef_coast_3035` coastline dataset.
-#'
+#' @keywords internal
 "uk_coast_3035"

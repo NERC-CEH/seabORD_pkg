@@ -4,7 +4,7 @@
 \alias{get_example_frgcompdata}
 \title{Load example competition distribution raster data}
 \usage{
-get_example_frgcompdata()
+get_example_frgcompdata(type = NULL)
 }
 \value{
 A \code{RasterLayer} containing example competition distribution data for

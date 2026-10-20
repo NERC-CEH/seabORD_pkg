@@ -4,7 +4,8 @@
 #' package ggplot2 theme.
 #'
 #' @return A ggplot2 theme object.
-#' @export
+#' @keywords internal
+#' @noRd
 theme_seabord <- function() {
 
   if (!"montserrat" %in% sysfonts::font_families()) {
@@ -91,14 +92,12 @@ theme_seabord <- function() {
 #' @param seamask A `RasterLayer` containing seamask data,
 #'   such as the object returned by [get_example_seamask()].
 #' @param title Plot title.
-#' @param caption Plot caption.
 #'
 #' @return A ggplot object.
 #' @export
 plot_seamask <- function(
     seamask,
-    title = "coasts (red) and seamask (blue)",
-    caption = "Example 1: data seamask"
+    title = "coasts (red) and seamask (blue)"
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -115,9 +114,15 @@ plot_seamask <- function(
 
   layer_name <- names(seamask)[1]
 
-  seamask_df[[layer_name]] <- factor(
-    seamask_df[[layer_name]],
-    levels = c(0, 1)
+  seamask_df$mask_type <- ifelse(
+    is.na(seamask_df[[layer_name]]),
+    "Land",
+    "Sea"
+  )
+
+  seamask_df$mask_type <- factor(
+    seamask_df$mask_type,
+    levels = c("Land", "Sea")
   )
 
   ggplot2::ggplot() +
@@ -126,7 +131,7 @@ plot_seamask <- function(
       ggplot2::aes_string(
         x = "x",
         y = "y",
-        fill = layer_name
+        fill = "mask_type"
       )
     ) +
     ggplot2::geom_sf(
@@ -136,13 +141,15 @@ plot_seamask <- function(
       linewidth = 0.5
     ) +
     ggplot2::scale_fill_manual(
-      values = c("0" = "grey80",
-                 "1" = "#0483A4")
+      values = c(
+        "Land" = "grey80",
+        "Sea" = "#0483A4"
+      ),
+      name = NULL
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
-      title = title,
-      caption = caption
+      title = title
     )
 }
 
@@ -158,9 +165,6 @@ plot_seamask <- function(
 #'
 #' @param title Character string giving the plot title.
 #'   Defaults to `"coasts (red) and BrdData"`.
-#'
-#' @param caption Character string giving the plot caption.
-#'   Defaults to `"Example 1: data BrdData"`.
 #'
 #' @return
 #' A `ggplot` object showing the bird density raster overlaid with the UK
@@ -189,8 +193,7 @@ plot_seamask <- function(
 #' @export
 plot_brddata <- function(
     brddata,
-    title = "coasts (red) and BrdData",
-    caption = "Example 1: data BrdData"
+    title = "coasts (red) and BrdData"
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -221,14 +224,13 @@ plot_brddata <- function(
                             fill = layer_name
                           )) +
     # Add the UK boundary
-    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth = 1.5) +
+    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth = 0.5) +
     # Customize the plot
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::scale_fill_viridis_c(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
-    ggplot2::labs(title =  title,
-                  caption = caption)
+    ggplot2::labs(title =  title)
 }
 
 
@@ -244,10 +246,6 @@ plot_brddata <- function(
 #'
 #' @param title Character string giving the plot title.
 #'   Defaults to `"coasts (red) and FrgCompData"`.
-#'
-#' @param caption Character string giving the plot caption.
-#'   Defaults to `"Example 1: data FrgCompData"`.
-#'
 #' @return
 #' A `ggplot` object showing the competition distribution raster together
 #' with coastlines for geographical context.
@@ -274,8 +272,7 @@ plot_brddata <- function(
 #' @export
 plot_frgcompdata <- function(
     frgcompdata,
-    title = "coasts (red) and FrgCompData",
-    caption = "Example 1: data FrgCompData"
+    title = "coasts (red) and FrgCompData"
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -305,14 +302,13 @@ plot_frgcompdata <- function(
       fill = layer_name
     )) +
     # Add the reprojected UK boundary
-    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth  = 1.5) +
+    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth  = 0.5) +
     # Customize the plot
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::scale_fill_viridis_c(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
-    ggplot2::labs(title = title,
-                  caption = caption)
+    ggplot2::labs(title = title)
 }
 
 
@@ -327,10 +323,6 @@ plot_frgcompdata <- function(
 #'
 #' @param title Character string giving the plot title.
 #'   Defaults to `"coasts (red) and fltdist_base"`.
-#'
-#' @param caption Character string giving the plot caption.
-#'   Defaults to `"Example 1: data fltdist_base"`.
-#'
 #' @return
 #' A `ggplot` object showing the flight distance raster together with
 #' coastlines for geographical context.
@@ -360,8 +352,7 @@ plot_frgcompdata <- function(
 #' @export
 plot_fltdist_base <- function(
     fltdist_base,
-    title = "coasts (red) and fltdist_base",
-    caption = "Example 1: data fltdist_base"
+    title = "coasts (red) and fltdist_base"
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -391,14 +382,13 @@ plot_fltdist_base <- function(
       fill = layer_name
     )) +
     # Add the reprojected UK boundary
-    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth  = 1.5) +
+    ggplot2::geom_sf(data = uk_map_repr, fill = NA, color = "#D63333", linewidth  = 0.5) +
     # Customize the plot
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::scale_fill_viridis_c(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
-    ggplot2::labs(title = title,
-                  caption = caption)
+    ggplot2::labs(title = title)
 }
 
 
@@ -414,10 +404,6 @@ plot_fltdist_base <- function(
 #'
 #' @param title Character string giving the plot title.
 #'   Defaults to `"coasts (red) and ORDpoly (blue)"`.
-#'
-#' @param caption Character string giving the plot caption.
-#'   Defaults to `"Example 1: data ORDpoly"`.
-#'
 #' @return
 #' A `ggplot` object showing the ORD polygon together with coastlines.
 #'
@@ -431,7 +417,7 @@ plot_fltdist_base <- function(
 #'
 #' @examples
 #' # Load example ORD polygon
-#' ORDpoly <- seabORD::ORDpoly_example
+#' ORDpoly <- ORDpoly_example
 #'
 #' # Create and display the map
 #' plot_ORDpoly(ORDpoly)
@@ -442,8 +428,7 @@ plot_fltdist_base <- function(
 #' @export
 plot_ORDpoly <- function(
     ORDpoly,
-    title = "coasts (red) and ORDpoly (blue)",
-    caption = "Example 1: data ORDpoly"
+    title = "coasts (red) and ORDpoly (blue)"
 ) {
 
   # UK outline
@@ -472,7 +457,7 @@ plot_ORDpoly <- function(
       data = uk_map,
       fill = NA,
       color = "#D63333",
-      linewidth = 1.5
+      linewidth = 0.5
     ) +
     ggplot2::geom_sf(
       data = ORDpoly_repr,
@@ -484,10 +469,9 @@ plot_ORDpoly <- function(
       xlim = c(bbox["xmin"], bbox["xmax"]),
       ylim = c(bbox["ymin"], bbox["ymax"])
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
-      title = title,
-      caption = caption
+      title = title
     )
 
 }
@@ -562,10 +546,9 @@ plot_colony_location <- function(
       width_hint = 0.5
     ) +
     ggplot2::labs(
-      title = "Colony location and surrounding coastline",
-      caption = "Blue cross: colony location"
+      title = "Colony location and surrounding coastline"
     ) +
-    seabORD::theme_seabord()
+    theme_seabord()
 
 }
 
@@ -580,10 +563,6 @@ plot_colony_location <- function(
 #'
 #' @param title Character string giving the plot title.
 #'   Defaults to `"coasts (red) and DBS_map"`.
-#'
-#' @param caption Character string giving the plot caption.
-#'   Defaults to `"Example 1: Distance By Sea (DBS) map"`.
-#'
 #' @return
 #' A `ggplot` object showing the Distance By Sea raster together with
 #' coastlines for geographical context.
@@ -611,8 +590,7 @@ plot_colony_location <- function(
 #' @export
 plot_DBS_map <- function(
     DBS_map,
-    title = "coasts (red) and DBS_map",
-    caption = "Example 1: Distance By Sea (DBS) map"
+    title = "coasts (red) and DBS_map"
 ) {
 
   # UK outline (use coastline available in the package)
@@ -647,17 +625,16 @@ plot_DBS_map <- function(
       data = uk_map_repr,
       fill = NA,
       color = "#D63333",
-      linewidth = 1.5
+      linewidth = 0.5
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::scale_fill_viridis_c(
       na.value = "gray",
       direction = -1,
       name = "Distance by sea"
     ) +
     ggplot2::labs(
-      title = title,
-      caption = caption
+      title = title
     )
 }
 
@@ -691,9 +668,6 @@ plot_DBS_map <- function(
 #'   location? Defaults to `FALSE`.
 #'
 #' @param title Character string giving the plot title.
-#'
-#' @param caption Character string giving the plot caption.
-#'
 #' @return
 #' A `ggplot` object showing the DD map raster.
 #'
@@ -711,8 +685,7 @@ plot_DD_map <- function(
     km_up = 30,
     km_down = 70,
     crop = FALSE,
-    title = "DD map",
-    caption = NULL
+    title = "DD map"
 ) {
 
   if (crop) {
@@ -721,7 +694,7 @@ plot_DD_map <- function(
       stop("A colony location must be supplied when crop = TRUE.")
     }
 
-    crop_extent <- seabORD::create_crop_extent_colony(
+    crop_extent <- create_crop_extent_colony(
       colony,
       km_to_left,
       km_to_right,
@@ -751,14 +724,13 @@ plot_DD_map <- function(
     )
   ) +
     ggplot2::geom_raster() +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::coord_equal() +
     ggplot2::scale_fill_viridis_c(
       name = layer_name
     ) +
     ggplot2::labs(
-      title = title,
-      caption = caption
+      title = title
     )
 }
 
@@ -856,7 +828,7 @@ plot_DD_map_with_ORDs <- function(
     "density"
   )
 
-  ORDpolys_buffer <- seabORD::create_ORD_buffer(
+  ORDpolys_buffer <- create_ORD_buffer(
     ORDpolys,
     bufferwidth = bufferwidth
   )
@@ -905,7 +877,7 @@ plot_DD_map_with_ORDs <- function(
       location = "tr",
       width_hint = 0.5
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = title
     )
@@ -989,7 +961,7 @@ plot_ORD_obstruction <- function(
     km_down = 70
 ) {
 
-  crop_extent <- seabORD::create_crop_extent_colony(
+  crop_extent <- create_crop_extent_colony(
     colony,
     km_to_left,
     km_to_right,
@@ -1038,7 +1010,7 @@ plot_ORD_obstruction <- function(
       ),
       breaks = c("Accessible sea", "Obstructed sea")
     )+
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::coord_equal() +
     ggplot2::labs(
       title = "Areas affected by ORD obstruction"
@@ -1072,7 +1044,7 @@ plot_ORD_obstruction <- function(
 #'
 #' @examples
 #' \dontrun{
-#' sbordout <- seabORD::example_calibration_output_dd
+#' sbordout <- example_calibration_output_dd
 #'
 #' plot_BirdFlightMap(
 #'   sbordout$BirdFlightMap
@@ -1087,10 +1059,11 @@ plot_BirdFlightMap <- function(
     title = "Coastline and BirdFlightMap"
 ) {
 
-  uk_map <- seabORD::cef_coast_4326 %>%
-    dplyr::filter(
-      ID_0 %in% c("GBR", "FRO", "GGY", "IMN")
-    )
+  uk_map <- sf::st_as_sf(seabORD::cef_coast_4326)
+
+  uk_map <- uk_map[
+    uk_map$ID_0 %in% c("GBR", "FRO", "GGY", "IMN"),
+  ]
 
   BirdFlightMap <- terra::rast(BirdFlightMap) %>%
     terra::project(
@@ -1158,7 +1131,7 @@ plot_BirdFlightMap <- function(
       data = uk_map,
       fill = NA,
       color = "#D63333",
-      linewidth = 1.5
+      linewidth = 0.5
     ) +
     ggplot2::scale_fill_viridis_c(
       na.value = "grey",
@@ -1169,7 +1142,7 @@ plot_BirdFlightMap <- function(
       xlim = xlim,
       ylim = ylim
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = title
     )
@@ -1231,9 +1204,9 @@ plot_BirdFlightMap <- function(
 #'
 #' @examples
 #' \dontrun{
-#' sbordout <- seabORD::example_calibration_output_dd
+#' sbordout <- example_calibration_output_dd
 #'
-#' calibration <- seabORD::find_calibration_range(
+#' calibration <- find_calibration_range(
 #'   sbordout = sbordout,
 #'   masslower = 0.09,
 #'   massupper = 0.11,
@@ -1241,7 +1214,7 @@ plot_BirdFlightMap <- function(
 #'   produpper = 0.55
 #' )
 #'
-#' seabORD::plot_calibration_outputs(
+#' plot_calibration_outputs(
 #'   sbordout = sbordout,
 #'   calibration = calibration,
 #'   masslower = 0.09,
@@ -1304,7 +1277,11 @@ plot_calibration_outputs <- function(
     ggplot2::geom_line(
       colour = "#D63333"
     ) +
-    seabORD::theme_seabord() +
+    ggplot2::geom_vline(
+      xintercept = c(xmin, xmax),
+      colour = "black"
+    ) +
+    theme_seabord() +
     ggplot2::labs(
       title = "Adult mass loss",
       x = "Prey",
@@ -1342,7 +1319,7 @@ plot_calibration_outputs <- function(
       xintercept = c(xmin, xmax),
       colour = "black"
     ) +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = "Chicks per nest",
       x = "Prey",
@@ -1389,7 +1366,7 @@ plot_adult_body_mass <- function(
     )
   ) +
     ggplot2::geom_boxplot() +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = title,
       x = "Season",
@@ -1430,7 +1407,7 @@ plot_chick_survival <- function(
     )
   ) +
     ggplot2::geom_boxplot() +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = title,
       x = "Season",
@@ -1459,7 +1436,7 @@ plot_flight_distance <- function(
     )
   ) +
     ggplot2::geom_boxplot() +
-    seabORD::theme_seabord() +
+    theme_seabord() +
     ggplot2::labs(
       title = "Flight distance by season",
       x = "Season",

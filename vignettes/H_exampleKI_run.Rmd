@@ -40,14 +40,14 @@ This script will import the example parameters sets and spatial data, which are 
 NOTE: "NScalefactor" is **set to 1 meaning we are running with 100%** **of the population**, which is customary for scenario runs.
 
 ```{r}
-Par_example <- seabORD::example_1_lists$Par
+Par_example <- seabORD::get_example_par()
 str(Par_example)
 ```
 
 #### modPar
 
 ```{r}
-modPar_example <- seabORD::example_1_lists$modPar
+modPar_example <- seabORD::get_example_modpar()
 str(modPar_example) 
 ```
 
@@ -111,7 +111,7 @@ seabORD::check_calibration_inputs(
 #### ordPar
 
 ```{r}
-ordPar_example <-  seabORD::example_1_lists$ordPar
+ordPar_example <-  seabORD::get_example_ordPar()
 str(ordPar_example)
 ```
 
@@ -120,7 +120,7 @@ str(ordPar_example)
 Turn on the switch "savebirdflightmap", to see an example of the birdflightmap output. Turn on "saverds" to save the outputs as rds.
 
 ```{r}
-switches_example <- seabORD::example_1_lists$switches
+switches_example <- seabORD::get_example_switches()
 switches_example$savebirdflightmap <- TRUE
 switches_example$saverds <- TRUE 
 ```
@@ -138,19 +138,19 @@ seamask_example <- seabORD::get_example_seamask()
 #### spadat1
 
 ```{r}
-spadat1_example <- seabORD::get_example_spadat1("UK9004171")
+spadat1_example <- seabORD::get_example_spadat1()
 ```
 
 #### spadat2
 
 ```{r}
-spadat2_example <- seabORD::get_example_spadat2("UK9004171")
+spadat2_example <- seabORD::get_example_spadat2()
 ```
 
 #### spdat
 
 ```{r}
-spdat_example  <- seabORD::get_spdat_example("KI")
+spdat_example  <- seabORD::get_example_spdat()
 ```
 
 #### BrdData
@@ -174,21 +174,20 @@ fltdist_base_example <- seabORD::get_example_fltdist_base()
 #### FlightGridcorrection
 
 ```{r}
-FlightGridcorrection <- seabORD::FlightGridcorrection_3035
+FlightGridcorrection <- seabORD::get_example_fgc_3035()
 ```
 
 #### ORDpoly
 
 ```{r}
-ORDpoly_example <- seabORD::ORDpoly_example
+ORDpoly_example <- seabORD::get_example_ORDpoly()
 ```
 
 You can plot the ORD footprints for peace of mind:
 
 ```{r}
 seabORD::plot_ORDpoly(
-  ORDpoly = ORDpoly_example,
-  caption = "data ORDpoly run"
+  ORDpoly = ORDpoly_example
 )
 ```
 

@@ -20,42 +20,14 @@ Load the seabORD package
 library(seabORD)
 ```
 
-This vignette demonstrates how to prepare all inputs required for a seabORD simulation using the built-in example datasets. By the end of the vignette you will have created:
-
-\- Par
-
-\- modPar
-
-\- ordPar
-
-\- switches
-
-\- seamask
-
-\- spadat1
-
-\- spadat2
-
-\- spdat
-
-\- BrdData
-
-\- FrgCompData
-
-\- fltdist_base
-
-\- FlightGridcorrection
-
-\- ORDpoly
-
-These objects can then be used directly in a seabORD model run.
+This vignette demonstrates how to prepare all inputs required for a seabORD simulation using the built-in example datasets.
 
 # Preparing the inputs
 
 To run seabORD several inputs are needed:
 
 | arguments | type | description |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Par | List | The main parameters controlling/defining this run e.g., species and colony |
 | modPar | List | Parameters relating to the model mode and computer environment |
 | ordPar | List | Input parameters relating to the ORDs |
@@ -101,10 +73,10 @@ List for biological parameters:
 - **Pmedian**: The value of prey in cells in this particular replicate. Prior to running the simulation with ORDs this must be determined in a calibration step.
 
 ```{r}
-Par_example <-  seabORD::example_1_lists$Par
+Par_example <-  seabORD::get_example_par()
 
 #which looks like
-str(Par_example, class)
+str(Par_example)
 ```
 
 ## modPar
@@ -133,7 +105,7 @@ if (!dir.exists("output_seabORD")) {
 and then the list of modPar
 
 ```{r}
-modPar_example <- seabORD::example_1_lists$modPar
+modPar_example <- seabORD::get_example_modpar()
 
 #which looks like
 str(modPar_example)
@@ -152,7 +124,7 @@ List for wind farm parameters
 - **BufferZone**: Also known as the displacement zone, this is the distance (km) extending beyond the FootprintBorder where displacement susceptible birds will be displaced to.
 
 ```{r}
-ordPar_example <-  seabORD::example_1_lists$ordPar
+ordPar_example <-  seabORD::get_example_ordPar()
 
 #which looks like
 str(ordPar_example)
@@ -193,7 +165,7 @@ There is an example list available in the package that can be accessed by simply
 ```{r}
 
 #get the example switches list
-switches_example <- seabORD::example_1_lists$switches
+switches_example <- seabORD::get_example_switches()
 
 #check the setting of this example
 str(switches_example)
@@ -211,7 +183,7 @@ example_data_seamask <- seabORD::get_example_seamask()
 
 which looks like:
 
-```{r, echo=FALSE}
+```{r}
 # You can use the built in plot function
 seabORD::plot_seamask(seamask = example_data_seamask)
 ```
@@ -222,7 +194,7 @@ For this example the values for spadat1 for the site "UK9004171" are taken from 
 
 ```{r}
 #open the dataset provided with the pacakge
-spadat1_example <- seabORD::get_example_spadat1 (site_code = "UK9004171")
+spadat1_example <- seabORD::get_example_spadat1()
 
 #display the data for the example site
 print(t(spadat1_example))
@@ -233,7 +205,7 @@ print(t(spadat1_example))
 Can be derived from the built in list dataset "spalist", which contains information for all the SPA sites. The package provides helper functions for extracting the example data used throughout this vignette.
 
 ```{r}
-spadat2_example <- seabORD::get_example_spadat2 (site_code = "UK9004171")
+spadat2_example <- seabORD::get_example_spadat2()
 
 #take a look
 print(t(spadat2_example))
@@ -244,10 +216,10 @@ print(t(spadat2_example))
 The species specific data for the Black-legged Kittiwake be derived from the built in dataset "energeticsandpreydata" that has data for all 4 species that seabORD models ("KI", "GU", "RA", "PU"). The package provides helper functions for extracting the example data used throughout this vignette.
 
 ```{r}
-spdat_example <- seabORD::get_spdat_example(species_code = "KI")
+example_spdat <- seabORD::get_example_spdat()
 
 #take a look
-print(t(spdat_example))
+print(t(example_spdat))
 ```
 
 ## BrdData
@@ -260,7 +232,7 @@ example_brddata <- seabORD::get_example_brddata()
 
 Example:
 
-```{r, echo=FALSE}
+```{r}
 seabORD::plot_brddata(brddata = example_brddata)
 ```
 
@@ -274,7 +246,7 @@ example_frgcompdata <- seabORD::get_example_frgcompdata()
 
 Example:
 
-```{r, echo=FALSE}
+```{r}
 seabORD::plot_frgcompdata(frgcompdata = example_frgcompdata)
 ```
 
@@ -283,12 +255,12 @@ seabORD::plot_frgcompdata(frgcompdata = example_frgcompdata)
 Flight distance by sea, without ORDs. See user guide for details.
 
 ```{r}
-example_fltdist_base <- get_example_fltdist_base()
+example_fltdist_base <- seabORD::get_example_fltdist_base()
 ```
 
 Example:
 
-```{r, echo = FALSE}
+```{r}
 seabORD::plot_fltdist_base(fltdist_base = example_fltdist_base)
 ```
 
@@ -297,7 +269,7 @@ seabORD::plot_fltdist_base(fltdist_base = example_fltdist_base)
 It's a TransitionLayer class object. One example provided that can be loaded
 
 ```{r}
-FlightGridcorrection <- seabORD::FlightGridcorrection_3035
+FlightGridcorrection <- seabORD::get_example_fgc_3035()
 ```
 
 ## ORDpoly
@@ -305,11 +277,11 @@ FlightGridcorrection <- seabORD::FlightGridcorrection_3035
 This is a set of polygons used to represent the ORDs that we are intending to predict the impact of.
 
 ```{r}
-ORDpoly_example <- seabORD::ORDpoly_example
+ORDpoly_example <- seabORD::get_example_ORDpoly()
 ```
 
 which is a dataset with this multipolygon shapes:
 
-```{r, echo=FALSE}
+```{r}
 seabORD::plot_ORDpoly(ORDpoly = ORDpoly_example)
 ```

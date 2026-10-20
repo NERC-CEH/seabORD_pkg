@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, warning = FALSE, message = FALSE}
-library(seabORD)
-```
-
 # Introduction & background
 
 A key component of the seabORD model is the need to calibrate the prey level inputs used for each new species and colony combination. This currently involves re-running the model without ORDs (baseline simulations) with a range of prey levels to ascertain the range of values within which the model returns adult mass and chick mortality rates consistent with pre-defined values representing “moderate” conditions (Figure 1). This is to allow simulation of the range of outcomes expected under these conditions, as the model is highly sensitive to the prey density parameter.
@@ -41,14 +37,14 @@ Get the input parameters set-up example for the calibration exercise. For more i
 NOTE: "NScalefactor" is set to 0.1 meaning we are running with 10% of the population, which may be sufficient for calibration runs.
 
 ```{r}
-Par_example <- seabORD::example_lists_calibration_dd$Par
+Par_example <- seabORD::get_example_par(type = "cal_dd")
 str(Par_example)
 ```
 
 #### modPar
 
 ```{r}
-modPar_example <- seabORD::example_lists_calibration_dd$modPar
+modPar_example <- seabORD::get_example_modpar(type = "cal_dd")
 str(modPar_example)
 ```
 
@@ -81,7 +77,7 @@ seabORD::check_calibration_inputs(
 ordPar should be empty, as there doesn't need to be as we are only running baseline runs with no ORDs included.
 
 ```{r}
-ordPar_example <-  seabORD::example_lists_calibration_dd$ordPar
+ordPar_example <-  seabORD::get_example_ordPar("cal_dd")
 str(ordPar_example) 
 ```
 
@@ -91,7 +87,7 @@ Turn on the switch "savebirdflightmap", to see an example of the birdflightmap o
 
 ```{r}
 #get the switches
-switches_example <- seabORD::example_lists_calibration_dd$switches
+switches_example <- seabORD::get_example_switches("cal_dd")
 #turn on savebirdflightmap
 switches_example$savebirdflightmap <- TRUE
 
@@ -111,7 +107,7 @@ seamask_example <- seabORD::get_example_seamask()
 #### spadat1
 
 ```{r}
-spadat1_example <- seabORD::get_example_spadat1("UK9002491")
+spadat1_example <- seabORD::get_example_spadat1(type = "dd")
 
 # Overwite with the exact colony location of Whinnyfold used when creating map in step 1.1
 whinnyfold_lon <- -1.85849
@@ -126,13 +122,13 @@ spadat1_example$flt.LAT   <- whinnyfold_lat
 #### spadat2
 
 ```{r}
-spadat2_example <- seabORD::get_example_spadat2("UK9002491")
+spadat2_example <- seabORD::get_example_spadat2(type = "dd")
 ```
 
 #### spdat
 
 ```{r}
-spdat_example  <- seabORD::get_spdat_example("KI")
+spdat_example  <- seabORD::get_example_spdat()
 ```
 
 #### BrdData
@@ -140,25 +136,25 @@ spdat_example  <- seabORD::get_spdat_example("KI")
 BrdData_example_dd \<- seabORD::get_example_brddata_dd()
 
 ```{r}
-BrdData_example_dd <- seabORD::get_example_brddata_dd()
+BrdData_example_dd <- seabORD::get_example_brddata(type = "dd")
 ```
 
 #### FrgCompData
 
 ```{r}
-FrgCompData_example_dd <- seabORD::get_example_frgcompdata_dd()
+FrgCompData_example_dd <- seabORD::get_example_frgcompdata(type = "dd")
 ```
 
 #### fltdist_base
 
 ```{r}
-fltdist_base_example <- seabORD::get_example_fltdist_base_dd()
+fltdist_base_example <- seabORD::get_example_fltdist_base(type = "dd")
 ```
 
 #### FlightGridcorrection
 
 ```{r}
-FlightGridcorrection_example <- seabORD::FlightGridcorrection_3035
+FlightGridcorrection_example <- seabORD::get_example_fgc_3035()
 ```
 
 #### ORDpoly
@@ -200,7 +196,7 @@ if (switches_example$saverds) {
 Load example calibration output (used throughout this vignette)
 
 ```{r}
-sbordout <- seabORD::example_calibration_output_dd
+sbordout <- seabORD::get_example_output(type = "cal_dd")
 ```
 
 ## Plot the outputs and determine prey values

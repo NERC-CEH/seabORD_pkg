@@ -4,7 +4,7 @@
 \alias{get_example_DBS_map}
 \title{Load the example Distance By Sea (DBS) map}
 \usage{
-get_example_DBS_map()
+get_example_DBS_map(type = NULL)
 }
 \value{
 A \code{RasterLayer} containing the example Distance By Sea (DBS)

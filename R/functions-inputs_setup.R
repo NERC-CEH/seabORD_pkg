@@ -1,3 +1,53 @@
+#' Load species-specific data
+#'
+#' Retrieves species-specific energetics and prey data from the
+#' `energeticsandpreydata` dataset included with the package.
+#'
+#' @param species_code Character string giving the species code of
+#'   interest. Supported values are:
+#'   \itemize{
+#'     \item `"KI"`: Black-legged Kittiwake
+#'     \item `"GU"`: Common Guillemot
+#'     \item `"RA"`: Razorbill
+#'     \item `"PU"`: Atlantic Puffin
+#'   }
+#'   Defaults to `"KI"`.
+#'
+#' @return
+#' A data frame containing the species-specific energetics and prey
+#' parameters used by seabORD. If the supplied `species_code` is not
+#' present in the dataset, an empty data frame is returned.
+#'
+#' @details
+#' This function provides convenient access to the built-in species
+#' parameter dataset used by seabORD. Species-specific data for all four
+#' seabird species modelled by the package are stored in
+#' `energeticsandpreydata`.
+#'
+#' @examples
+#' # Black-legged Kittiwake
+#' ki_data <- get_spdat("KI")
+#'
+#' # Common Guillemot
+#' gu_data <- get_spdat("GU")
+#'
+#' # Razorbill
+#' ra_data <- get_spdat("RA")
+#'
+#' # Atlantic Puffin
+#' pu_data <- get_spdat("PU")
+#'
+#' @export
+get_spdat <- function( species_code = "KI") {
+
+  dplyr::filter(
+    seabORD::energeticsandpreydata,
+    Code == species_code
+  )
+
+}
+
+
 #' Create a colony location point
 #'
 #' Creates an `sf` point object from longitude and latitude coordinates

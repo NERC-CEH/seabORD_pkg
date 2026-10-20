@@ -50,4 +50,4 @@ uk_coast_3035
 plot(sf::st_geometry(uk_coast_3035))
 
 }
-\keyword{datasets}
+\keyword{internal}

@@ -41,14 +41,14 @@ This script will import the example parameters sets and spatial data, which are 
 NOTE: "NScalefactor" is **set to 1 meaning we are running with 100%** **of the population**, which is customary for scenario runs.
 
 ```{r}
-Par_example <- seabORD::example_lists_dd$Par
+Par_example <- seabORD::get_example_par(type = "dd")
 str(Par_example)
 ```
 
 #### modPar
 
 ```{r}
-modPar_example <- seabORD::example_lists_dd$modPar
+modPar_example <- seabORD::get_example_modpar(type = "dd")
 str(modPar_example)
 ```
 
@@ -116,7 +116,7 @@ str(Par_example$Pmedian) #should be good to go!
 #### ordPar
 
 ```{r}
-ordPar_example <-  seabORD::example_lists_dd$ordPar
+ordPar_example <-  seabORD::get_example_ordPar(type = "dd")
 str(ordPar_example) # Including wind farms Nearth na Goithe and Inch Cape
 ```
 
@@ -125,7 +125,7 @@ str(ordPar_example) # Including wind farms Nearth na Goithe and Inch Cape
 Turn on the switch "savebirdflightmap", to see an example of the birdflightmap output. Turn on "saverds" to save the outputs as rds.
 
 ```{r}
-switches_example <- seabORD::example_lists_dd$switches
+switches_example <- seabORD::get_example_switches(type = "dd")
 switches_example$savebirdflightmap <- TRUE
 switches_example$saverds <- TRUE 
 
@@ -145,7 +145,7 @@ seamask_example <- seabORD::get_example_seamask()
 #### spadat1
 
 ```{r}
-spadat1_example <- seabORD::get_example_spadat1("UK9002491")
+spadat1_example <- seabORD::get_example_spadat1(type = "dd")
 
 # Overwite with the exact colony location of Whinnyfold used when creating map in step 1.1
 whinnyfold_lon <- -1.85849
@@ -160,53 +160,50 @@ spadat1_example$flt.LAT   <- whinnyfold_lat
 #### spadat2
 
 ```{r}
-spadat2_example <- seabORD::get_example_spadat2("UK9002491")
+spadat2_example <- seabORD::get_example_spadat2(type = "dd")
 ```
 
 #### spdat
 
 ```{r}
-spdat_example  <- seabORD::get_spdat_example("KI")
+spdat_example  <- seabORD::get_example_spdat()
 ```
 
 #### BrdData
 
 ```{r}
-BrdData_example_dd <- seabORD::get_example_brddata_dd()
+BrdData_example_dd <- seabORD::get_example_brddata(type = "dd")
 ```
 
 #### FrgCompData
 
 ```{r}
-FrgCompData_example_dd <- seabORD::get_example_frgcompdata_dd()
+FrgCompData_example_dd <- seabORD::get_example_frgcompdata(type = "dd")
 ```
 
 #### fltdist_base
 
 ```{r}
-fltdist_base_example <- seabORD::get_example_fltdist_base_dd()
+fltdist_base_example <- seabORD::get_example_fltdist_base(type = "dd")
 ```
 
 #### FlightGridcorrection
 
 ```{r}
-FlightGridcorrection <- seabORD::FlightGridcorrection_3035
-
-
+FlightGridcorrection <- get_example_fgc_3035()
 ```
 
 #### ORDpoly
 
 ```{r}
-ORDpoly_example <- seabORD::ORDpoly_example_wfold
+ORDpoly_example <- seabORD::get_example_ORDpoly(type = "dd")
 ```
 
 You can plot the ORD footprints:
 
 ```{r}
 seabORD::plot_ORDpoly(
-    ORDpoly = ORDpoly_example,
-    caption = "data ORDpoly run decay"
+    ORDpoly = ORDpoly_example
 )
 ```
 

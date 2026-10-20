@@ -16,12 +16,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-Load the seabORD package
-
-```{r setup, warning = FALSE, message = FALSE}
-library(seabORD)
-```
-
 # Output - reading and interpretation
 
 The main output of seabORD is a list, where the different elements relate to respective parts of the model e.g., wind farm effects, adult outputs, chick outputs etc.
@@ -29,7 +23,7 @@ The main output of seabORD is a list, where the different elements relate to res
 We shall start by reading in an example output (created from a similar (but not identical) run with the same species (kittiwake), colony (Isle of May), and wind farm set up (Neart na Gaoithe and Inch Cape)).
 
 ```{r}
-sbordout <- seabORD::example_scenario_output
+sbordout <- seabORD::get_example_output()
 names(sbordout)
 ```
 

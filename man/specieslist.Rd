@@ -31,4 +31,4 @@ specieslist
 \description{
 This dataset provides information about the bird species included in seabORD, including their English and Latin names, taxa codes, and 2 letter codes.
 }
-\keyword{datasets}
+\keyword{internal}
