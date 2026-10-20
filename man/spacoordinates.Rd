@@ -41,4 +41,4 @@ spacoordinates
 \description{
 A dataset containing spatial coordinates and related attributes for various sites, including information on whether the site is marine, whether data is available for different columns, and the spatial proximity of flight paths.
 }
-\keyword{datasets}
+\keyword{internal}

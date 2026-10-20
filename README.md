@@ -29,14 +29,9 @@ SeabORD-R is developed openly on GitHub. Source code, issue tracking, and versio
 
 ## Getting Started
 
-Your installation chunk should be:
+1.  Follow the [installation guide](https://nerc-ceh.github.io/seabORD_pkg/articles/A_installing_seabord.html).
 
-``` r
-install.packages("seabORD")
-library(seabORD)
-```
-
-See the Articles tab for tutorials and worked examples.
+2.  Work through the [Example kittiwake: step 1 - seabORD inputs](https://nerc-ceh.github.io/seabORD_pkg/articles/C_KI_inputs.html) tutorial.
 
 ## Acknowledgements
 

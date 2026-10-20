@@ -20,4 +20,4 @@ seamask_3035_example
 \description{
 NEED EXPL
 }
-\keyword{datasets}
+\keyword{internal}

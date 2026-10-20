@@ -7,17 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup, warning = FALSE, message = FALSE }
-library(seabORD)
-```
-
 ## Model purpose
 
 The purpose of the model is to predict the demographic impacts on seabirds of sub-lethal displacement and barrier effects resulting from interactions with ORDs, evaluated through predicted changes to adult mass, adult survival and productivity. Demographic impacts are derived by estimating alterations to time/energy budgets of four different seabird species during the chick-rearing period, when exposed to ORDs within their foraging ranges. To estimate the impacts of ORDs, baseline scenarios (no ORD footprints included) are compared with scenarios containing one or more ORDs, providing estimates of potential changes to adult mass, adult survival, and breeding success under alternative scenarios of ORD exposure.

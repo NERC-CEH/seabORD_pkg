@@ -16,127 +16,62 @@ knitr::opts_chunk$set(
 )
 ```
 
-Load the seabORD package
-
-```{r setup, warning = FALSE, message = FALSE}
-library(seabORD)
-library(ggplot2)
-library(magrittr) 
-```
-
-```{r}
-
-#use coastline
-uk_map <- seabORD::cef_coast_4326
-
-
-### theme definition
-sysfonts::font_add_google("Montserrat", "montserrat")  # Base and heading font
-sysfonts::font_add_google("JetBrains Mono", "jetbrains_mono")  # Code font
-showtext::showtext_auto()
-
-theme_bslib <- ggplot2::theme(
-  plot.background = ggplot2::element_rect(fill = "#fff", color = NA),       # Background color
-  panel.background = ggplot2::element_rect(fill = "#EAEFEC", color = NA),  # Panel background (secondary)
-  panel.grid.major = ggplot2::element_line(color = "#EAEFEC"),             # Major grid lines
-  panel.grid.minor = ggplot2::element_line(color = "#EAEFEC"),             # Minor grid lines
-  axis.text = ggplot2::element_text(color = "#292C2F", family = "montserrat"),  # Axis text (foreground and font)
-  axis.title = ggplot2::element_text(color = "#292C2F", family = "montserrat"), # Axis titles
-  plot.title = ggplot2::element_text(color = "#0483A4", family = "montserrat", size = 16, face = "bold", hjust = 0.5), # Title
-  legend.background = ggplot2::element_rect(fill = "#fff", color = NA),    # Legend background
-  legend.key = ggplot2::element_rect(fill = "#EAEFEC", color = NA),        # Legend key
-  legend.text = ggplot2::element_text(color = "#292C2F", family = "montserrat"), # Legend text
-  plot.caption = ggplot2::element_text(color = "#292C2F", family = "jetbrains_mono"),
-  axis.title.x = ggplot2::element_blank(),  # Remove x-axis label
-  axis.title.y = ggplot2::element_blank(),# Caption for code font
-)
-```
-
 # Output - reading and interpretation
 
 The main output of seabORD is a list, where the different elements relate to respective parts of the model e.g., wind farm effects, adult outputs, chick outputs etc.
 
-We shall start by reading in an example created from a similar (but not identical) run with the same species (kittiwake), colony (Isle of May), and wind farm set up (Neart na Gaoithe and Inch Cape).
-
-## Read in example output
+We shall start by reading in an example output (created from a similar (but not identical) run with the same species (kittiwake), colony (Isle of May), and wind farm set up (Neart na Gaoithe and Inch Cape)).
 
 ```{r}
-sbordout <- seabORD::example_scenario_output
-
-# str(sbordout) # check out the structure
-# names(sbordout)
+sbordout <- seabORD::get_example_output()
+names(sbordout)
 ```
 
-As you can see this is an extensive output with 16 elements to the list. The first five elements of the list are related to inputs ("switches", "Parameters", "ordPar", "modPar", "thisRun") and we include this information so that the runs will be reproducible and are transparent for anyone inspecting the results.
+This is an extensive output with 16 elements to the list. The first five elements of the list are related to inputs ("switches", "Parameters", "ordPar", "modPar", "thisRun") and we include this information so that the runs will be reproducible and are transparent for anyone inspecting the results.
 
 The following 11 outputs, aside from "BirdFlightMap" are all outputs relating to different components/entities in the model and each element typically has a \$data section where the actual data is contained and a \$metadata section which describes each of the columns in the output.
 
--   "output_f0" - Flight metrics relating to ORD interaction
+- "output_f0" - Flight metrics relating to ORD interaction
 
--   "output_c0" - Chick metrics e.g., number alive and mean body mass
+- "output_c0" - Chick metrics e.g., number alive and mean body mass
 
--   "output_a0" - Adult metrics e.g., survival and body mass
+- "output_a0" - Adult metrics e.g., survival and body mass
 
--   "output_y0" - Survival metrics relating to calc_pSurvival function which estimates over-winter survival from mass-survival relationships
+- "output_y0" - Survival metrics relating to calc_pSurvival function which estimates over-winter survival from mass-survival relationships
 
--   "BirdFlightMap" - a flight map of locations - note this is just for visual assessment
+- "BirdFlightMap" - a flight map of locations - note this is just for visual assessment
 
--   "output_i0"
+- "output_i0"
 
--   "output_i1"
+- "output_i1"
 
--   "output_i2"
+- "output_i2"
 
--   "output_i3"
+- "output_i3"
 
--   "output_i4"
+- "output_i4"
 
--   "output_i5"
+- "output_i5"
 
-## Plot BirdFlightMap
+## BirdFlightMap
 
-Let's plot the flight map location output just to see that the run has performed as intended
+Let's plot the flight map location output just to see that the run has performed as intended. From this plot we can see clearly the two ORD footprints, with a higher density of foraging location in the 5km displacement zone surrounding each ORD. Some birds have foraging inside the ORD footprints - these will have been indiviudals which were not assigned as displacement susceptible.
 
 ```{r}
-# View the birdfligthmap output which is saved to it:
-BirdFlightMap <- 
-    terra::rast(sbordout$BirdFlightMap) %>%
-  terra::project(terra::crs(uk_map))
-BirdFlightMap_df <- as.data.frame(BirdFlightMap, xy = TRUE)
-
-ggplot2::ggplot() + 
-  ggplot2:: geom_raster(data = BirdFlightMap_df, ggplot2::aes(x = x, y = y, fill = layer)) +
-  # Add the reprojected UK boundary
-  ggplot2::geom_sf(data = uk_map, fill = NA, color = "#D63333", size = 1.5) +
-  # Customize the plot
-  theme_bslib +  #palette theme
-    ggplot2::scale_fill_viridis_c(
-    na.value = "gray",  # Set the color for NA (i.e., for 0 values)
-    name = "BirdFlightMap", direction = -1) +
-  ggplot2::labs(fill = "BirdFlightMap locations",
-               title = "coasts (red) and BirdFlightMap")+
-  # Crop the map to the Firth of Forth and a bit of the North Sea
-  ggplot2::coord_sf(
-    xlim = c(-3.5, 0),  # Longitude range (adjust as needed)
-    ylim = c(55.25, 57.25)     # Latitude range (adjust as needed)
-  )
-  
+seabORD::plot_BirdFlightMap(
+  sbordout$BirdFlightMap
+)
 ```
-
-From this plot we can see clearly the two ORD footprints, with a higher density of foraging location in the 5km displacement zone surrounding each ORD. Some birds have foraging inside the ORD footprints - these will have been indiviudals which were not assigned as displacement susceptible.
 
 ## Adult output (output_a0)
 
+Read the adult output metadata and data.
+
 ```{r}
 # inspect adult metric descriptions 
-sbordout$output_a0$metadata
-
-# Isolate the adult output:
-adults <- sbordout$output_a0$data
-
-# Inspect the dataframe in a new page:
-#View(adults)
-
+dplyr::glimpse(sbordout$output_a0$metadata)
+#inspect the adult output
+dplyr::glimpse(head(sbordout$output_a0$data))
 ```
 
 You will see that there are 4 replicates of prey values here with respective rows for baseline ("Season\$base") and scenario ("Season\$scen") matched runs, giving a total of 8 rows.
@@ -144,67 +79,56 @@ You will see that there are 4 replicates of prey values here with respective row
 Conceivably, the average condition of adults across scenario runs at the end of the simulation (BM_adult.mn), will be lower than that for baseline runs. So let's plot that and have a look...
 
 ```{r}
-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=adults, aes(x=Season, y=BM_adult.mn)) +
-  ggplot2::theme_classic()
+seabORD::plot_adult_body_mass(
+  sbordout_output_adults = sbordout$output_a0
+  )
 ```
 
 ## Chick output (output_c0)
 
 ```{r}
 # inspect adult metric descriptions 
-sbordout$output_c0$metadata
+dplyr::glimpse(sbordout$output_c0$metadata)
 
-# Isolate the adult output:
-chicks <- sbordout$output_c0$data
-
-# Inspect the dataframe in a new page:
-#View(chicks)
-
+#inspect the chcik output
+dplyr::glimpse(head(sbordout$output_c0$data))
 ```
 
 Conceivably, the number of survivy chicks across scenario runs at the end of the simulation (N_alive_ch), will be lower than that for baseline runs...
 
 ```{r}
-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=chicks, aes(x=Season, y=N_alive_ch)) +
-  ggplot2::theme_classic()
+seabORD::plot_chick_survival(
+  sbordout_output_chicks = sbordout$output_c0
+  )
 ```
 
 ## Flight related output (output_f0)
 
 ```{r}
 # inspect adult metric descriptions 
-sbordout$output_f0$metadata
-
-# Isolate the adult output:
-flights <- sbordout$output_f0$data
-
-# Inspect the dataframe in a new page:
-#View(flights)
-
+dplyr::glimpse(sbordout$output_f0$metadata)
+# Isolate the flight related output:
+dplyr::glimpse(head(sbordout$output_f0$data))
 ```
 
-"Tot_basickm.mn" is the mean per replicate of how many km birds flew - which would conceivably be higher for scenario runs due to barrier effects increasing flight distance, so let's do another basic plot:
+"Tot_basickm.mn" is the mean per replicate of how many km birds flew - which would conceivably be higher for scenario runs due to barrier effects increasing flight distance, so let's do another basic plot
+
+and we can see that adults in the scenario run typically flew around 50km more on average over the simulation duration than birds with no wind farm interaction.
 
 ```{r}
-ggplot2::ggplot()+
-  ggplot2::geom_boxplot(data=flights, aes(x=Season, y=Tot_basickm.mn)) +
-  ggplot2::theme_classic()
-
-# and we can see that adults in the scenario run typically flew around 50km more on average over the simulation duration than birds with no wind farm interaction.
+seabORD::plot_flight_distance(sbordout_output_flight = sbordout$output_f0)
 ```
 
 ## Outputs relating to impacts (i0...5)
 
--   Metric: Additional Mortality 1-i1: TRUE means birds never directly impacted
+- Metric: Additional Mortality 1-i1: TRUE means birds never directly impacted
 
--   Metric: Additional Mortality 1-i2: TRUE means birds directly impacted in some way at least once
+- Metric: Additional Mortality 1-i2: TRUE means birds directly impacted in some way at least once
 
--   Metric: Additional Mortality 1-i3: TRUE means birds displaced at least once, never barriered
+- Metric: Additional Mortality 1-i3: TRUE means birds displaced at least once, never barriered
 
--   Metric: Additional Mortality 1-i4: TRUE means birds barriered at least once, never displaced
+- Metric: Additional Mortality 1-i4: TRUE means birds barriered at least once, never displaced
 
--   Metric: Additional Mortality 1-i5: TRUE means birds barriered and displaced at least once
+- Metric: Additional Mortality 1-i5: TRUE means birds barriered and displaced at least once
 
--   Metric: Additional Mortality 1-i6: All impacts grouped separately
+- Metric: Additional Mortality 1-i6: All impacts grouped separately

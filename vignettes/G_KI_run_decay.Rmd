@@ -16,42 +16,9 @@ knitr::opts_chunk$set(
 
 ```{r setup, warning = FALSE, message = FALSE  }
 library(seabORD)
-library(ggplot2)
 ```
 
-```{r, echo= FALSE}
-library(magrittr) #used for ggplotting but users won't need this
-```
-
-Before following this example, the model is assumed to be already calibrated. If not follow the article on calibration before running this example.
-
-```{r}
-
-#use coastline
-uk_map <- seabORD::cef_coast_4326
-
-
-### theme definition
-sysfonts::font_add_google("Montserrat", "montserrat")  # Base and heading font
-sysfonts::font_add_google("JetBrains Mono", "jetbrains_mono")  # Code font
-showtext::showtext_auto()
-
-theme_bslib <- ggplot2::theme(
-  plot.background = ggplot2::element_rect(fill = "#fff", color = NA),       # Background color
-  panel.background = ggplot2::element_rect(fill = "#EAEFEC", color = NA),  # Panel background (secondary)
-  panel.grid.major = ggplot2::element_line(color = "#EAEFEC"),             # Major grid lines
-  panel.grid.minor = ggplot2::element_line(color = "#EAEFEC"),             # Minor grid lines
-  axis.text = ggplot2::element_text(color = "#292C2F", family = "montserrat"),  # Axis text (foreground and font)
-  axis.title = ggplot2::element_text(color = "#292C2F", family = "montserrat"), # Axis titles
-  plot.title = ggplot2::element_text(color = "#0483A4", family = "montserrat", size = 16, face = "bold", hjust = 0.5), # Title
-  legend.background = ggplot2::element_rect(fill = "#fff", color = NA),    # Legend background
-  legend.key = ggplot2::element_rect(fill = "#EAEFEC", color = NA),        # Legend key
-  legend.text = ggplot2::element_text(color = "#292C2F", family = "montserrat"), # Legend text
-  plot.caption = ggplot2::element_text(color = "#292C2F", family = "jetbrains_mono"),
-  axis.title.x = ggplot2::element_blank(),  # Remove x-axis label
-  axis.title.y = ggplot2::element_blank(),# Caption for code font
-)
-```
+This example assumes that the model has already been calibrated. If not, follow the calibration article first and then return to this example.
 
 # Introduction & background
 
@@ -69,221 +36,206 @@ This script will import the example parameters sets and spatial data, which are 
 
 ### Parameter sets
 
-```{r}
-Par_example <- seabORD::example_lists_dd$Par
-str(Par_example) # view your list of main parameters - NOTE that $NScalefactor is now set to 1 meaning we are running with 100% of the populaution, which is customary for scenario runs. 
+#### Par
 
-# Create the ouput folder "output_seabORD_scenario" specifically for scenario outputs if it doesn't alreay exist
+NOTE: "NScalefactor" is **set to 1 meaning we are running with 100%** **of the population**, which is customary for scenario runs.
+
+```{r}
+Par_example <- seabORD::get_example_par(type = "dd")
+str(Par_example)
+```
+
+#### modPar
+
+```{r}
+modPar_example <- seabORD::get_example_modpar(type = "dd")
+str(modPar_example)
+```
+
+Create the output folder , for example "output_seabORD_scenario" and assign it
+
+```{r, eval=FALSE}
+# set the output location in ModPar 
+# This is just an example, you can place the output in any directory.
 if (!dir.exists("./output_seabORD_scenario")) {
   dir.create("./output_seabORD_scenario")
 }
+```
 
-modPar_example <- seabORD::example_lists_dd$modPar
-str(modPar_example) # We intend to run 5 replicates so need to change this in modPar
-modPar_example$Nreplicates <- 1
-
-# Lets check if this matches our prey values in Par_example
-if (modPar_example$Nreplicates == length(Par_example$Pmedian)) {
-  print("Nreplicates and number of prey inputs match - you may proceed")
-} else {
-  print("WARNING: Nreplicates and number of prey inputs DO NOT match - you may proceed, but will likely fail...")
-}
-
-# # change our prey values in Par_example before we continue:
-# Pmin <- 173  # min prey value from range determined in calibration 
-# Pmax <- 174  # max prey value from range determined in calibration
-# 
-# # the following code will create a sequence spanning the range given:
-# if (modPar_example$Nreplicates > 1){
-#   Par_example$Pmedian <- seq(from = Pmin, to = Pmax, by = ((Pmax-Pmin)/(modPar_example$Nreplicates-1)))
-# } else {
-#   Par_example$Pmedian <- Pmax
-# }
-# 
-# # now check again:
-# Par_example$Pmedian  # good to go!
-
-modPar_example$outputdir  #this does not align with the directory created above 
-# so let's change it:
+```{r}
 modPar_example$outputdir <- "output_seabORD_scenario"
+```
 
-ordPar_example <-  seabORD::example_lists_dd$ordPar
+We intend to run 5 replicates so need to change this in modPar.
+
+```{r}
+modPar_example$Nreplicates <- 1
+```
+
+#### Include the calibration in Par
+
+NOTE: Run this test! here the replicates are specified - this must align with the number of prey values listed in "Par_example\$Pmedian"
+
+```{r}
+seabORD::check_calibration_inputs(
+  Par = Par_example,
+  modPar = modPar_example
+)
+```
+
+Given calibarted values. Modify Par so that it reflects. You can use the built in function to do so.
+
+Check the pre-set value, and change it based on the calibration values.
+
+```{r}
+str(Par_example$Pmedian)
+```
+
+Change it:
+
+```{r}
+# min prey value from range determined in calibration
+Pmin <- 173  
+# max prey value from range determined in calibration
+Pmax <- 174
+
+Par_example <- seabORD::create_prey_sequence_in_par(
+  Par = Par_example,
+  modPar = modPar_example,
+  Pmin = Pmin,
+  Pmax = Pmax
+)
+
+
+```
+
+```{r}
+str(Par_example$Pmedian) #should be good to go!
+```
+
+#### ordPar
+
+```{r}
+ordPar_example <-  seabORD::get_example_ordPar(type = "dd")
 str(ordPar_example) # Including wind farms Nearth na Goithe and Inch Cape
+```
 
-switches_example <- seabORD::example_lists_dd$switches
-switches_example$savebirdflightmap <- TRUE # turn this switch on if you want to see an example of the birdflightmap output
+#### Switches
+
+Turn on the switch "savebirdflightmap", to see an example of the birdflightmap output. Turn on "saverds" to save the outputs as rds.
+
+```{r}
+switches_example <- seabORD::get_example_switches(type = "dd")
+switches_example$savebirdflightmap <- TRUE
 switches_example$saverds <- TRUE 
+
+str(switches_example)
 ```
 
 ### Assorted spatial inputs
 
-Now load in all the spatial inputs. For more information please see the "Example kittiwake: step 1 - seabORD inputs" article.
+Now load in all the spatial inputs.
+
+#### seamask
 
 ```{r}
-example_data_seamask <- seabORD::seamask_3035_example
-
-#make a raster with the right dimension/proj/extents etc.
-seamask_example <- 
-  raster::raster(
-    nrows = example_data_seamask$metadata[["n_rows"]],
-    ncols = example_data_seamask$metadata[["n_cols"]],
-    xmn = example_data_seamask$metadata[["x_min"]],
-    xmx = example_data_seamask$metadata[["x_max"]],
-    ymn = example_data_seamask$metadata[["y_min"]],
-    ymx = example_data_seamask$metadata[["y_max"]],
-    crs = example_data_seamask$metadata[["crs"]]
-)
-
-#fill it with the data available
-seamask_example <- raster::setValues(seamask_example, #the raster
-                                     example_data_seamask$matrix) #the values
-#Set the name of the layer
-names(seamask_example) <- "seamask_3035"
-
-
-spadat1_example <- 
-  tibble::as_tibble( #as a tibble
-      dplyr::filter(seabORD::spacoordinates, #the full dataset
-                    SITECODE == "UK9002491") #the isle of interest
-  )
-
-spadat2_example <- 
-  tibble::as_tibble( #as a tibble
-    dplyr::filter(seabORD::spalist, #the whole list
-                  SITE_CODE == "UK9002491") #the site of interest
-    )
-
-
-# Overwite with the exact colony location of Whinnyfold used when creating map in step 1.1
-spadat1_example$Longitude <- -1.85849
-spadat1_example$Latitude <-  57.388807
-spadat1_example$flt.LONG <- -1.85849
-spadat1_example$flt.LAT <-  57.388807
-
-
-spdat_example <- 
-   #tibble::as_tibble( #as a tibble
-     dplyr::filter(seabORD::energeticsandpreydata,
-                   Code == "KI")
-    # )
-
-
-example_data_brd_dd <- seabORD::BrdData_example_dd
-#make the raster with the right dimensions..
-BrdData_example_dd <- 
-  raster::raster(
-  nrows = example_data_brd_dd$metadata[["n_rows"]],
-  ncols = example_data_brd_dd$metadata[["n_cols"]],
-  xmn = example_data_brd_dd$metadata[["x_min"]],
-  xmx = example_data_brd_dd$metadata[["x_max"]],
-  ymn = example_data_brd_dd$metadata[["y_min"]],
-  ymx = example_data_brd_dd$metadata[["y_max"]],
-  crs = example_data_brd_dd$metadata[["crs"]]
-)
-#fill it with the data
-BrdData_example_dd <- raster::setValues(BrdData_example_dd,
-                                     example_data_brd_dd$matrix)
-#Set the name of the layer
-names(BrdData_example_dd) <- "Whinnyfold"
-
-
-example_data_frg_dd <- seabORD::frgcompdata_example_dd
-#make the raster with the right dimensions..
-FrgCompData_example_dd <-
-  raster::raster(
-  nrows = example_data_frg_dd$metadata[["n_rows"]],
-  ncols = example_data_frg_dd$metadata[["n_cols"]],
-  xmn = example_data_frg_dd$metadata[["x_min"]],
-  xmx = example_data_frg_dd$metadata[["x_max"]],
-  ymn = example_data_frg_dd$metadata[["y_min"]],
-  ymx = example_data_frg_dd$metadata[["y_max"]],
-  crs = example_data_frg_dd$metadata[["crs"]]
-)
-#fill it with the data
-FrgCompData_example_dd <- raster::setValues(FrgCompData_example_dd,
-                                         example_data_frg_dd$matrix)
-#Set the name of the layer
-names(FrgCompData_example_dd) <- "Whinnyfold"
-
-
-UK9002491_bysea <- seabORD::UK9002491_bysea_3035
-#make the raster with the right dimensions..
-fltdist_base_example <-
-  raster::raster(
-  nrows = UK9002491_bysea$metadata[["n_rows"]],
-  ncols = UK9002491_bysea$metadata[["n_cols"]],
-  xmn = UK9002491_bysea$metadata[["x_min"]],
-  xmx = UK9002491_bysea$metadata[["x_max"]],
-  ymn = UK9002491_bysea$metadata[["y_min"]],
-  ymx = UK9002491_bysea$metadata[["y_max"]],
-  crs = UK9002491_bysea$metadata[["crs"]]
-)
-#fill it with the data
-fltdist_base_example <- raster::setValues(fltdist_base_example,
-                                          UK9002491_bysea$matrix)
-#as a raster brick. #WHY? only one layer
-fltdist_base_example <- raster::brick(fltdist_base_example)
-#Set the name of the layer
-names(fltdist_base_example) <- "UK9002491"
-
-
-FlightGridcorrection <- seabORD::FlightGridcorrection_3035
-
-ORDpoly_example <- seabORD::ORDpoly_example_wfold # commented out as not required for calibration runs
+seamask_example <- seabORD::get_example_seamask()
 ```
 
-You can plot the ORD footprints for peace of mind:
+#### spadat1
 
 ```{r}
-ORDpoly_example_repr <- ORDpoly_example %>%
-  sf::st_transform(sf::st_crs(uk_map))
+spadat1_example <- seabORD::get_example_spadat1(type = "dd")
 
-ggplot2::ggplot() +
-  # Plot the reprojected UK map in red
-  ggplot2::geom_sf(data =  uk_map, fill = NA, color = "#D63333", size = 1.5) +
-  # Add the ORDpoly_example shapes with a different color
-  ggplot2::geom_sf(data = ORDpoly_example_repr, fill = "#0483A4", color = "#0483A4", size = 1) +
-   ggplot2::coord_sf(
-    xlim = c(-3, 0.5),  # Longitude range (adjust as needed)
-    ylim = c(56.25, 58.25)     # Latitude range (adjust as needed)
-  ) +
-  theme_bslib +  #palette theme
-  ggplot2::labs(title = "coasts (red) and ORDpoly (blue)")
+# Overwite with the exact colony location of Whinnyfold used when creating map in step 1.1
+whinnyfold_lon <- -1.85849
+whinnyfold_lat <- 57.388807
 
+spadat1_example$Longitude <- whinnyfold_lon
+spadat1_example$Latitude  <- whinnyfold_lat
+spadat1_example$flt.LONG  <- whinnyfold_lon
+spadat1_example$flt.LAT   <- whinnyfold_lat
+```
 
+#### spadat2
 
+```{r}
+spadat2_example <- seabORD::get_example_spadat2(type = "dd")
+```
+
+#### spdat
+
+```{r}
+spdat_example  <- seabORD::get_example_spdat()
+```
+
+#### BrdData
+
+```{r}
+BrdData_example_dd <- seabORD::get_example_brddata(type = "dd")
+```
+
+#### FrgCompData
+
+```{r}
+FrgCompData_example_dd <- seabORD::get_example_frgcompdata(type = "dd")
+```
+
+#### fltdist_base
+
+```{r}
+fltdist_base_example <- seabORD::get_example_fltdist_base(type = "dd")
+```
+
+#### FlightGridcorrection
+
+```{r}
+FlightGridcorrection <- get_example_fgc_3035()
+```
+
+#### ORDpoly
+
+```{r}
+ORDpoly_example <- seabORD::get_example_ORDpoly(type = "dd")
+```
+
+You can plot the ORD footprints:
+
+```{r}
+seabORD::plot_ORDpoly(
+    ORDpoly = ORDpoly_example
+)
 ```
 
 # Running seabORD
 
-Now that all the inputs are ready we can run the model using:
-
-```{r}
-
-# SeabORDoutput <- seabord(Par = Par_example,
-#                          ordPar = ordPar_example,
-#                          modPar = modPar_example,
-#                          switches = switches_example,
-#                          seamask = seamask_example,
-#                          spadat1 = spadat1_example,
-#                          spadat2 = spadat2_example,
-#                          spdat = spdat_example,
-#                          BrdData = BrdData_example,
-#                          FrgCompData = FrgCompData_example,
-#                          fltdist_base = fltdist_base_example,
-#                          FlightGridcorrection = FlightGridcorrection,
-#                          ORDpoly = ORDpoly_example)
-# 
-# # Save SeabORDsummary:
-#  if (switches_example$saverds) {
-#     saveRDS("SeabORDoutput", file.path(modPar_example$outputdir, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar_example$reference,"_", Sys.Date()))),".rds")))
-# }
-```
-
-SeabORD runs including wind farms and full populations can take a while to run - even with a relatively small population of \~ 3,000 pairs.
+Now that all the inputs are ready we can run the model using. SeabORD runs including wind farms and full populations can take a while to run - even with a relatively small population of \~ 3,000 pairs.
 
 The output will be saved in in your output directory set up in modPar.
 
 To learn more about the main functions behind seabORD you can read the article on the main functions
 
 To see how you can read in and plot the results you can read the article "Example kittiwake: step 4 - interpreting the outputs" where we have an example output for you to play with.
+
+```{r,  eval = FALSE}
+SeabORDoutput <- seabord(Par = Par_example,
+                         ordPar = ordPar_example,
+                         modPar = modPar_example,
+                         switches = switches_example,
+                         seamask = seamask_example,
+                         spadat1 = spadat1_example,
+                         spadat2 = spadat2_example,
+                         spdat = spdat_example,
+                         BrdData = BrdData_example,
+                         FrgCompData = FrgCompData_example,
+                         fltdist_base = fltdist_base_example,
+                         FlightGridcorrection = FlightGridcorrection,
+                         ORDpoly = ORDpoly_example)
+
+# Save SeabORDsummary:
+ if (switches_example$saverds) {
+    saveRDS("SeabORDoutput",
+            file.path(modPar_example$outputdir,
+                      paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar_example$reference,"_", Sys.Date()))),".rds")))
+}
+```

@@ -31,34 +31,6 @@ reference:
   - set_initialbirdtype
   - set_initialchickstate
   - set_initialbirdstate
-- title: "Datasets available"
-  contents:
-  - example_1_lists
-  - example_lists_calibration
-  - example_scenario_output
-  - specieslist
-  - spalist
-  - CEF_colsize_table
-  - energeticsandpreydata
-  - BrdData_example
-  - frgcompdata_example
-  - cef_coast_4326
-  - cef_coast_3035
-  - seamask_3035_example
-  - spacoordinates
-  - UK9004171_bysea_3035
-  - FlightGridcorrection_3035
-  - offshorerenewabledevelopmentnames
-  - ORDpoly_example
-  - ORDpoly_example_wfold
-  - example_calibration_output
-  - DBS_map_example
-  - DBS_withORDs_example
-  - example_lists_calibration_dd
-  - frgcompdata_example_dd
-  - BrdData_example_dd
-  - UK9002491_bysea_3035
-  - example_lists_dd
 - title: "seabORD distance decay"
   contents:
   - calc_birddensmap_dd_pinfr
@@ -67,13 +39,30 @@ reference:
   - calc_dd_pinfr_from_phalf
   - calc_dist_restricted
   - voptimise
+- title: "Example data"
+  contents:
+  - starts_with("get_example")
+  - get_spdat
+- title: "Preparing the input"
+  contents:
+  - create_colony_point
+  - create_ORD_buffer
+  - create_prey_sequence_in_par
+  - create_crop_extent_colony
+  - calculate_pc_in_ORD_buffer
+  - summarise_ORD_impact
+  - check_calibration_inputs
+  - find_calibration_range
+- title: "Plotting input/output"
+  contents:
+  - starts_with("plot")
 articles:
   - title: "Getting Started"
     navbar: Getting Started
-    contents: [A_workshop, B_explanation_model, J_species_default,  I_main_functions]
+    contents: [A_installing_seabord, B_explanation_model, C_KI_inputs, J_main_functions]
   - title: "Kittiwake example case"
     navbar: Kittiwake example case
-    contents: [C_KI_inputs,D_DistanceDecayMap, E_KI_calib_decay, F_exampleKI_calib,G_KI_run_decay, H_exampleKI_run, I_exampleKI_output]
+    contents: [D_DistanceDecayMap, E_KI_calib_decay, F_exampleKI_calib,G_KI_run_decay, H_exampleKI_run, I_exampleKI_output]
   - title: "Help"
     navbar: Help
     contents: [K_FAQs]

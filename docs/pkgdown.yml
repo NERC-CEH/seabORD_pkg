@@ -1,8 +1,8 @@
 pandoc: '3.10'
-pkgdown: 2.2.1
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  A_workshop: A_workshop.html
+  A_installing_seabord: A_installing_seabord.html
   B_explanation_model: B_explanation_model.html
   C_KI_inputs: C_KI_inputs.html
   D_DistanceDecayMap: D_DistanceDecayMap.html
@@ -11,7 +11,7 @@ articles:
   G_KI_run_decay: G_KI_run_decay.html
   H_exampleKI_run: H_exampleKI_run.html
   I_exampleKI_output: I_exampleKI_output.html
-  I_main_functions: I_main_functions.html
-  J_species_default: J_species_default.html
+  J_main_functions: J_main_functions.html
   K_FAQs: K_FAQs.html
-last_built: 2026-10-15T14:21Z
+last_built: 2026-10-20T11:29Z
+

@@ -30,4 +30,4 @@ ORDpoly_example
 NEED EXPL
 same projection as seamask
 }
-\keyword{datasets}
+\keyword{internal}
