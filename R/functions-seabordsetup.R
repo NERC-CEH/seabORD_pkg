@@ -34,15 +34,15 @@
 #'
 #' @examples
 #'   set_seedvalues(2327, 10, 5)
-#'   
+#'
 #' @export
-#' 
+#'
 
 set_seedvalues <- function(initialseed, nstreams, Nreplicates) {
-  
+
   # Initialise the main random number sequence with user-supplied value
   set.seed(initialseed)
-  
+
   # Number of different random streams we use in the model
   #  1. Master seed for replicate
   #  2. set_initialbirdtype
@@ -54,7 +54,7 @@ set_seedvalues <- function(initialseed, nstreams, Nreplicates) {
   #  8. Median prey values
   #  9. Collision risk
   # 10.
-  
+
   # Fill a tibble with integer seed values
   seedmat <- matrix(0, nstreams, Nreplicates + 1)
   seedmat[, 1] <- sample.int(10000, size = nstreams, replace = FALSE)
@@ -65,49 +65,9 @@ set_seedvalues <- function(initialseed, nstreams, Nreplicates) {
   # Convert to a tibble and name the columns
   seedmat <- tidyr::as_tibble(seedmat, .name_repair = "minimal")
   names(seedmat) <- c("seed", paste0("run", 1:Nreplicates))
-  
+
   # Use seedmat[seedstream, paste0("run",simrun), drop=TRUE] to access a seed value
   seedmat
-}
-
-################################################################################
-#' @title Set the median prey value across the region
-#'
-#' @description SeabORD uses either uniformly distributed or mapped, variable
-#'   prey levels. If uniform, the same value for prey density is used for each
-#'   modelled cell in the region. If mapped, there is a median value used to
-#'   scale the prey availability. This function generates the median value for
-#'   each pair of seasonal runs in the simulation, between two user-defined
-#'   values.
-#'
-#' @param seed The seed used to ensure results are reproducible (numeric).
-#' @param PmaxLim The minimum and maximum allowed prey values (numeric).
-#' @param Nreplicates The number of pairs of seasonal runs in the simulation (numeric).
-#' @return The median prey values to use in each pair of simulations.
-#' 
-#' @importFrom stats runif
-#'
-#' @examples
-#' set_medianprey(3427, c(150, 350), 20)
-#' 
-#' @export
-#' 
-
-set_medianprey <- function(seed, PmaxLim, Nreplicates) {
-  
-  # Reset the random number generator to ensure repeatability
-  set.seed(seed)
-  
-  Pmedian <- replicate(Nreplicates, 0)
-  Prange <- diff(PmaxLim)
-  for (i in 1:Nreplicates) {
-    v1 <- PmaxLim[1] + (i - 1) * Prange / Nreplicates
-    v2 <- PmaxLim[1] + i * Prange / Nreplicates
-    Pmedian[i] <- round(v1 + (v2 - v1) * runif(1))
-  }
-  
-  # The median prey values to use for each of the season pairs in the run
-  Pmedian
 }
 
 ################################################################################
@@ -120,7 +80,7 @@ set_medianprey <- function(seed, PmaxLim, Nreplicates) {
 #'
 #' @param seed The seed used to ensure results are reproducible.
 #' @param Colonies A tibble containing information about the colonies of
-#'   interest in this simulation. Requires "code" with the colony codes and 
+#'   interest in this simulation. Requires "code" with the colony codes and
 #'     "ObsNpairs"
 #' @param thisSpecies The two-letter code identifying the species of interest
 #'   (only works with one species in v2.0.0).
@@ -131,53 +91,53 @@ set_medianprey <- function(seed, PmaxLim, Nreplicates) {
 #'   susceptible.
 #' @return A list containing two tibbles: the tidy data and the metadata for
 #' documentation.
-#' 
+#'
 #' @importFrom tibble tibble
 #'
 #' @examples
 #' set_initialbirdtype(231, tibble::tibble(code="UK9004171", ObsNpairs=100), "Kw", 0.3, 1.0)
-#' 
+#'
 #' @export
-#' 
+#'
 
 set_initialbirdtype <- function(seed, Colonies, thisSpecies, Pwfde, Pwfbe) {
-  
+
   # Reset the random number generator to ensure repeatability
   set.seed(seed)
-  
+
   # Total number of individual birds in this run
   Npairs <- Colonies %>% dplyr::pull("ObsNpairs")
   N <- 2 * sum(Npairs)
-  
+
   # Each bird has a unique ID and a pair ID
   BirdID <- 1:N
   Species <- rep(thisSpecies, N)
   PairID <- rep(1:sum(Npairs), each = 2)
-  
+
   # Assign male or female (may be used in future release)
   MF <- rep(c("M", "F"), sum(Npairs))
-  
+
   # Colony assignment
   colony <- rep(Colonies$code, times = 2 * Npairs)
-  
+
   # ORD susceptibility
   # WFDE (wind farm displacement effect) 1=avoid, 0=ignore
   # WFBE (wind farm barrier effect) 1=avoid, 0=ignore
-  
+
   # Randomly assign the appropriate Wind Farm Displacement Effect (WFDE)
   # where a WFDE of 0 means the bird ignores the WF
   wfde <- rbinom(N, 1, Pwfde)
   N1 <- sum(wfde)
-  
+
   # Randomly assign the appropriate Wind Farm Barrier Effect (WFBE) to birds
   # that are displacement-susceptible, where a WFBE of 0 means the bird ignores the WF
   wfbe <- rep(0, N)
   wfbe[wfde == 0] <- 0
   wfbe[wfde == 1] <- rbinom(N1, 1, Pwfbe)
-  
+
   # Create the tibble
   BirdType <- tibble::tibble(BirdID, Species, colony, PairID, MF, wfde, wfbe)
-  
+
   # Create the metadata tibble for the documentation
   BirdTypeTable <- tidyr::tribble(
     ~VarName, ~VarDescription, ~VarUnits,
@@ -189,7 +149,7 @@ set_initialbirdtype <- function(seed, Colonies, thisSpecies, Pwfde, Pwfbe) {
     "wfde", "A flag, 0/1, to indicate if this bird is susceptible to displacement", "",
     "wfbe", "A flag, 0/1, to indicate if this bird is susceptible to barrier effects", ""
   )
-  
+
   # Return a list containing the human-friendly and the code-friendly tibbles
   list("data" = BirdType, "metadata" = BirdTypeTable)
 }
@@ -211,21 +171,21 @@ set_initialbirdtype <- function(seed, Colonies, thisSpecies, Pwfde, Pwfbe) {
 #' @param assim_eff Assimilation efficiency (numeric).
 #' @return A list containing a tibble holding the individual bird states at time
 #'   t0 and a tibble with metadata for the documentation.
-#'   
+#'
 #' @importFrom stats rnorm
 #'
 #' @examples
 #' set_initialbirdstate(123, 10, 24, 372.7, 33.6, 802, 196, 0.74)
-#' 
+#'
 #' @export
-#' 
+#'
 
 set_initialbirdstate <- function(seed, N, tstep, BM_adult_mn, BM_adult_sd,
                                  adult_DEE_mn, adult_DEE_sd, assim_eff) {
-  
+
   # Reset the random number generator to ensure repeatability
   set.seed(seed)
-  
+
   BirdID <- 1:N
   BM_adult_t0 <- rnorm(N, BM_adult_mn, BM_adult_sd)
   BM_adult <- BM_adult_t0
@@ -236,13 +196,13 @@ set_initialbirdstate <- function(seed, N, tstep, BM_adult_mn, BM_adult_sd,
   season_stage <- rep(0, N)
   Ereq_adult <- (rnorm(N, adult_DEE_mn, adult_DEE_sd) * (tstep / 24)) / assim_eff
   CoD <- rep("none", N)
-  
+
   # Create the tibble for the code
   BirdState <- tibble::tibble(
     BirdID, BM_adult_t0, BM_adult, BM_condition, is_alive, season_stage,
     is_chick_alive, feeding_mode, Ereq_adult, CoD
   )
-  
+
   # Create the metadata tibble for the documentation
   BirdStateTable <- tidyr::tribble(
     ~VarName, ~VarDescription, ~VarUnits,
@@ -257,7 +217,7 @@ set_initialbirdstate <- function(seed, N, tstep, BM_adult_mn, BM_adult_sd,
     "Ereq_adult", "Energy required t+1 based on expenditure at time t", "kJ",
     "CoD", "Cause of death", ""
   )
-  
+
   # Return a list containing the human-friendly and the code-friendly tibbles
   list("data" = BirdState, "metadata" = BirdStateTable)
 }
@@ -280,31 +240,31 @@ set_initialbirdstate <- function(seed, N, tstep, BM_adult_mn, BM_adult_sd,
 #'   states at time t0 and the metadata for the documentation.
 #'
 #' @importFrom stats rnorm
-#' 
+#'
 #' @examples
 #' set_initialchickstate(123, 10, 24.0, 36.0, 2.2, 525.7, 0.74)
-#' 
+#'
 #' @export
-#' 
+#'
 
 set_initialchickstate <- function(seed, N, tstep, BM_chick_mn, BM_chick_sd, chick_DER, assim_eff) {
-  
+
   # Reset the random number generator to ensure repeatability
   set.seed(seed)
-  
+
   # Number of chicks (one per pair of adults)
   Nc <- N / 2
-  
+
   PairID <- 1:Nc
   BM_chick <- rnorm(Nc, BM_chick_mn, BM_chick_sd)
   BM_condition <- BM_chick / BM_chick_mn
   is_chick_alive <- rep(1, Nc)
   Ereq_chick <- (rep(chick_DER, Nc) * (tstep / 24)) / assim_eff
   CoD <- rep("none", Nc)
-  
+
   # Create the tibble for the code
   ChickState <- tibble::tibble(PairID, BM_chick, BM_condition, is_chick_alive, CoD, Ereq_chick)
-  
+
   # Create the metadata tibble for the documentation
   ChickStateTable <- tidyr::tribble(
     ~VarName, ~VarDescription, ~VarUnits,
@@ -315,7 +275,7 @@ set_initialchickstate <- function(seed, N, tstep, BM_chick_mn, BM_chick_sd, chic
     "CoD", "Cause of death", "",
     "Ereq_chick", "Energy required at time t", "kJ"
   )
-  
+
   # Return a list containing the human-friendly and the code-friendly tibbles
   list("data" = ChickState, "metadata" = ChickStateTable)
 }

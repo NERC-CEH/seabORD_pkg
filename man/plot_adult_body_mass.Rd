@@ -10,19 +10,53 @@ plot_adult_body_mass(
 )
 }
 \arguments{
-\item{sbordout_output_adults}{}
+\item{sbordout_output_adults}{A seabORD adult-output object containing a
+\code{data} component. The data must include the columns \code{Season} and
+\code{BM_adult.mn}, such as \code{sbordout$output_a0}.}
 
-\item{title}{Character string giving the plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Adult body mass by season"}.}
 }
 \value{
-A \code{ggplot} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distribution of mean adult body
+mass within each season.
 }
 \description{
-Creates a boxplot of adult body mass grouped by season.
+Creates a boxplot comparing mean adult body mass between modelled seasons.
+}
+\details{
+Each boxplot summarises \code{BM_adult.mn} across simulation replicates for one
+modelled season. This allows the baseline and scenario distributions of
+adult body mass to be compared.
 }
 \examples{
+\dontrun{
+sbordout <- get_example_output()
+
 plot_adult_body_mass(
-  adults = adults
+  sbordout_output_adults = sbordout$output_a0
 )
+}
 
 }
+\seealso{
+\code{\link[=plot_chick_survival]{plot_chick_survival()}} for plotting chick survival and
+\code{\link[=plot_flight_distance]{plot_flight_distance()}} for plotting mean flight distance.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

@@ -76,6 +76,9 @@
     <loc>/reference/calc_birddensmap_dd_pinhalf.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_calibration_range.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_chickcare.html</loc>
   </url>
   <url>
@@ -92,6 +95,9 @@
   </url>
   <url>
     <loc>/reference/calc_othermortality.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_pc_in_ORD_buffer.html</loc>
   </url>
   <url>
     <loc>/reference/calc_pSurvival.html</loc>
@@ -286,6 +292,9 @@
     <loc>/reference/seamask_3035_example.html</loc>
   </url>
   <url>
+    <loc>/reference/set_colony_point.html</loc>
+  </url>
+  <url>
     <loc>/reference/set_initialbirdstate.html</loc>
   </url>
   <url>
@@ -296,6 +305,12 @@
   </url>
   <url>
     <loc>/reference/set_medianprey.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_ORD_buffer.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_prey_sequence_in_par.html</loc>
   </url>
   <url>
     <loc>/reference/set_seedvalues.html</loc>

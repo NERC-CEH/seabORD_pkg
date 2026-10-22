@@ -2,40 +2,63 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_ORDpoly}
 \alias{plot_ORDpoly}
-\title{Plot an ORD polygon}
+\title{Plot offshore renewable development polygons}
 \usage{
-plot_ORDpoly(ORDpoly, title = "coasts (red) and ORDpoly (blue)")
+plot_ORDpoly(ORDpoly, title = "Coastline and ORD footprints")
 }
 \arguments{
-\item{ORDpoly}{An \code{sf} polygon object containing the ORD area to be
-plotted.}
+\item{ORDpoly}{An \code{sf} polygon object containing one or more offshore
+renewable development footprints, such as the object returned by
+\code{\link[=get_example_ORDpoly]{get_example_ORDpoly()}}.}
 
-\item{title}{Character string giving the plot title.
-Defaults to \code{"coasts (red) and ORDpoly (blue)"}.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and ORD footprints"}.}
 }
 \value{
-A \code{ggplot} object showing the ORD polygon together with coastlines.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the offshore renewable development
+footprints and coastline.
 }
 \description{
-Creates a map of an ORD polygon and overlays coastlines for
-geographical context.
+Creates a map of offshore renewable development polygons and overlays
+coastlines for geographical context.
 }
 \details{
-The input polygon is reprojected to match the coordinate reference
-system of the built-in coastline dataset (\code{cef_coast_4326}) before
-plotting.
+The plotting extent is calculated by transforming the ORD polygons to
+EPSG:3035, applying a 50-km buffer around their combined bounding box, and
+transforming the resulting extent to the coordinate reference system of
+the coastline data.
 
-The coastline is displayed in red and the ORD polygon is displayed in
-blue.
+Coastlines are displayed in red and ORD footprints are displayed in blue.
 }
 \examples{
-# Load example ORD polygon
-ORDpoly <- ORDpoly_example
-
-# Create and display the map
+# Load and plot the standard example ORD polygons
+ORDpoly <- get_example_ORDpoly()
 plot_ORDpoly(ORDpoly)
+
+# Load and plot the density-dependence example
+ORDpoly_dd <- get_example_ORDpoly("dd")
+plot_ORDpoly(ORDpoly_dd)
 
 }
 \seealso{
-\link{ORDpoly_example} for the example ORD polygons.
+\code{\link[=get_example_ORDpoly]{get_example_ORDpoly()}} for loading example ORD polygons and
+\code{\link[=plot_DD_map_with_ORDs]{plot_DD_map_with_ORDs()}} for plotting ORD footprints over a
+distance-decay surface.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

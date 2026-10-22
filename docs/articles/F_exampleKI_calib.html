@@ -303,13 +303,7 @@ also use the example output.</p>
 <span>                         FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example</span>,</span>
 <span>                         fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
 <span>                         FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection</span>,</span>
-<span>                         ORDpoly <span class="op">=</span> <span class="va">ORDpoly_example</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Save SeabORDsummary</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="va">switches_example</span><span class="op">$</span><span class="va">saverds</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">SeabORDoutput</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">$</span><span class="va">outputdir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sb_out_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">$</span><span class="va">reference</span>,<span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,<span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<span>                         ORDpoly <span class="op">=</span> <span class="va">ORDpoly_example</span><span class="op">)</span></span></code></pre></div>
 <p>Load example calibration output (used throughout this vignette)</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sbordout</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_output.html">get_example_output</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span></code></pre></div>
@@ -367,7 +361,7 @@ runs going forward.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Identify prey values that simultaneously satisfy</span></span>
 <span><span class="co"># the adult mass loss and productivity constraints</span></span>
-<span><span class="va">calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/find_calibration_range.html">find_calibration_range</a></span><span class="op">(</span></span>
+<span><span class="va">calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_calibration_range.html">calc_calibration_range</a></span><span class="op">(</span></span>
 <span>  <span class="va">sbordout</span>,</span>
 <span>  masslower <span class="op">=</span> <span class="fl">0.09</span>,</span>
 <span>  massupper <span class="op">=</span> <span class="fl">0.11</span>,</span>

@@ -7,19 +7,54 @@
 plot_chick_survival(sbordout_output_chicks, title = "Chicks alive by season")
 }
 \arguments{
-\item{sbordout_output_chicks}{}
+\item{sbordout_output_chicks}{A seabORD chick-output object containing a
+\code{data} component. The data must include the columns \code{Season} and
+\code{N_alive_ch}, such as \code{sbordout$output_c0}.}
 
-\item{title}{Character string giving the plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Chicks alive by season"}.}
 }
 \value{
-A \code{ggplot} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distribution of the number of
+chicks alive within each season.
 }
 \description{
-Creates a boxplot of the number of chicks alive grouped by season.
+Creates a boxplot comparing the number of chicks alive between modelled
+seasons.
+}
+\details{
+Each boxplot summarises \code{N_alive_ch} across simulation replicates for one
+modelled season. This allows chick survival in the baseline and scenario
+seasons to be compared.
 }
 \examples{
+\dontrun{
+sbordout <- get_example_output()
+
 plot_chick_survival(
-  chicks = chicks
+  sbordout_output_chicks = sbordout$output_c0
 )
+}
 
 }
+\seealso{
+\code{\link[=plot_adult_body_mass]{plot_adult_body_mass()}} for plotting adult body mass and
+\code{\link[=plot_flight_distance]{plot_flight_distance()}} for plotting mean flight distance.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

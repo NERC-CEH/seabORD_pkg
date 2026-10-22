@@ -2,24 +2,65 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_modpar}
 \alias{get_example_modpar}
-\title{Load example model parameters}
+\title{Load example model-control parameters}
 \usage{
 get_example_modpar(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Standard scenario example.
+\item \code{"dd"}: Density-dependence scenario example.
+\item \code{"cal"}: Standard calibration example.
+\item \code{"cal_dd"}: Density-dependence calibration example.
+}}
+}
 \value{
-A list containing the example model parameters.
+A named list containing example model-control parameters for use with
+\code{\link[=seabord]{seabord()}}.
 }
 \description{
-Retrieves the example model parameter list (\code{modPar}) used throughout
-the package examples and vignettes. This object contains the model
-configuration settings required to run a seabORD simulation.
+Retrieves an example \code{modPar} list containing model-control, replication,
+computing-environment, and output settings for a seabORD analysis.
+}
+\details{
+The returned \code{modPar} object contains settings such as the number of
+simulation replicates, random-number seed, run reference, output directory,
+and parallel-processing configuration.
+
+See the package input vignette for a description of the input objects
+required by \code{\link[=seabord]{seabord()}}:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-\dontrun{
-modPar <- get_example_par()
+# Load model parameters for the standard scenario example
+modPar <- get_example_modpar()
 
-# View parameter names
+# Load model parameters for the calibration example
+modPar_cal <- get_example_modpar("cal")
+
+# Inspect the available settings
 names(modPar)
-}
 
 }
+\seealso{
+\code{\link[=get_example_par]{get_example_par()}}, \code{\link[=get_example_ordPar]{get_example_ordPar()}},
+\code{\link[=get_example_switches]{get_example_switches()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

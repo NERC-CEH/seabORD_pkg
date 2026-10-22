@@ -2,23 +2,52 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_fgc_3035}
 \alias{get_example_fgc_3035}
-\title{Load example flight grid correction raster}
+\title{Load the example flight-grid correction object}
 \usage{
 get_example_fgc_3035()
 }
 \value{
-A \code{TransitionLayer} containing example flight grid correction values.
-}
-\description{
-Retrieves the example flight grid correction TransitionLayer
-(\code{FlightGridcorrection_3035}) supplied with the package. This TransitionLayer is
-used to correct flight distances by accounting for the difference
-between straight-line movement and movement across the model grid.
-}
-\details{
-The TransitionLayer is provided in the ETRS89 / LAEA Europe projection
+A \code{TransitionLayer} containing the example flight-grid correction values in
+the ETRS89-extended / LAEA Europe coordinate reference system
 (EPSG:3035).
 }
-\examples{
-fgc <- get_example_fgc_3035()
+\description{
+Retrieves the example flight-grid correction transition object supplied
+with the package.
 }
+\details{
+The flight-grid correction object accounts for the additional distance
+associated with movement across the raster grid compared with direct
+straight-line movement. It is used when calculating distance-by-sea routes
+for seabORD simulations.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
+}
+\examples{
+# Load the example flight-grid correction object
+fgc <- get_example_fgc_3035()
+
+# Inspect the object
+fgc
+
+}
+\seealso{
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}, \code{\link[=get_example_DBS_map]{get_example_DBS_map()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

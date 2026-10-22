@@ -505,6 +505,9 @@ throughout this vignette.</p>
 <span><span class="co">#&gt; chicksurv_poor   "10"                    </span></span>
 <span><span class="co">#&gt; chicksurv_modr   "50"                    </span></span>
 <span><span class="co">#&gt; chicksurv_good   "100"</span></span></code></pre></div>
+<p>The 4 species can be accessed via</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spdat_all_species</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_spdat.html">get_spdat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="brddata">BrdData<a class="anchor" aria-label="anchor" href="#brddata"></a>
@@ -513,12 +516,12 @@ throughout this vignette.</p>
 run which is derived from GPS data and modeled with a GAM incorporating
 important factors known to drive space use in this species. The raster
 can be accessed with the built in function get_example_brddata()</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_brddata</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_brddata.html">get_example_brddata</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_brddata.html">plot_brddata</a></span><span class="op">(</span>brddata <span class="op">=</span> <span class="va">example_brddata</span><span class="op">)</span></span></code></pre></div>
-<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="frgcompdata">FrgCompData<a class="anchor" aria-label="anchor" href="#frgcompdata"></a>
@@ -529,30 +532,30 @@ simulated. This is used throughout the model to estimate how competition
 from other colonies influences intake rate at different foraging sites.
 It uses the built in dataset “frgcompdata_example”. The example raster
 can be accessed using the built in function frgcompdata_example().</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_frgcompdata</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_frgcompdata.html">get_example_frgcompdata</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_frgcompdata.html">plot_frgcompdata</a></span><span class="op">(</span>frgcompdata <span class="op">=</span> <span class="va">example_frgcompdata</span><span class="op">)</span></span></code></pre></div>
-<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="fltdist_base">fltdist_base<a class="anchor" aria-label="anchor" href="#fltdist_base"></a>
 </h3>
 <p>Flight distance by sea, without ORDs. See user guide for details.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_fltdist_base</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_fltdist_base.html">get_example_fltdist_base</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_fltdist_base.html">plot_fltdist_base</a></span><span class="op">(</span>fltdist_base <span class="op">=</span> <span class="va">example_fltdist_base</span><span class="op">)</span></span></code></pre></div>
-<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="flightgridcorrection">FlightGridcorrection<a class="anchor" aria-label="anchor" href="#flightgridcorrection"></a>
 </h3>
 <p>It’s a TransitionLayer class object. One example provided that can be
 loaded</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">FlightGridcorrection</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_fgc_3035.html">get_example_fgc_3035</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -560,12 +563,12 @@ loaded</p>
 </h3>
 <p>This is a set of polygons used to represent the ORDs that we are
 intending to predict the impact of.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ORDpoly_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ORDpoly.html">get_example_ORDpoly</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>which is a dataset with this multipolygon shapes:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_ORDpoly.html">plot_ORDpoly</a></span><span class="op">(</span>ORDpoly <span class="op">=</span> <span class="va">ORDpoly_example</span><span class="op">)</span></span></code></pre></div>
-<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="C_KI_inputs_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

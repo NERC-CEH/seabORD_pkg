@@ -2,47 +2,52 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_spdat}
 \alias{get_example_spdat}
-\title{Load species-specific example data}
+\title{Load example species parameters}
 \usage{
 get_example_spdat()
 }
-\arguments{
-\item{species_code}{Character string giving the species code of
-interest. Supported values are:
-\itemize{
-\item \code{"KI"}: Black-legged Kittiwake
-\item \code{"GU"}: Common Guillemot
-\item \code{"RA"}: Razorbill
-\item \code{"PU"}: Atlantic Puffin
-}
-Defaults to \code{"KI"}.}
-}
 \value{
-A data frame containing the species-specific energetics and prey
-parameters used by seabORD. If the supplied \code{species_code} is not
-present in the dataset, an empty data frame is returned.
+A data frame containing the species-specific parameters for
+Kittiwake, identified by species code \code{"KI"}.
 }
 \description{
-Retrieves species-specific energetics and prey data from the
-\code{energeticsandpreydata} dataset included with the package.
+Retrieves the species-specific energetics, demography, and prey parameters
+used by the package's Kittiwake example.
 }
 \details{
-This function provides convenient access to the built-in species
-parameter dataset used by seabORD. Species-specific data for all four
-seabird species modelled by the package are stored in
-\code{energeticsandpreydata}.
+This function calls \code{get_spdat("KI")} to retrieve the
+Kittiwake parameters from the species-parameter data supplied with the
+package.
+
+The returned object can be supplied as the \code{spdat} argument to \code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-# Black-legged Kittiwake
-ki_data <- get_example_spdat("KI")
+# Load the example Kittiwake species parameters
+spdat <- get_example_spdat()
 
-# Common Guillemot
-gu_data <- get_example_spdat("GU")
-
-# Razorbill
-ra_data <- get_example_spdat("RA")
-
-# Atlantic Puffin
-pu_data <- get_example_spdat("PU")
+# Inspect the available parameters
+names(spdat)
 
 }
+\seealso{
+\code{\link[=get_spdat]{get_spdat()}} and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

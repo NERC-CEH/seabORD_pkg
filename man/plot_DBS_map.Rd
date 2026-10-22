@@ -2,43 +2,67 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_DBS_map}
 \alias{plot_DBS_map}
-\title{Plot a Distance By Sea (DBS) raster}
+\title{Plot a distance-by-sea raster}
 \usage{
-plot_DBS_map(DBS_map, title = "coasts (red) and DBS_map")
+plot_DBS_map(DBS_map, title = "Coastline and distance by sea")
 }
 \arguments{
-\item{DBS_map}{A \code{RasterLayer} containing Distance By Sea (DBS) data,
-such as the object returned by \code{\link[=get_example_DBS_map]{get_example_DBS_map()}}.}
+\item{DBS_map}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing
+distance-by-sea values, such as the object returned by
+\code{\link[=get_example_DBS_map]{get_example_DBS_map()}}.}
 
-\item{title}{Character string giving the plot title.
-Defaults to \code{"coasts (red) and DBS_map"}.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and distance by sea"}.}
 }
 \value{
-A \code{ggplot} object showing the Distance By Sea raster together with
-coastlines for geographical context.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distance-by-sea raster and
+coastline.
 }
 \description{
-Creates a map of Distance By Sea (DBS) values and overlays coastlines
-for geographical context.
+Creates a map of distance-by-sea values and overlays coastlines for
+geographical context.
 }
 \details{
-The DBS map represents the distance travelled over sea between
-locations rather than straight-line (Euclidean) distance.
+A distance-by-sea raster represents the distance travelled over accessible
+sea cells rather than the straight-line Euclidean distance between
+locations.
 
-The coastline dataset (\code{cef_coast_4326}) is reprojected to match the
-coordinate reference system of the input raster before plotting.
+Raster cells with a value of zero are converted to missing values before
+plotting. Non-missing values are displayed using a continuous viridis
+colour scale.
 
-DBS values are displayed using a viridis colour scale, while cells
-with a value of zero are displayed as missing values in grey.
+The coastline data supplied with the package are transformed to the
+coordinate reference system of \code{DBS_map} before plotting.
 }
 \examples{
-# Load example DBS data
+# Load and plot the baseline distance-by-sea raster
 DBS_map <- get_example_DBS_map()
-
-# Create and display the map
 plot_DBS_map(DBS_map)
+
+# Load and plot the distance-by-sea raster containing ORDs
+DBS_with_ORDs <- get_example_DBS_map("ords")
+plot_DBS_map(DBS_with_ORDs)
 
 }
 \seealso{
-\code{\link[=get_example_DBS_map]{get_example_DBS_map()}} for loading the example DBS raster.
+\code{\link[=get_example_DBS_map]{get_example_DBS_map()}} for loading example distance-by-sea rasters and
+\code{\link[=plot_ORD_obstruction]{plot_ORD_obstruction()}} for identifying areas affected by ORD
+obstruction.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

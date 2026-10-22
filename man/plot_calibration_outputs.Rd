@@ -14,61 +14,57 @@ plot_calibration_outputs(
 )
 }
 \arguments{
-\item{sbordout}{A seabORD output object containing calibration
-results, including \code{output_a0$data} and \code{output_c0$data}.}
+\item{sbordout}{A seabORD calibration-output object containing
+\code{output_a0$data} and \code{output_c0$data}.}
 
-\item{calibration}{A data frame returned by
-\code{\link[=find_calibration_range]{find_calibration_range()}} containing prey values and logical
-indicators of whether adult, chick and combined calibration
-criteria are met.}
+\item{calibration}{A data frame returned by \code{\link[=find_calibration_range]{find_calibration_range()}}.
+It must contain \code{Prey} and \code{overlap} columns identifying prey values that
+satisfy both the adult and chick calibration criteria.}
 
-\item{masslower}{Lower acceptable bound for proportional adult mass
-loss. Defaults to \code{0.09}.}
+\item{masslower}{Numeric scalar giving the lower acceptable bound for
+proportional adult mass loss. Defaults to \code{0.09}.}
 
-\item{massupper}{Upper acceptable bound for proportional adult mass
-loss. Defaults to \code{0.11}.}
+\item{massupper}{Numeric scalar giving the upper acceptable bound for
+proportional adult mass loss. Defaults to \code{0.11}.}
 
-\item{prodlower}{Lower acceptable bound for chick productivity
-(\code{ChicksPerNest}). Defaults to \code{0.45}.}
+\item{prodlower}{Numeric scalar giving the lower acceptable bound for chick
+productivity, measured as chicks per nest. Defaults to \code{0.45}.}
 
-\item{produpper}{Upper acceptable bound for chick productivity
-(\code{ChicksPerNest}). Defaults to \code{0.55}.}
+\item{produpper}{Numeric scalar giving the upper acceptable bound for chick
+productivity, measured as chicks per nest. Defaults to \code{0.55}.}
 }
 \value{
-A two-panel plot (a \code{gtable} object produced by
-\code{\link[gridExtra:arrangeGrob]{gridExtra::grid.arrange()}}) showing:
+A \code{gtable} object produced by \code{\link[gridExtra:arrangeGrob]{gridExtra::grid.arrange()}} containing two
+vertically arranged calibration plots:
 \itemize{
-\item Adult mass loss as a function of prey value.
-\item Chick productivity (chicks per nest) as a function of prey
-value.
+\item proportional adult mass loss across prey values; and
+\item chick productivity across prey values.
 }
-
-The light blue shaded region indicates prey values that satisfy both
-the adult mass-loss and chick-productivity criteria simultaneously.
-Grey dashed horizontal lines indicate the calibration bounds used to
-define acceptable ("moderate") conditions.
 }
 \description{
-Creates calibration plots showing the relationship between prey
-values and key model outputs used for seabORD calibration. The
-function displays adult mass loss and chick productivity across the
-range of prey values tested and highlights the prey range satisfying
-the specified calibration criteria.
+Creates paired calibration plots showing adult proportional mass loss and
+chick productivity across the range of prey values evaluated during a
+seabORD calibration run.
 }
 \details{
-Adult mass loss is calculated as:
+Proportional adult mass loss is calculated as:
+
 \deqn{
-(BM\_adult\_t0.mn - BM\_adult.mn) / BM\_adult\_t0.mn
+\frac{BM_{\mathrm{adult},t0} - BM_{\mathrm{adult}}}
+{BM_{\mathrm{adult},t0}}
 }
 
-The calibration range is determined using
-\code{\link[=find_calibration_range]{find_calibration_range()}}. Prey values within the shaded region
-satisfy both the adult and chick calibration criteria and may be used
-as candidate prey values for subsequent scenario simulations.
+The light-blue region identifies the range of prey values for which
+\code{calibration$overlap} is \code{TRUE}. These prey values satisfy the adult
+mass-loss and chick-productivity criteria simultaneously.
+
+Grey dashed horizontal lines show the lower and upper calibration bounds.
+Solid vertical lines show the minimum and maximum prey values in the
+overlapping calibration range.
 }
 \examples{
 \dontrun{
-sbordout <- example_calibration_output_dd
+sbordout <- get_example_output("cal_dd")
 
 calibration <- find_calibration_range(
   sbordout = sbordout,
@@ -80,16 +76,30 @@ calibration <- find_calibration_range(
 
 plot_calibration_outputs(
   sbordout = sbordout,
-  calibration = calibration,
-  masslower = 0.09,
-  massupper = 0.11,
-  prodlower = 0.45,
-  produpper = 0.55
+  calibration = calibration
 )
 }
 
 }
 \seealso{
-\code{\link[=find_calibration_range]{find_calibration_range()}} for identifying prey values that satisfy
-the calibration criteria.
+\code{\link[=find_calibration_range]{find_calibration_range()}} for identifying prey values that satisfy the
+calibration criteria and \code{\link[=get_example_output]{get_example_output()}} for loading example
+calibration output.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

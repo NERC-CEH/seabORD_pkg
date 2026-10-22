@@ -222,6 +222,12 @@ example_spdat <- seabORD::get_example_spdat()
 print(t(example_spdat))
 ```
 
+The 4 species can be accessed via
+
+```{r}
+spdat_all_species <- seabORD::get_spdat()
+```
+
 ## BrdData
 
 Bird distribution map. There is a built in example data-set for this run which is derived from GPS data and modeled with a GAM incorporating important factors known to drive space use in this species. The raster can be accessed with the built in function get_example_brddata()

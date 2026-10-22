@@ -61,7 +61,7 @@ get_spdat <- function( species_code = "KI") {
 #'
 #' @examples
 #' # Whinnyfold colony
-#' colony <- create_colony_point(
+#' colony <- set_colony_point(
 #'   lon = -1.85849,
 #'   lat = 57.388807
 #' )
@@ -69,7 +69,7 @@ get_spdat <- function( species_code = "KI") {
 #' colony
 #'
 #' @export
-create_colony_point <- function(lon, lat) {
+set_colony_point <- function(lon, lat) {
 
   colony <- sf::st_as_sf(
     data.frame(
@@ -96,7 +96,7 @@ create_colony_point <- function(lon, lat) {
 #' @return An `sf` object containing buffered ORD polygons.
 #'
 #' @export
-create_ORD_buffer <- function(
+set_ORD_buffer <- function(
     ORDpolys,
     bufferwidth = 2
 ) {
@@ -133,19 +133,19 @@ create_ORD_buffer <- function(
 #'
 #' @examples
 #' \dontrun{
-#' ORDpolys_with_buffer <- create_ORD_buffer(
+#' ORDpolys_with_buffer <- set_ORD_buffer(
 #'   ORDpolys,
 #'   bufferwidth = 2
 #' )
 #'
-#' calculate_pc_in_ORD_buffer(
+#' calc_pc_in_ORD_buffer(
 #'   DD_map,
 #'   ORDpolys_with_buffer
 #' )
 #' }
 #'
 #' @export
-calculate_pc_in_ORD_buffer <- function(
+calc_pc_in_ORD_buffer <- function(
     DD_map,
     ORDpolys_with_buffer
 ) {
@@ -316,7 +316,7 @@ check_calibration_inputs <- function(
 #' @return The updated `Par` object with `Pmedian` populated.
 #'
 #' @examples
-#' Par_example <- create_prey_sequence(
+#' Par_example <- set_prey_sequence_in_par(
 #'   Par = Par_example,
 #'   modPar = modPar_example,
 #'   Pmin = 150,
@@ -324,7 +324,7 @@ check_calibration_inputs <- function(
 #' )
 #'
 #' @export
-create_prey_sequence_in_par <- function(
+set_prey_sequence_in_par <- function(
     Par,
     modPar,
     Pmin,

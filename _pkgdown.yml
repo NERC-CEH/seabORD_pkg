@@ -27,7 +27,6 @@ reference:
 - title: "Other functions behind seabORD"
   contents:
   - set_seedvalues
-  - set_medianprey
   - set_initialbirdtype
   - set_initialchickstate
   - set_initialbirdstate
@@ -45,14 +44,13 @@ reference:
   - get_spdat
 - title: "Preparing the input"
   contents:
-  - create_colony_point
-  - create_ORD_buffer
-  - create_prey_sequence_in_par
-  - create_crop_extent_colony
-  - calculate_pc_in_ORD_buffer
+  - set_colony_point
+  - set_ORD_buffer
+  - set_prey_sequence_in_par
+  - calc_pc_in_ORD_buffer
+  - calc_calibration_range
   - summarise_ORD_impact
   - check_calibration_inputs
-  - find_calibration_range
 - title: "Plotting input/output"
   contents:
   - starts_with("plot")

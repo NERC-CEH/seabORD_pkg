@@ -635,39 +635,6 @@ select_destinations <- function (Prast, Nb, Nt) {
 }
 
 ################################################################################
-#' @title Discard clumps of grid cells that cannot be reached
-#'
-#' @description User-supplied raster data may have been compiled from a variety
-#'   of sources. After the SeabORD coastline is applied, there may be cells that
-#'   are isolated from the main block. These cells will cause a problem during
-#'   the bird flights because flight paths cannot cross land, meaning some cells
-#'   cannot be reached. This function uses 'clump' to discard isolated island of
-#'   cells. Warnings: if there's an error, check that the colony falls within
-#'   the remaining block. This function may fail if the input data has several
-#'   large clumps. Probably better to use the colony location but that too has
-#'   problems.
-#'
-#' @param r A raster containing values and NA, e.g. bird distribution map.
-#'
-#' @importFrom utils head
-#'
-#' @return A raster where all the non-NA cells are connected in one clump.
-#'
-#' @noRd
-
-trans_clumpSieve <- function(r){
-
-  # Find how many clumps of cells there are
-  siteclumps <- (clump(r, directions = 8, gaps = FALSE))
-  clumpsfreq <- as.data.frame(freq(siteclumps))
-  # Discard the row for NA
-  clumpsfreq <- head(clumpsfreq,-1)
-  # Discard all except the biggest clump
-  r[siteclumps %in% which(clumpsfreq$count!=max(clumpsfreq$count))] <- NA
-  r
-}
-
-################################################################################
 #' @title Define the appropriate stage for the bird
 #'
 #' @description For future expansion: SeabORD currently models only the
@@ -807,26 +774,6 @@ rbinom_mm <- function(x, p){
   t(apply(x, 1,
           function(u, m, p){ rbinom(n = length(u), size = u, prob = p)},
           p = p)) }
-
-################################################################################
-#' @title Simulate from a set of multinomial distributions
-#'
-#' @description Simulate the elements of a matrix y[,j] ~ Multinomial(n[j], p[])
-#' @param p Vector of probabilities of success; a sequence of numeric values between 0 and 1
-#' @param x A vector of sample sizes
-#'
-#' @importFrom stats rmultinom
-#'
-#' @return A matrix of simulated values, of dimension `[length(p),length(n)]`
-#'
-#' @noRd
-rmultinom_mm <- function(p, x){
-  apply(t(x), 2,
-        function(u, p){ as.numeric(rmultinom(n = 1, size = u, prob = p)) },
-        p = p) }
-
-################################################################################
-
 
 
 

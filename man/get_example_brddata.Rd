@@ -2,41 +2,53 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_brddata}
 \alias{get_example_brddata}
-\title{Load example seabird density raster data}
+\title{Load example seabird-distribution raster data}
 \usage{
 get_example_brddata(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Forth Islands standard example.
+\item \code{"dd"}: Whinnyfold density-dependence example.
+}}
+}
 \value{
-A \code{RasterLayer} containing example seabird density data for the Forth
-Islands study area. The raster includes the correct extent, resolution,
-and coordinate reference system derived from the example metadata.
+A \link[raster:Raster-classes]{raster::RasterLayer} object containing example seabird-distribution
+data with the appropriate dimensions, extent, coordinate reference system,
+and layer name.
 }
 \description{
-Creates a raster layer from the example \code{BrdData_example} dataset
-included with the package. The raster is reconstructed from the stored
-metadata and populated with the associated seabird density values.
+Reconstructs and returns the seabird-distribution raster used by the selected
+example workflow.
 }
 \details{
-This function provides a ready-to-use example raster for demonstrations,
-tutorials, and testing workflows. The raster is created from the
-built-in \code{BrdData_example} dataset using
-\code{\link[=raster_from_metadata]{raster_from_metadata()}} and populated with the associated bird density
-values.
+The raster is reconstructed from data stored internally as separate
+metadata and cell-value objects.
 
-The returned raster layer is named \code{"Forth.Islands"}.
+For the standard example, the returned layer is named \code{"Forth.Islands"}.
+For the density-dependence example, it is named \code{"Whinnyfold"}.
+
+The returned raster can be supplied as the \code{BrdData} argument to
+\code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-# Load the example bird density raster
-brddata <- get_example_brddata()
+# Load the standard example bird-density raster
+BrdData <- get_example_brddata()
 
-# Inspect the raster
-brddata
+# Load the density-dependence example
+BrdData_dd <- get_example_brddata("dd")
 
 # Plot the raster
-plot(brddata)
+raster::plot(BrdData)
 
 }
 \seealso{
-\code{\link[=raster_from_metadata]{raster_from_metadata()}} for creating rasters from metadata,
-\code{\link[=get_example_seamask]{get_example_seamask()}} for loading the example sea mask raster.
+\code{\link[=get_example_seamask]{get_example_seamask()}}, \code{\link[=get_example_frgcompdata]{get_example_frgcompdata()}},
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}, and \code{\link[=seabord]{seabord()}}.
 }
+\concept{example}

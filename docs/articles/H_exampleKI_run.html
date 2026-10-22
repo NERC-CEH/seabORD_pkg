@@ -187,7 +187,7 @@ we want to run 5 replicates.</p>
 <span><span class="co"># max prey value from range determined in calibration</span></span>
 <span><span class="va">Pmax</span> <span class="op">&lt;-</span> <span class="fl">174</span> </span>
 <span></span>
-<span><span class="va">Par_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/create_prey_sequence_in_par.html">create_prey_sequence_in_par</a></span><span class="op">(</span></span>
+<span><span class="va">Par_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/set_prey_sequence_in_par.html">set_prey_sequence_in_par</a></span><span class="op">(</span></span>
 <span>  Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
 <span>  modPar <span class="op">=</span> <span class="va">modPar_example</span>,</span>
 <span>  Pmin <span class="op">=</span> <span class="va">Pmin</span>,</span>
@@ -321,12 +321,7 @@ have an example output for you to play with.</p>
 <span>                         FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example</span>,</span>
 <span>                         fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
 <span>                         FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection</span>,</span>
-<span>                         ORDpoly <span class="op">=</span> <span class="va">ORDpoly_example</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Save SeabORDsummary:</span></span>
-<span> <span class="kw">if</span> <span class="op">(</span><span class="va">switches_example</span><span class="op">$</span><span class="va">saverds</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="st">"SeabORDoutput"</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">$</span><span class="va">outputdir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sb_out_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">$</span><span class="va">reference</span>,<span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,<span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<span>                         ORDpoly <span class="op">=</span> <span class="va">ORDpoly_example</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

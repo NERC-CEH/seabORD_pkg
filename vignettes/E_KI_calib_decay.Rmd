@@ -186,11 +186,6 @@ SeabORDoutput <- seabORD::seabord(Par = Par_example,
                                   FlightGridcorrection = FlightGridcorrection_example,
                                   ORDpoly = ORDpoly_example
                          )
-
-# Save SeabORDsummary
-if (switches_example$saverds) {
-    saveRDS(SeabORDoutput, file.path(modPar_example$outputdir, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar_example$reference,"_", Sys.Date()))),".rds")))
-}
 ```
 
 Load example calibration output (used throughout this vignette)
@@ -224,7 +219,7 @@ Now we will plot the adult outputs (sbordout\$output_a0) and the chick outputs (
 
 # Identify prey values that simultaneously satisfy
 # the adult mass loss and productivity constraints
-calibration <- seabORD::find_calibration_range(
+calibration <- seabORD::calc_calibration_range(
   sbordout,
   masslower = 0.09,
   massupper = 0.11,

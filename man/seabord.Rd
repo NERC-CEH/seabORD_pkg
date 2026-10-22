@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions-seabordmain.R
 \name{seabord}
 \alias{seabord}
-\title{SeabORD main function}
+\title{Run a SeabORD simulation}
 \usage{
 seabord(
   Par,
@@ -31,26 +31,32 @@ seabord(
 
 \item{seamask}{Raster - land/sea grid, 1km expected.}
 
-\item{spadat1}{description TBC}
+\item{spadat1}{Tibble - Information relating to the colony/SPA}
 
-\item{spadat2}{description TBC}
+\item{spadat2}{Tibble - Information relating to the colony/SPA}
 
-\item{spdat}{Species-specific parameters}
+\item{spdat}{Dataframe - Species-specific parameters}
 
-\item{BrdData}{description TBC}
+\item{BrdData}{Raster - Bird distribution map - derived from GPS data or failing that, a distance-decay model}
 
-\item{FrgCompData}{description TBC}
+\item{FrgCompData}{Raster - Competition distribution map - derived from GPS data or failing that, a distance-decay model}
 
-\item{fltdist_base}{Flight distance by sea, without ORDs. See user guide for details.}
+\item{fltdist_base}{Raster - Flight distance by sea, without ORDs. See user guide for details.}
 
-\item{FlightGridcorrection}{Flight distance transition layer (gdistance)}
+\item{FlightGridcorrection}{Raster - Flight distance transition layer (gdistance) corrected for distortions relating to the CRS}
 
-\item{ORDpoly}{The ORD footprints}
+\item{ORDpoly}{Multipolygon (simple features) - The ORD footprints}
 }
 \value{
 A list containing tibbles
 }
 \description{
 A model to estimate the population consequences of displacement
-from proposed offshore renewable energy developments for key seabird species
+from proposed offshore renewable energy developments for key seabird species.
+The function performs one or more stochastic simulation replicates and returns summaries of adult, chick, flight and survival metrics.
+}
+\details{
+Before running this function, all model inputs must be prepared.
+A complete description of the required input objects is provided in:
+\code{vignette("C_KI_inputs", package = "seabORD")}
 }

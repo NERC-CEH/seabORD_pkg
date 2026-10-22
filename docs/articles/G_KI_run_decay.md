@@ -1,14 +1,15 @@
+------------------------------------------------------------------------
+
+editor_options: markdown: wrap: 72 ---
+
 # Example kittiwake: step 3.1 - seabORD run - distance decay
 
 ``` r
 
 library(seabORD)
-library(ggplot2)
 ```
 
-Before following this example, the model is assumed to be already
-calibrated. If not follow the article on calibration before running this
-example.
+Before following this example, the model is assumed to be already calibrated. If not follow the article on calibration before running this example.
 
 ``` r
 
@@ -41,25 +42,17 @@ theme_bslib <- ggplot2::theme(
 
 ## Introduction & background
 
-Now that we have run our calibration step and discerned the prey values
-resulting in moderate conditions in the absence of wind farms, we can
-continue with running the main SeabORD runs with matched pairs of
-baseline (no ORDs) and scenario (ORDs included).
+Now that we have run our calibration step and discerned the prey values resulting in moderate conditions in the absence of wind farms, we can continue with running the main SeabORD runs with matched pairs of baseline (no ORDs) and scenario (ORDs included).
 
 ## This example
 
-In this example we will run 1 scenario run (wind farm footprints
-included) with a prey value of 200.
+In this example we will run 1 scenario run (wind farm footprints included) with a prey value of 200.
 
 ### Prepare inputs
 
-For further information on inputs, please see Article “Example
-kittiwake: step 1 - seabORD inputs”.
+For further information on inputs, please see Article “Example kittiwake: step 1 - seabORD inputs”.
 
-This script will import the example parameters sets and spatial data,
-which are largely similar to the calibration inputs. Note will be given
-where these differ considerably, i.e., with regard to the inclusion of
-different wind farm footprints.
+This script will import the example parameters sets and spatial data, which are largely similar to the calibration inputs. Note will be given where these differ considerably, i.e., with regard to the inclusion of different wind farm footprints.
 
 #### Parameter sets
 
@@ -138,8 +131,7 @@ switches_example$saverds <- TRUE
 
 #### Assorted spatial inputs
 
-Now load in all the spatial inputs. For more information please see the
-“Example kittiwake: step 1 - seabORD inputs” article.
+Now load in all the spatial inputs. For more information please see the “Example kittiwake: step 1 - seabORD inputs” article.
 
 ``` r
 
@@ -304,14 +296,10 @@ Now that all the inputs are ready we can run the model using:
 # }
 ```
 
-SeabORD runs including wind farms and full populations can take a while
-to run - even with a relatively small population of ~ 3,000 pairs.
+SeabORD runs including wind farms and full populations can take a while to run - even with a relatively small population of \~ 3,000 pairs.
 
 The output will be saved in in your output directory set up in modPar.
 
-To learn more about the main functions behind seabORD you can read the
-article on the main functions
+To learn more about the main functions behind seabORD you can read the article on the main functions
 
-To see how you can read in and plot the results you can read the article
-“Example kittiwake: step 4 - interpreting the outputs” where we have an
-example output for you to play with.
+To see how you can read in and plot the results you can read the article “Example kittiwake: step 4 - interpreting the outputs” where we have an example output for you to play with.

@@ -2,20 +2,65 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_ordPar}
 \alias{get_example_ordPar}
-\title{Load example ordPar object}
+\title{Load example offshore renewable development parameters}
 \usage{
 get_example_ordPar(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Standard scenario example.
+\item \code{"dd"}: Density-dependence scenario example.
+\item \code{"cal"}: Standard calibration example.
+\item \code{"cal_dd"}: Density-dependence calibration example.
+}}
+}
 \value{
-A list containing example ORD parameters.
+A named list containing example offshore renewable development parameters
+for use with \code{\link[=seabord]{seabord()}}.
 }
 \description{
-Retrieves the example offshore renewable development parameter list
-(\code{ordPar}) used throughout the package examples and vignettes. This
-object contains the parameters describing the offshore renewable
-development scenario.
+Retrieves an example \code{ordPar} list containing parameters describing the
+offshore renewable development scenario used in a seabORD analysis.
+}
+\details{
+The returned \code{ordPar} object contains settings describing the offshore
+renewable developments included in the model, including footprint and
+buffer-zone parameters where applicable.
+
+See the package input vignette for a description of the input objects
+required by \code{\link[=seabord]{seabord()}}:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
+# Load ORD parameters for the standard scenario example
 ordPar <- get_example_ordPar()
 
+# Load ORD parameters for the density-dependence example
+ordPar_dd <- get_example_ordPar("dd")
+
+# Inspect the available parameters
+names(ordPar)
+
 }
+\seealso{
+\code{\link[=get_example_par]{get_example_par()}}, \code{\link[=get_example_modpar]{get_example_modpar()}},
+\code{\link[=get_example_switches]{get_example_switches()}}, \code{\link[=get_example_ORDpoly]{get_example_ORDpoly()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

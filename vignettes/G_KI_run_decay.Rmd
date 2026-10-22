@@ -99,7 +99,7 @@ Pmin <- 173
 # max prey value from range determined in calibration
 Pmax <- 174
 
-Par_example <- seabORD::create_prey_sequence_in_par(
+Par_example <- seabORD::set_prey_sequence_in_par(
   Par = Par_example,
   modPar = modPar_example,
   Pmin = Pmin,
@@ -231,11 +231,4 @@ SeabORDoutput <- seabord(Par = Par_example,
                          fltdist_base = fltdist_base_example,
                          FlightGridcorrection = FlightGridcorrection,
                          ORDpoly = ORDpoly_example)
-
-# Save SeabORDsummary:
- if (switches_example$saverds) {
-    saveRDS("SeabORDoutput",
-            file.path(modPar_example$outputdir,
-                      paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar_example$reference,"_", Sys.Date()))),".rds")))
-}
 ```

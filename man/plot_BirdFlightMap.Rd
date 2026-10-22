@@ -2,47 +2,77 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_BirdFlightMap}
 \alias{plot_BirdFlightMap}
-\title{Plot a BirdFlightMap raster}
+\title{Plot a bird-flight map}
 \usage{
 plot_BirdFlightMap(
   BirdFlightMap,
   xlim = NULL,
   ylim = NULL,
-  title = "Coastline and BirdFlightMap"
+  title = "Coastline and bird-flight map"
 )
 }
 \arguments{
-\item{BirdFlightMap}{A BirdFlightMap raster, such as
-\code{sbordout$BirdFlightMap}.}
+\item{BirdFlightMap}{A \code{RasterLayer}, \code{SpatRaster}, or compatible raster
+object containing the number of simulated visits to each foraging
+location, such as \code{sbordout$BirdFlightMap}.}
 
-\item{xlim}{Optional numeric vector of length 2 defining the longitude
-limits. If \code{NULL}, limits are automatically calculated from cells with
-values greater than zero.}
+\item{xlim}{Optional numeric vector of length two giving the lower and
+upper x-axis limits. When \code{NULL}, the limits are calculated from raster
+cells with values greater than zero.}
 
-\item{ylim}{Optional numeric vector of length 2 defining the latitude
-limits. If \code{NULL}, limits are automatically calculated from cells with
-values greater than zero.}
+\item{ylim}{Optional numeric vector of length two giving the lower and
+upper y-axis limits. When \code{NULL}, the limits are calculated from raster
+cells with values greater than zero.}
 
-\item{title}{Character string giving the plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and bird-flight map"}.}
 }
 \value{
-A \code{ggplot} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the simulated foraging locations and
+coastline.
 }
 \description{
-Plots a BirdFlightMap output from a seabORD simulation together with
-the UK coastline for geographical context.
+Creates a map of simulated bird foraging locations from a seabORD
+\code{BirdFlightMap} output and overlays coastlines for geographical context.
 }
 \details{
-The BirdFlightMap is reprojected to the coordinate reference system
-of the coastline dataset (\code{cef_coast_4326}) before plotting.
+The input raster is converted to a \code{terra} \code{SpatRaster} and transformed to
+the coordinate reference system of the coastline data before plotting.
+
+If \code{xlim} or \code{ylim} is not supplied, the relevant limits are calculated
+from raster cells with values greater than zero, with a one-percent buffer
+added around the observed range.
+
+If the raster contains no positive values, the coastline bounding box is
+used as the plotting extent.
 }
 \examples{
 \dontrun{
-sbordout <- example_calibration_output_dd
+sbordout <- get_example_output()
 
 plot_BirdFlightMap(
-  sbordout$BirdFlightMap
+  BirdFlightMap = sbordout$BirdFlightMap
 )
 }
 
 }
+\seealso{
+\code{\link[=get_example_output]{get_example_output()}} for loading precomputed seabORD output.
+
+Other plotting functions: 
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

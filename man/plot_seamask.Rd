@@ -2,19 +2,54 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_seamask}
 \alias{plot_seamask}
-\title{Plot seamask raster}
+\title{Plot a sea-mask raster}
 \usage{
-plot_seamask(seamask, title = "coasts (red) and seamask (blue)")
+plot_seamask(seamask, title = "Coastline and bird distribution")
 }
 \arguments{
-\item{seamask}{A \code{RasterLayer} containing seamask data,
-such as the object returned by \code{\link[=get_example_seamask]{get_example_seamask()}}.}
+\item{seamask}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing sea-mask
+data, such as the object returned by \code{\link[=get_example_seamask]{get_example_seamask()}}.}
 
-\item{title}{Plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and sea mask"}.}
 }
 \value{
-A ggplot object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing land, sea, and the coastline.
 }
 \description{
-Plot seamask raster
+Creates a map of a sea-mask raster and overlays coastlines for geographical
+context.
 }
+\details{
+Cells containing missing values are classified as land, while cells
+containing non-missing values are classified as sea.
+
+The coastline data supplied with the package are transformed to the
+coordinate reference system of \code{seamask} before plotting.
+}
+\examples{
+# Load and plot the example sea mask
+seamask <- get_example_seamask()
+plot_seamask(seamask)
+
+}
+\seealso{
+\code{\link[=get_example_seamask]{get_example_seamask()}} for loading the example sea-mask raster.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()}
+}
+\concept{plotting functions}

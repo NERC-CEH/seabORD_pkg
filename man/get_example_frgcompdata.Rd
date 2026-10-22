@@ -2,50 +2,72 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_frgcompdata}
 \alias{get_example_frgcompdata}
-\title{Load example competition distribution raster data}
+\title{Load example foraging-competition raster data}
 \usage{
 get_example_frgcompdata(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Forth Islands standard example.
+\item \code{"dd"}: Whinnyfold density-dependence example.
+}}
+}
 \value{
-A \code{RasterLayer} containing example competition distribution data for
-the Forth Islands study area. The raster includes the correct extent,
-resolution, and coordinate reference system derived from the example
-metadata.
+A \link[raster:Raster-classes]{raster::RasterLayer} object containing example foraging-competition
+data with the appropriate dimensions, extent, coordinate reference system,
+and layer name.
 }
 \description{
-Creates a raster layer from the example \code{frgcompdata_example} dataset
-included with the package. The raster is reconstructed from the stored
-metadata and populated with the associated competition distribution
-values.
+Reconstructs and returns the foraging-competition raster used by the
+selected example workflow.
 }
 \details{
-This function provides a ready-to-use example raster for
-demonstrations, tutorials, and testing workflows.
+The raster represents the distribution of birds from colonies that are not
+simulated directly but may compete with the modelled population at
+foraging locations.
 
-The raster represents a competition distribution map, i.e. the
-distribution of conspecifics from surrounding colonies that may
-interact with the colony or SPA being simulated. This information is
-used throughout the seabORD model to estimate how competition from
-other colonies influences intake rate at different foraging locations.
+The raster is reconstructed from data stored internally as separate
+metadata and cell-value objects.
 
-The raster is reconstructed from the built-in
-\code{frgcompdata_example} dataset using \code{\link[=raster_from_metadata]{raster_from_metadata()}} and
-populated with the associated competition distribution values.
+For the standard example, the returned layer is named \code{"Forth.Islands"}.
+For the density-dependence example, it is named \code{"Whinnyfold"}.
 
-The returned raster layer is named \code{"Forth.Islands"}.
+The returned raster can be supplied as the \code{FrgCompData} argument to
+\code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-# Load the example competition distribution raster
-frgcompdata <- get_example_frgcompdata()
+# Load the standard example competition raster
+FrgCompData <- get_example_frgcompdata()
 
-# Inspect the raster
-frgcompdata
+# Load the density-dependence example
+FrgCompData_dd <- get_example_frgcompdata("dd")
 
 # Plot the raster
-plot(frgcompdata)
+raster::plot(FrgCompData)
 
 }
 \seealso{
-\code{\link[=plot_frgcompdata]{plot_frgcompdata()}} for plotting the competition distribution raster,
-\code{\link[=raster_from_metadata]{raster_from_metadata()}} for creating rasters from metadata.
+\code{\link[=get_example_brddata]{get_example_brddata()}}, \code{\link[=get_example_seamask]{get_example_seamask()}},
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
 }
+\concept{example data}

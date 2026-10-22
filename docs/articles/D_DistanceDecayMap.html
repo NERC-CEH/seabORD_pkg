@@ -135,7 +135,7 @@ map</li>
 <li>Assess the interaction with OWFs</li>
 </ol>
 <div class="section level3">
-<h3 id="devtoolsbuild_vignettes1--dbs-distance-by-sea-map">devtools::build_vignettes()1. DBS (Distance By Sea) map<a class="anchor" aria-label="anchor" href="#devtoolsbuild_vignettes1--dbs-distance-by-sea-map"></a>
+<h3 id="dbs-distance-by-sea-map">1. DBS (Distance By Sea) map<a class="anchor" aria-label="anchor" href="#dbs-distance-by-sea-map"></a>
 </h3>
 <p>First we set the colony location, in this case Whinnyfold, but you
 could change this to any colony around the UK that you wish to
@@ -146,7 +146,7 @@ cells so it is not completely obstructed by land cells which are defined
 as impassable. We recommend checking this with a plot.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Set the location of an example colony e.g., at Whinnyfold:</span></span>
-<span><span class="va">example_colony_3035</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/create_colony_point.html">create_colony_point</a></span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">1.85849</span>,</span>
+<span><span class="va">example_colony_3035</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/set_colony_point.html">set_colony_point</a></span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">1.85849</span>,</span>
 <span>                                                    lat <span class="op">=</span> <span class="fl">57.388807</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># check the colony location is beside sea cells using a plot:</span></span>
@@ -253,7 +253,7 @@ directly.</p>
 <p>First let’s calculate the ORDpolys_with_buffer (like on the map
 above)</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">example_ORDpolys_with_buffer</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/create_ORD_buffer.html">create_ORD_buffer</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">example_ORDpolys_with_buffer</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/set_ORD_buffer.html">set_ORD_buffer</a></span><span class="op">(</span></span>
 <span>  <span class="va">example_ORDpolys</span>,</span>
 <span>  bufferwidth <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -263,7 +263,7 @@ above)</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">#quick assessment of the percentage of the density decay map being occupied by the ORDs and their buffers.</span></span>
-<span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calculate_pc_in_ORD_buffer.html">calculate_pc_in_ORD_buffer</a></span><span class="op">(</span><span class="va">example_DD_map</span>,</span>
+<span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_pc_in_ORD_buffer.html">calc_pc_in_ORD_buffer</a></span><span class="op">(</span><span class="va">example_DD_map</span>,</span>
 <span>                                    <span class="va">example_ORDpolys_with_buffer</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.156287</span></span>
 <span></span>
