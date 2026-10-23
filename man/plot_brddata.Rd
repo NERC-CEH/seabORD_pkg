@@ -2,43 +2,71 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_brddata}
 \alias{plot_brddata}
-\title{Plot a BrdData raster}
+\title{Plot a bird-distribution raster}
 \usage{
-plot_brddata(brddata, title = "coasts (red) and BrdData")
+plot_brddata(brddata, title = "Coastline and bird distribution", zoom = FALSE)
 }
 \arguments{
-\item{brddata}{A \code{RasterLayer} containing seabird density data, such as
-the object returned by \code{\link[=get_example_brddata]{get_example_brddata()}}.}
+\item{brddata}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing the relative
+spatial distribution of birds, such as the object returned by
+\code{\link[=get_example_brddata]{get_example_brddata()}}.}
 
-\item{title}{Character string giving the plot title.
-Defaults to \code{"coasts (red) and BrdData"}.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and bird distribution"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{brddata} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{ggplot} object showing the bird density raster overlaid with the UK
-coastline. Raster values equal to zero are displayed as missing values.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the bird-distribution raster and
+coastline.
 }
 \description{
-Creates a map of seabird density data using a \code{BrdData} raster and
-overlays the UK coastline for geographical context.
+Creates a map of a seabORD bird-distribution raster and overlays coastlines
+for geographical context.
 }
 \details{
-The coastline dataset (\code{cef_coast_4326}) is reprojected to match the
-coordinate reference system of the input raster before plotting.
-Non-zero raster values are displayed using a viridis colour scale,
-while missing values are shown in grey.
+\code{BrdData} represents the relative spatial distribution of birds across the
+model domain. This distribution may be derived from GPS tracking data or,
+where suitable tracking data are unavailable, estimated using a
+distance-decay model.
+
+Raster cells with a value of zero are converted to missing values before
+plotting. Non-missing values are displayed using a continuous viridis
+colour scale.
+
+The coastline data supplied with the package are transformed to the
+coordinate reference system of \code{brddata} before plotting.
 }
 \examples{
-# Load example bird density data
+# Load and plot the standard example bird distribution
 brddata <- get_example_brddata()
+plot_brddata(brddata)
 
-# Create a map
-p <- plot_brddata(brddata)
-
-# Display the plot
-p
+# Load and plot the distance-decay example
+brddata_dd <- get_example_brddata("dd")
+plot_brddata(brddata_dd)
 
 }
 \seealso{
-\code{\link[=get_example_brddata]{get_example_brddata()}} for loading the example bird density raster,
-\code{\link[=theme_seabord]{theme_seabord()}} for the plotting theme used by seabORD.
+\code{\link[=get_example_brddata]{get_example_brddata()}} for loading example bird-distribution rasters and
+\code{\link[=plot_frgcompdata]{plot_frgcompdata()}} for plotting the corresponding foraging-competition
+distribution.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

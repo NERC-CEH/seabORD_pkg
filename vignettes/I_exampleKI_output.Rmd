@@ -1,8 +1,8 @@
 ---
-title: "Example kittiwake:  step 4 - interpreting the outputs"
+title: "Interpreting the outputs"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example kittiwake:  step 4 - interpreting the outputs}
+  %\VignetteIndexEntry{Interpreting the outputs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib

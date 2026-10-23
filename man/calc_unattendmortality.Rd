@@ -7,21 +7,67 @@
 calc_unattendmortality(CoD, alive, unattend_hrs, max_hrs)
 }
 \arguments{
-\item{CoD}{Cause of death}
+\item{CoD}{Current cause of death. Typically \code{"none"} if the chick is alive.}
 
-\item{alive}{Flag to indicate if the chick is currently alive (1) or dead (0)}
+\item{alive}{Indicator of whether the chick is currently alive (\code{1}) or dead
+(\code{0}).}
 
-\item{unattend_hrs}{Number of hrs the chick was left unattended}
+\item{unattend_hrs}{Number of hours for which the chick was left unattended.}
 
-\item{max_hrs}{Species parameter: Critical time threshold for unattendance at
-nest above which a chick is assumed to die through exposure or predation}
+\item{max_hrs}{Species-specific critical unattendance threshold (hours),
+above which mortality is assumed to occur.}
 }
 \value{
-A revised cause of death
+A character string giving the updated cause of death.
+Returns the original value of \code{CoD} if the chick survives.
 }
 \description{
-If a chick is left alone at the nest, there is an increased risk
-of death from predation etc. This function takes the chicks who are not
-fully attended by the adults, calculates the probability of death and then
-uses rbinom to remove some of those chicks.
+Determines whether a chick dies as a result of being left unattended by its
+parents during a model time step. Longer periods of unattendance increase the
+risk of mortality through mechanisms such as predation or exposure.
+
+The probability of death increases linearly with the duration of
+unattendance, reaching 100\% when the unattendance period equals or exceeds
+the species-specific critical threshold.
+
+A stochastic draw is then used to determine whether mortality occurs.
+}
+\details{
+The probability of mortality is calculated as:
+
+\deqn{P(death) = unattend\_hrs / max\_hrs}
+
+capped at a maximum value of 1.
+
+Mortality is then determined through a binomial random draw. If mortality
+occurs, the cause of death is updated to \code{"unattended"}.
+}
+\examples{
+# Chick attended by its parents
+calc_unattendmortality(
+  CoD = "none",
+  alive = 1,
+  unattend_hrs = 0,
+  max_hrs = 18
+)
+
+# Chick left unattended for a short period
+calc_unattendmortality(
+  CoD = "none",
+  alive = 1,
+  unattend_hrs = 6,
+  max_hrs = 18
+)
+
+# Chick left unattended for the maximum allowable time
+calc_unattendmortality(
+  CoD = "none",
+  alive = 1,
+  unattend_hrs = 18,
+  max_hrs = 18
+)
+
+}
+\seealso{
+\code{\link[=calc_chickcare]{calc_chickcare()}}
 }

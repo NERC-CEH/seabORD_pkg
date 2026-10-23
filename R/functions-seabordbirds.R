@@ -11,7 +11,42 @@
 #' @param Egain_adult Energy actually acquired in the time step, kJ
 #' @param Ereq_adult The full energy requirement for this time step, kJ
 #' @param adult_mass_KG Energy density of the adult bird tissue, kJ per gram
+#' @details
+#' Adult body mass is updated according to:
+#'
+#' \deqn{
+#' M_{t+1} = M_t + \frac{(E_{gain} - E_{req})}{KG}
+#' }
+#'
+#' where \eqn{M_t} is the current body mass, \eqn{E_{gain}} is the energy
+#' acquired during the time step, \eqn{E_{req}} is the energetic requirement,
+#' and \eqn{KG} is the energy density of adult tissue.
+#'
+#' Positive energy balance results in mass gain, while negative energy balance
+#' results in mass loss.
+#'
 #' @return A revised adult body mass
+#' @references
+#' Daunt & Wanless (2008); Wanless et al. (1997).
+#' @examples
+#' # Adult gains more energy than it expends
+#' calc_adultbmchange(
+#'   alive = TRUE,
+#'   BM_adult = 400,
+#'   Egain_adult = 1200,
+#'   Ereq_adult = 1000,
+#'   adult_mass_KG = 25
+#' )
+#'
+#' # Adult expends more energy than it gains
+#' calc_adultbmchange(
+#'   alive = TRUE,
+#'   BM_adult = 400,
+#'   Egain_adult = 800,
+#'   Ereq_adult = 1000,
+#'   adult_mass_KG = 25
+#' )
+#'
 #' @export
 #'
 calc_adultbmchange <- function(alive, BM_adult, Egain_adult, Ereq_adult,
@@ -53,8 +88,37 @@ calc_adultbmchange <- function(alive, BM_adult, Egain_adult, Ereq_adult,
 #' @param assim_eff Assimilation efficiency
 #' @param daylength, Length of this species' time step, hours
 #' @return A revised adult DEE for time step
-#' @export
+#' @references
+#' Pennycuick, C. J. (1987, 1989); Croll and McLaren (1993);
+#' Hilton et al. (2000); Enstipp et al. (2006); and
+#' Grémillet et al. (2003).
+#' @examples
+#' # Daily energy requirement for a living bird
+#' Ereq_adult <- calc_adultdee(
+#'   alive = TRUE,
+#'   colony_h = 18,
+#'   flying_h = 5.26,
+#'   foraging_h = 11.23,
+#'   at_sea_h = 1.5,
+#'   energy_nest = 427.8,
+#'   energy_flight = 1400.7,
+#'   energy_forage = 1400.7,
+#'   energy_searest = 400.6,
+#'   energy_warming = 26,
+#'   assim_eff = 0.74,
+#'   daylength = 36
+#' )
 #'
+#' Ereq_adult
+#'
+#' # A dead bird has no energetic requirements
+#' Ereq_adult <- calc_adultdee(
+#'   alive = FALSE,
+#'   colony_h = 18,
+#'   flying_h = 5.26,
+#'   foraging_h = 11.23,
+#'
+#' @export
 calc_adultdee <- function(alive, colony_h, flying_h, foraging_h, at_sea_h,
                           energy_nest, energy_flight, energy_forage,
                           energy_searest, energy_warming, assim_eff,
@@ -113,6 +177,20 @@ logit <- function(x) {xx = log(x/(1-x))}
 #'   breeding season, standard deviation
 #' @param basesurv Baseline survival
 #' @param beta  Mass-survival slope
+#' @details
+#' For kittiwakes (`"KI"`), survival probability is calculated directly from
+#' the difference between an individual's body mass and the population mean.
+#'
+#' For puffins, guillemots and razorbills, body mass is first standardised
+#' using the population standard deviation before applying the survival
+#' relationship.
+#'
+#' Individuals with body masses greater than the population mean therefore
+#' receive higher survival probabilities, whereas individuals in poorer
+#' condition receive lower probabilities.
+#'
+#' If the individual did not survive the breeding season (`bmi = 0` or
+#' `NA`), the function returns a survival probability of zero.
 #' @return A probability of survival
 #' @examples
 #'   calc_pSurvival("KI", 345.9, 370.8, 0.8, 0.038, 0)
@@ -135,18 +213,71 @@ calc_pSurvival <- function (sp, bmi, bm, basesurv, beta, sd = 0) {
 
 ################################################################################
 #' @title Puffin chick mortality from predation due to hunger
-#' @description If a puffin chick is hungry, there is an increased risk of
-#'   predation. This function takes the 'hungry' chicks (based on relative body
-#'   condition), calculates the probability of death by predation and then uses
-#'   rbinom to remove some of those chicks.
-#' @param CoD Cause of death ("killed", "starved", "unattended", "parentdead", "abandoned", "other")
-#' @param alive Flag to indicate if the chick is currently alive (1) or dead (0)
-#' @param BM_condition Body mass relative condition, 0-1
-#' @param BM_Chick_mortf Critical mass below which chick is dead, 0-1
-#' @importFrom stats rbinom
-#' @return A revised cause of death
-#' @export
+#' @description
+#' Determines whether a puffin chick dies from predation associated with poor
+#' body condition. Hungry chicks are assumed to spend more time near the burrow
+#' entrance, increasing their vulnerability to predators.
 #'
+#' Chicks whose body condition falls below the hunger threshold are assigned a
+#' probability of predation that increases as body condition declines. A
+#' stochastic draw is then used to determine whether mortality occurs during the
+#' current time step.
+#'
+#' @param CoD Current cause of death. Typically `"none"` if the chick is alive.
+#' @param alive Indicator of whether the chick is currently alive (`1`) or dead
+#'   (`0`).
+#' @param BM_condition Relative chick body condition, expressed as a proportion
+#'   of the expected body mass for its age.
+#' @param BM_Chick_mortf Critical body condition threshold below which the chick
+#'   dies from starvation.
+#'
+#' @details
+#' Puffin chicks with a body condition below 0.7 are classified as hungry.
+#' For hungry chicks, the probability of predation increases as body condition
+#' declines from the hunger threshold towards the starvation threshold
+#' (`BM_Chick_mortf`).
+#'
+#' Mortality is then determined through a binomial random draw. If mortality
+#' occurs, the cause of death is updated to `"killed"`.
+#'
+#' @return
+#' A character string giving the updated cause of death. Returns the original
+#' value of `CoD` if the chick survives.
+#'
+#' @seealso [calc_chickcare()]
+#'
+#' @examples
+#' # Healthy chick
+#' calc_puffinmortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   BM_condition = 0.9,
+#'   BM_Chick_mortf = 0.5
+#' )
+#'
+#' # Hungry chick
+#' calc_puffinmortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   BM_condition = 0.6,
+#'   BM_Chick_mortf = 0.5
+#' )
+#'
+#' # Explore outcomes under repeated simulations
+#' mortality <- replicate(
+#'   1000,
+#'   calc_puffinmortality(
+#'     CoD = "none",
+#'     alive = 1,
+#'     BM_condition = 0.6,
+#'     BM_Chick_mortf = 0.5
+#'   )
+#' )
+#'
+#' table(mortality)
+#'
+#' @importFrom stats rbinom
+#' @export
 calc_puffinmortality <- function(CoD, alive, BM_condition, BM_Chick_mortf){
 
   if (alive) {
@@ -180,6 +311,21 @@ calc_puffinmortality <- function(CoD, alive, BM_condition, BM_Chick_mortf){
 #' @importFrom rlang .data
 #' @importFrom tidyr starts_with ends_with
 #' @importFrom dplyr bind_rows
+#' @details
+#' For each chick, food delivered by the male and female parent is summed and
+#' converted into growth. The resulting body mass is compared with the expected
+#' body mass for a chick of the same age to calculate relative body condition.
+#'
+#' Chicks may die through one of three pathways:
+#' \itemize{
+#'   \item \code{"starved"}: body condition falls below the mortality threshold.
+#'   \item \code{"abandoned"}: one or both parents abandon the breeding attempt.
+#'   \item \code{"parentdead"}: one or both parents die.
+#' }
+#'
+#' In addition, the maximum period for which a chick is left unattended is
+#' calculated from the combined colony attendance of both parents.
+#'
 #' @return The updated list holding the tibbles for the chick current state.
 #' @export
 #'
@@ -274,14 +420,51 @@ calc_chickcare <- function(parent, ChickState, Opt_BM_chick, Species){
 #' @title Chick mortality as a result of other causes
 #' @description Chicks can be lost from other causes such as flooding, storms
 #'   etc. This function calculates the probability of death and then uses rbinom
-#'   to remove some chicks according to that probability.
-#' @param CoD Cause of death  ("killed", "starved", "unattended", "parentdead", "abandoned", "other")
-#' @param alive Flag to indicate if the chick is currently alive (1) or dead (0)
-#' @param seasonlength Species parameter, number of timesteps in the breeding season
-#' @importFrom stats rbinom
-#' @return A revised chick state list.
-#' @export
+#'   to remove some chicks according to that probability.A fixed seasonal mortality rate is distributed evenly across all model time
+#'   steps, and a stochastic draw is used to determine whether mortality occurs  during the current time step.
+#' @param CoD Current cause of death. Typically `"none"` if the chick is alive.
+#' @param alive Indicator of whether the chick is currently alive (`1`) or dead
+#'   (`0`).
+#' @param seasonlength Number of time steps in the breeding season.
 #'
+#' @details
+#' The function assumes a total background chick mortality rate of 5% across the
+#' breeding season. This seasonal probability is converted into an equivalent
+#' mortality probability for a single time step:
+#'
+#' \deqn{P(death) = 1 - (1 - 0.05)^{1/seasonlength}}
+#'
+#' Mortality is then determined using a binomial random draw. If mortality
+#' occurs, the cause of death is updated to `"other"`.
+#'
+#' @return
+#' A character string giving the updated cause of death. Returns the original
+#' value of `CoD` if the chick survives.
+#'
+#' @seealso [calc_chickcare()], [calc_unattendmortality()]
+#'
+#' @examples
+#' # Living chick exposed to background mortality
+#' calc_othermortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   seasonlength = 40
+#' )
+#'
+#' # Repeat many times to estimate mortality frequency
+#' mortality <- replicate(
+#'   1000,
+#'   calc_othermortality(
+#'     CoD = "none",
+#'     alive = 1,
+#'     seasonlength = 40
+#'   )
+#' )
+#'
+#' table(mortality)
+#'
+#' @importFrom stats rbinom
+#' @export
 calc_othermortality <- function(CoD, alive, seasonlength){
 
   if (alive) {
@@ -296,20 +479,67 @@ calc_othermortality <- function(CoD, alive, seasonlength){
 
 ################################################################################
 #' @title Chick mortality as a result of adults not attending the nest
-#' @description If a chick is left alone at the nest, there is an increased risk
-#'   of death from predation etc. This function takes the chicks who are not
-#'   fully attended by the adults, calculates the probability of death and then
-#'   uses rbinom to remove some of those chicks.
-#' @param CoD Cause of death
-#' @param alive Flag to indicate if the chick is currently alive (1) or dead (0)
-#' @param unattend_hrs Number of hrs the chick was left unattended
-#' @param max_hrs Species parameter: Critical time threshold for unattendance at
-#'   nest above which a chick is assumed to die through exposure or predation
-#' @importFrom stats rbinom
-#' @return A revised cause of death
-#' @export
+#' @description
+#' Determines whether a chick dies as a result of being left unattended by its
+#' parents during a model time step. Longer periods of unattendance increase the
+#' risk of mortality through mechanisms such as predation or exposure.
 #'
-
+#' The probability of death increases linearly with the duration of
+#' unattendance, reaching 100% when the unattendance period equals or exceeds
+#' the species-specific critical threshold.
+#'
+#' A stochastic draw is then used to determine whether mortality occurs.
+#'
+#' @param CoD Current cause of death. Typically `"none"` if the chick is alive.
+#' @param alive Indicator of whether the chick is currently alive (`1`) or dead
+#'   (`0`).
+#' @param unattend_hrs Number of hours for which the chick was left unattended.
+#' @param max_hrs Species-specific critical unattendance threshold (hours),
+#'   above which mortality is assumed to occur.
+#'
+#' @details
+#' The probability of mortality is calculated as:
+#'
+#' \deqn{P(death) = unattend\_hrs / max\_hrs}
+#'
+#' capped at a maximum value of 1.
+#'
+#' Mortality is then determined through a binomial random draw. If mortality
+#' occurs, the cause of death is updated to `"unattended"`.
+#'
+#' @return
+#' A character string giving the updated cause of death.
+#' Returns the original value of `CoD` if the chick survives.
+#'
+#' @seealso [calc_chickcare()]
+#'
+#' @examples
+#' # Chick attended by its parents
+#' calc_unattendmortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   unattend_hrs = 0,
+#'   max_hrs = 18
+#' )
+#'
+#' # Chick left unattended for a short period
+#' calc_unattendmortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   unattend_hrs = 6,
+#'   max_hrs = 18
+#' )
+#'
+#' # Chick left unattended for the maximum allowable time
+#' calc_unattendmortality(
+#'   CoD = "none",
+#'   alive = 1,
+#'   unattend_hrs = 18,
+#'   max_hrs = 18
+#' )
+#'
+#' @importFrom stats rbinom
+#' @export
 calc_unattendmortality <- function(CoD, alive, unattend_hrs, max_hrs) {
 
   if (alive) {
@@ -323,8 +553,27 @@ calc_unattendmortality <- function(CoD, alive, unattend_hrs, max_hrs) {
 
 ################################################################################
 #' @title Calculate the foraging strategy for the timestep
-#' @description Given information about one flight and the time available, this
-#'   function determines the foraging strategy chosen by an individual bird.
+#' @description
+#' Determines the foraging strategy adopted by an individual bird during a
+#' single model time step. The function evaluates a series of possible
+#' behavioural responses based on the bird's energetic requirements, body
+#' condition, available foraging time, and chick-rearing commitments.
+#'
+#' The selected strategy aims to balance self-maintenance and chick
+#' provisioning while respecting the time constraints of the day.
+#'
+#' Birds first attempt to satisfy their food requirements while maintaining
+#' optimal attendance at the colony. If this is not possible, increasingly
+#' costly strategies are considered, including reduced chick attendance or
+#' abandonment of the breeding attempt.
+#'
+#' The following strategies are evaluated in sequence:
+#' \enumerate{
+#'   \item Acquire all required food while maintaining optimal colony attendance.
+#'   \item Acquire as much food as possible while maintaining optimal colony attendance.
+#'   \item Acquire all required food while reducing colony attendance.
+#'   \item Acquire as much food as possible while reducing colony attendance.
+#' }
 #' @param BM_condition The relative body condition of the bird which may influence the strategy
 #' @param BM_adult_abdn The relative body condition at which the adult abandons the chick
 #' @param fmode The feeding mode of the individual in the previous timestep (numeric())
@@ -339,10 +588,59 @@ calc_unattendmortality <- function(CoD, alive, unattend_hrs, max_hrs) {
 #' @param tm The minimum time that can be spent at the colony (numeric())
 #' @param ttotal The length of a 'day' for this species in hours, giving the
 #'   maximum time in which to fit the flights, (integer)
-#' @return A tibble with seven variables; the number of flights, total time spent foraging, total
-#'   time spent flying, total grams of food captured, the time spent at the colony and at sea, and
-#'   the feeding mode that was followed.
+#' @details
+#' Adult birds are classified into the following behavioural states:
+#' \itemize{
+#'   \item 1 = Alive with chick, in good body condition.
+#'   \item 2 = Alive with chick, in moderate body condition.
+#'   \item 3 = Alive with chick, close to the abandonment threshold.
+#'   \item 4 = Alive without a chick.
+#'   \item 5 = Dead.
+#' }
+#'
+#' The function returns one of four feeding modes:
+#' \itemize{
+#'   \item 1 = Provisioning: the chick is attended and provisioned.
+#'   \item 2 = Unattended: the chick is left unattended for part of the time step.
+#'   \item 3 = Abandoned: the breeding attempt is abandoned.
+#'   \item 4 = Dead: no strategy is required because the adult is dead.
+#' }
+#'
+#' @return #' A tibble containing:
+#' \itemize{
+#'   \item \code{trips_n}: number of foraging trips.
+#'   \item \code{foraging_h}: total time spent foraging (hours).
+#'   \item \code{flying_h}: total time spent flying (hours).
+#'   \item \code{forage_g}: total prey captured (g).
+#'   \item \code{colony_h}: time spent at the colony (hours).
+#'   \item \code{at_sea_h}: time spent at sea (hours).
+#'   \item \code{feeding_mode}: behavioural strategy selected.
+#' }
 #' @importFrom dplyr slice_min
+#' @seealso [calc_foragecapture()]
+#' @examples
+#' # Create a prey capture lookup table
+#' tcapt <- calc_foragecapture(
+#'   x0 = 260,
+#'   h = 973,
+#'   a = 4.369,
+#'   maxt = 2160
+#' )
+#'
+#' # Determine the foraging strategy for a healthy bird
+#' out <- calc_strategy(
+#'   BM_condition = 0.95,
+#'   BM_adult_abdn = 0.70,
+#'   fmode = 1,
+#'   Fg = 100,
+#'   tf = 0.25,
+#'   tcapt = tcapt,
+#'   maxf = 10,
+#'   ts = 1,
+#'   tc = 8,
+#'   tm = 2,
+#'   ttotal = 24
+#' )
 #' @export
 #'
 # > Adult birds are categorised into 5 behaviour groups
@@ -538,7 +836,7 @@ calc_strategy <- function(BM_condition, BM_adult_abdn, fmode, Fg, tf, tcapt, max
 #'   need to estimate how long it would take a bird to gather the food it needs.
 #'   Intake model: We assume that the relationship between prey quantity x and
 #'   intake rate (-dx/dt) is of the form dx/dt = -ax/(h+x) for parameters a and
-#'   h, the widely-used Michaelis-Menten model. This implies that the prey
+#'   h, the widely-used Michaelis-Menten model (Holling, 1959). This implies that the prey
 #'   quantity at time t is equal to
 #'
 #'   x(t,x_0)=\{x:(x-x_0+at+hlog(x)-h log(x_0)) = 0\}
@@ -557,8 +855,19 @@ calc_strategy <- function(BM_condition, BM_adult_abdn, fmode, Fg, tf, tcapt, max
 #' @param h  Species IR_half (modified to account for neighbours), kg/km2
 #' @param maxt The maximum number of minutes available
 #' @return A tibble with two variables 'tmin' and 'captured' and 'maxt' rows.
+#' @examples
+#' # Example prey patch
+#' out <- calc_foragecapture(
+#'   x0 = 260,
+#'   h = 973,
+#'   a = 4.369,
+#'   maxt = 2160
+#' )
+#' @references
+#' Holling, C. S. (1959). Some Characteristics of Simple Types of
+#' Predation and Parasitism. \emph{The Canadian Entomologist},
+#' 91(7), 385--398. doi:10.4039/Ent91385-7
 #' @export
-#'
 calc_foragecapture <- function(x0, h, a, maxt){
 
   # The function to solve
@@ -632,39 +941,6 @@ select_destinations <- function (Prast, Nb, Nt) {
   names(cells) <- paste0("t", seq(Nt))
 
   return(cells)
-}
-
-################################################################################
-#' @title Discard clumps of grid cells that cannot be reached
-#'
-#' @description User-supplied raster data may have been compiled from a variety
-#'   of sources. After the SeabORD coastline is applied, there may be cells that
-#'   are isolated from the main block. These cells will cause a problem during
-#'   the bird flights because flight paths cannot cross land, meaning some cells
-#'   cannot be reached. This function uses 'clump' to discard isolated island of
-#'   cells. Warnings: if there's an error, check that the colony falls within
-#'   the remaining block. This function may fail if the input data has several
-#'   large clumps. Probably better to use the colony location but that too has
-#'   problems.
-#'
-#' @param r A raster containing values and NA, e.g. bird distribution map.
-#'
-#' @importFrom utils head
-#'
-#' @return A raster where all the non-NA cells are connected in one clump.
-#'
-#' @noRd
-
-trans_clumpSieve <- function(r){
-
-  # Find how many clumps of cells there are
-  siteclumps <- (clump(r, directions = 8, gaps = FALSE))
-  clumpsfreq <- as.data.frame(freq(siteclumps))
-  # Discard the row for NA
-  clumpsfreq <- head(clumpsfreq,-1)
-  # Discard all except the biggest clump
-  r[siteclumps %in% which(clumpsfreq$count!=max(clumpsfreq$count))] <- NA
-  r
 }
 
 ################################################################################
@@ -807,26 +1083,6 @@ rbinom_mm <- function(x, p){
   t(apply(x, 1,
           function(u, m, p){ rbinom(n = length(u), size = u, prob = p)},
           p = p)) }
-
-################################################################################
-#' @title Simulate from a set of multinomial distributions
-#'
-#' @description Simulate the elements of a matrix y[,j] ~ Multinomial(n[j], p[])
-#' @param p Vector of probabilities of success; a sequence of numeric values between 0 and 1
-#' @param x A vector of sample sizes
-#'
-#' @importFrom stats rmultinom
-#'
-#' @return A matrix of simulated values, of dimension `[length(p),length(n)]`
-#'
-#' @noRd
-rmultinom_mm <- function(p, x){
-  apply(t(x), 2,
-        function(u, p){ as.numeric(rmultinom(n = 1, size = u, prob = p)) },
-        p = p) }
-
-################################################################################
-
 
 
 

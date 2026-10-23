@@ -2,47 +2,71 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_fltdist_base}
 \alias{get_example_fltdist_base}
-\title{Load example flight distance raster}
+\title{Load example baseline flight-distance raster data}
 \usage{
 get_example_fltdist_base(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Standard example for SPA site \code{"UK9004171"}.
+\item \code{"dd"}: Density-dependence example for SPA site \code{"UK9002491"}.
+}}
+}
 \value{
-A \code{RasterLayer} containing example flight distances from SPA
-\code{"UK9004171"}. The raster includes the correct extent, resolution,
-and coordinate reference system derived from the example metadata.
+A \link[raster:Raster-classes]{raster::RasterLayer} object containing baseline flight distances
+from the selected SPA to the cells in the model domain.
 }
 \description{
-Creates a raster layer from the example \code{UK9004171_bysea_3035}
-dataset included with the package. The raster is reconstructed from
-the stored metadata and populated with the associated flight distance
-values.
+Reconstructs and returns the baseline distance-by-sea raster used by the
+selected example workflow.
 }
 \details{
-This function provides a ready-to-use example raster for
-demonstrations, tutorials, and testing workflows.
+The raster represents distance by sea from the example colony to each
+reachable raster cell. These distances are used by seabORD to estimate
+travel time and energetic costs associated with foraging trips.
 
-The raster represents the distance at sea from the example SPA
-\code{"UK9004171"} to each raster cell. Flight distance is a key input to
-seabORD and is used throughout the model to estimate travel costs
-associated with foraging at different locations.
+The raster is reconstructed from data stored internally as separate
+metadata and cell-value objects.
 
-The raster is reconstructed from the built-in
-\code{UK9004171_bysea_3035} dataset using \code{\link[=raster_from_metadata]{raster_from_metadata()}} and
-populated with the associated distance values.
+For the standard example, the returned layer is named \code{"UK9004171"}.
+For the density-dependence example, it is named \code{"UK9002491"}.
 
-The returned raster layer is named \code{"UK9004171"}.
+The returned raster can be supplied as the \code{fltdist_base} argument to
+\code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-# Load the example flight distance raster
+# Load the standard example baseline flight-distance raster
 fltdist_base <- get_example_fltdist_base()
 
-# Inspect the raster
-fltdist_base
+# Load the density-dependence example
+fltdist_base_dd <- get_example_fltdist_base("dd")
 
 # Plot the raster
-plot(fltdist_base)
+raster::plot(fltdist_base)
 
 }
 \seealso{
-\code{\link[=raster_from_metadata]{raster_from_metadata()}} for creating rasters from metadata.
+\code{\link[=get_example_DBS_map]{get_example_DBS_map()}}, \code{\link[=get_example_fgc_3035]{get_example_fgc_3035()}},
+\code{\link[=get_example_seamask]{get_example_seamask()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
 }
+\concept{example data}

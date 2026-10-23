@@ -2,41 +2,63 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_spadat1}
 \alias{get_example_spadat1}
-\title{Load an example SPA site record}
+\title{Load example SPA coordinate data}
 \usage{
 get_example_spadat1(type = NULL)
 }
 \arguments{
-\item{site_code}{Character string giving the site code to extract.
-Defaults to \code{"UK9004171"}.}
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Standard example using site code \code{"UK9004171"}.
+\item \code{"dd"}: Density-dependence example using site code \code{"UK9002491"}.
+}}
 }
 \value{
-A tibble containing the matching row(s) from
-\code{spacoordinates}. If the supplied \code{site_code} is not found, an empty
-tibble is returned.
+A tibble containing the coordinate record for the SPA used by the selected
+example workflow.
 }
 \description{
-Retrieves the coordinates and associated information for a single site
-from the example \code{spacoordinates} dataset included with the package.
+Retrieves the coordinates and associated information for the Special
+Protection Area used by the selected example workflow.
 }
 \details{
-This function provides convenient access to a single example site from
-the package dataset. It is primarily intended for demonstrations,
-tutorials, and testing workflows. Site designation information for the
-same SPA can be obtained with \code{\link[=get_example_spadat2]{get_example_spadat2()}}.
+The function filters the package's built-in \code{spacoordinates} dataset to
+return the SPA coordinate record associated with the selected workflow.
+
+The returned object can be supplied as the \code{spadat1} argument to
+\code{\link[=seabord]{seabord()}}.
+
+Corresponding SPA designation information can be retrieved with
+\code{\link[=get_example_spadat2]{get_example_spadat2()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-# Load the default example site
-spa_site <- get_example_spadat1()
+# Load coordinates for the standard example SPA
+spadat1 <- get_example_spadat1()
 
-# Load a specific site
-spa_site <- get_example_spadat1("UK9004171")
-
-# Retrieve the corresponding SPA information
-spa_info <- get_example_spadat2("UK9004171")
+# Load coordinates for the density-dependence example SPA
+spadat1_dd <- get_example_spadat1("dd")
 
 }
 \seealso{
-\code{\link[=get_example_spadat2]{get_example_spadat2()}} for retrieving SPA designation information for
-the same site.
+\code{\link[=get_example_spadat2]{get_example_spadat2()}} and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
 }
+\concept{example data}

@@ -2,45 +2,75 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_fltdist_base}
 \alias{plot_fltdist_base}
-\title{Plot a flight distance raster}
+\title{Plot a baseline flight-distance raster}
 \usage{
-plot_fltdist_base(fltdist_base, title = "coasts (red) and fltdist_base")
+plot_fltdist_base(
+  fltdist_base,
+  title = "Coastline and baseline flight distance",
+  zoom = FALSE
+)
 }
 \arguments{
-\item{fltdist_base}{A \code{RasterLayer} containing flight distance data,
-such as the object returned by \code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}.}
+\item{fltdist_base}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing
+baseline flight distances, such as the object returned by
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}.}
 
-\item{title}{Character string giving the plot title.
-Defaults to \code{"coasts (red) and fltdist_base"}.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and baseline flight distance"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{fltdist_base} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{ggplot} object showing the flight distance raster together with
-coastlines for geographical context.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the baseline flight-distance raster
+and coastline.
 }
 \description{
-Creates a map of flight distances from a SPA to all accessible
-foraging locations and overlays coastlines for geographical context.
+Creates a map of baseline flight distances from a breeding colony to
+accessible foraging locations and overlays coastlines for geographical
+context.
 }
 \details{
-The input raster represents the distance at sea from a breeding colony
-or SPA to each raster cell.
+The input raster represents distance by sea from a breeding colony or SPA
+to each accessible raster cell. These distances are used by seabORD to
+calculate travel time and the energetic costs associated with foraging
+trips.
 
-The coastline dataset (\code{cef_coast_4326}) is reprojected to match the
-coordinate reference system of the input raster before plotting.
+Raster cells with a value of zero are converted to missing values before
+plotting. Non-missing values are displayed using a continuous viridis
+colour scale.
 
-Flight distance values are displayed using a viridis colour scale,
-while cells with a value of zero are displayed as missing values in
-grey.
+The coastline data supplied with the package are transformed to the
+coordinate reference system of \code{fltdist_base} before plotting.
 }
 \examples{
-# Load example flight distance data
+# Load and plot the standard example flight-distance raster
 fltdist_base <- get_example_fltdist_base()
-
-# Create and display the map
 plot_fltdist_base(fltdist_base)
+
+# Load and plot the density-dependence example
+fltdist_base_dd <- get_example_fltdist_base("dd")
+plot_fltdist_base(fltdist_base_dd)
 
 }
 \seealso{
-\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}} for loading the example flight distance
-raster.
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}} for loading example flight-distance rasters
+and \code{\link[=plot_DBS_map]{plot_DBS_map()}} for plotting a distance-by-sea raster.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

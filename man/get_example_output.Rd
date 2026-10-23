@@ -2,31 +2,72 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_output}
 \alias{get_example_output}
-\title{Load example model outputs}
+\title{Load example seabORD model output}
 \usage{
 get_example_output(type = NULL)
 }
 \arguments{
-\item{type}{Character string specifying which example output to load.
-See Details for available options.}
+\item{type}{Character string specifying the example output to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Output from the standard scenario example.
+\item \code{"cal"}: Output from the standard calibration example.
+\item \code{"cal_dd"}: Output from the density-dependence calibration
+example.
+}}
 }
 \value{
-An example seabORD output object.
+A precomputed seabORD model-output object. Its contents depend on the
+selected example and may include adult, chick, flight, survival, impact,
+parameter, and spatial output components.
 }
 \description{
-Retrieves example seabORD model outputs supplied with the package.
-Different example outputs can be loaded by specifying the \code{type}
-argument.
+Retrieves a precomputed seabORD model-output object for use in package
+examples, vignettes, plotting functions, and testing workflows.
 }
 \details{
-Currently supported output types are:
-\itemize{
-\item \code{"cal_dd"}: Output from the density-dependence
-calibration example.
-}
+This function provides access to precomputed model outputs so that examples
+and vignettes can demonstrate output processing and plotting without
+rerunning the complete simulation.
+
+The structure of the returned object corresponds to the output produced by
+\code{\link[=seabord]{seabord()}}, although individual components depend on the model mode and
+output switches used when the example was generated.
+
+See the package output vignette for guidance on examining and plotting
+seabORD results:
+\code{vignette("I_exampleKI_output", package = "seabORD")}.
 }
 \examples{
-# Load calibration output from the density-dependence example
-output <- get_example_output("cal_dd")
+# Load the standard scenario output
+output <- get_example_output()
+
+# Load the standard calibration output
+calibration_output <- get_example_output("cal")
+
+# Load the density-dependence calibration output
+calibration_output_dd <- get_example_output("cal_dd")
+
+# Inspect the top-level output components
+names(output)
 
 }
+\seealso{
+\code{\link[=seabord]{seabord()}} and \code{\link[=get_example_par]{get_example_par()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

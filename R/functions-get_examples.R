@@ -1,8 +1,34 @@
-#' Create RasterLayer from metadata
+#' Create a raster layer from stored metadata
 #'
-#' @param metadata List containing raster metadata.
+#' @description
+#' Creates an empty [raster::RasterLayer-class] object from a list containing
+#' the raster dimensions, extent, and coordinate reference system.
 #'
-#' @return A RasterLayer object.
+#' @param metadata A named list containing the raster metadata. It must contain
+#'   the following elements:
+#'   \itemize{
+#'     \item `n_rows`: Number of raster rows.
+#'     \item `n_cols`: Number of raster columns.
+#'     \item `x_min`: Minimum x-coordinate of the raster extent.
+#'     \item `x_max`: Maximum x-coordinate of the raster extent.
+#'     \item `y_min`: Minimum y-coordinate of the raster extent.
+#'     \item `y_max`: Maximum y-coordinate of the raster extent.
+#'     \item `crs`: Coordinate reference system supplied in a format accepted
+#'       by [raster::raster()].
+#'   }
+#'
+#' @return
+#' An empty [raster::RasterLayer-class] object with the dimensions, extent,
+#' and coordinate reference system specified in `metadata`.
+#'
+#' @details
+#' This internal helper is used to reconstruct example rasters stored within
+#' the package as separate metadata and cell-value objects.
+#'
+#' The function checks that all required metadata fields are present and that
+#' the raster dimensions and extent coordinates are non-missing numeric
+#' scalars.
+#'
 #' @keywords internal
 #' @noRd
 raster_from_metadata <- function(metadata) {
@@ -67,16 +93,33 @@ raster_from_metadata <- function(metadata) {
 
 #' Create a crop extent around a colony
 #'
-#' @param colony An sf point object.
-#' @param km_to_left Distance (km) west.
-#' @param km_to_right Distance (km) east.
-#' @param km_up Distance (km) north.
-#' @param km_down Distance (km) south.
+#' @description
+#' Creates a rectangular raster extent around a colony location using
+#' user-specified distances in each cardinal direction.
 #'
-#' @return A RasterExtent object.
+#' @param colony An `sf` object representing a colony location. The coordinate
+#'   reference system must use metres as its coordinate units.
+#' @param km_to_left Numeric scalar giving the distance, in kilometres, to
+#'   extend the crop extent west of the colony. Defaults to `30`.
+#' @param km_to_right Numeric scalar giving the distance, in kilometres, to
+#'   extend the crop extent east of the colony. Defaults to `50`.
+#' @param km_up Numeric scalar giving the distance, in kilometres, to extend
+#'   the crop extent north of the colony. Defaults to `30`.
+#' @param km_down Numeric scalar giving the distance, in kilometres, to extend
+#'   the crop extent south of the colony. Defaults to `70`.
 #'
-#' @export
-create_crop_extent_colony <- function(
+#' @return
+#' A [raster::Extent-class] object defining the crop area around the colony.
+#'
+#' @details
+#' Distances are converted from kilometres to metres before being added to or
+#' subtracted from the colony bounding-box coordinates. The input colony must
+#' therefore use a projected coordinate reference system with coordinates
+#' measured in metres.
+#'
+#' @keywords internal
+#' @noRd
+set_crop_extent_colony <- function(
     colony,
     km_to_left = 30,
     km_to_right = 50,
@@ -92,23 +135,48 @@ create_crop_extent_colony <- function(
   )
 }
 
-#' Load example parameter lists
+#' Load example biological and simulation parameters
 #'
-#' Retrieves the example parameter lists used throughout the package
-#' tutorials and vignettes. The returned object contains the
-#' species, and simulation parameters required to run an example
-#' seabORD analysis.
+#' @description
+#' Retrieves an example `Par` list containing the biological and simulation
+#' parameters required to run a seabORD analysis.
 #'
-#' @return A list containing example parameter objects used by seabORD.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard scenario example.
+#'     \item `"dd"`: Density-dependence scenario example.
+#'     \item `"cal"`: Standard calibration example.
+#'     \item `"cal_dd"`: Density-dependence calibration example.
+#'   }
+#'
+#' @return
+#' A named list containing example biological and simulation parameters for
+#' use with [seabord()].
+#'
+#' @details
+#' The returned `Par` object contains parameters such as colony sizes, species,
+#' displacement and barrier probabilities, prey values, and scaling settings.
+#'
+#' See the package input vignette for a description of the input objects
+#' required by [seabord()]:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' \dontrun{
+#' # Load parameters for the standard scenario example
 #' par <- get_example_par()
 #'
-#' # View available parameter objects
-#' names(par)
-#' }
+#' # Load parameters for the density-dependence example
+#' par_dd <- get_example_par("dd")
 #'
+#' # Inspect the available parameters
+#' names(par)
+#'
+#' @seealso
+#' [get_example_modpar()], [get_example_ordPar()],
+#' [get_example_switches()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_par <- function(type = NULL) {
   if(is.null(type)){
@@ -123,22 +191,49 @@ get_example_par <- function(type = NULL) {
 
 }
 
-#' Load example model parameters
+#' Load example model-control parameters
 #'
-#' Retrieves the example model parameter list (`modPar`) used throughout
-#' the package examples and vignettes. This object contains the model
-#' configuration settings required to run a seabORD simulation.
+#' @description
+#' Retrieves an example `modPar` list containing model-control, replication,
+#' computing-environment, and output settings for a seabORD analysis.
 #'
-#' @return A list containing the example model parameters.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard scenario example.
+#'     \item `"dd"`: Density-dependence scenario example.
+#'     \item `"cal"`: Standard calibration example.
+#'     \item `"cal_dd"`: Density-dependence calibration example.
+#'   }
+#'
+#' @return
+#' A named list containing example model-control parameters for use with
+#' [seabord()].
+#'
+#' @details
+#' The returned `modPar` object contains settings such as the number of
+#' simulation replicates, random-number seed, run reference, output directory,
+#' and parallel-processing configuration.
+#'
+#' See the package input vignette for a description of the input objects
+#' required by [seabord()]:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' \dontrun{
-#' modPar <- get_example_par()
+#' # Load model parameters for the standard scenario example
+#' modPar <- get_example_modpar()
 #'
-#' # View parameter names
+#' # Load model parameters for the calibration example
+#' modPar_cal <- get_example_modpar("cal")
+#'
+#' # Inspect the available settings
 #' names(modPar)
-#' }
 #'
+#' @seealso
+#' [get_example_par()], [get_example_ordPar()],
+#' [get_example_switches()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_modpar <- function(type = NULL) {
   if(is.null(type)){
@@ -152,18 +247,49 @@ get_example_modpar <- function(type = NULL) {
   }
 }
 
-#' Load example ordPar object
+#' Load example offshore renewable development parameters
 #'
-#' Retrieves the example offshore renewable development parameter list
-#' (`ordPar`) used throughout the package examples and vignettes. This
-#' object contains the parameters describing the offshore renewable
-#' development scenario.
+#' @description
+#' Retrieves an example `ordPar` list containing parameters describing the
+#' offshore renewable development scenario used in a seabORD analysis.
 #'
-#' @return A list containing example ORD parameters.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard scenario example.
+#'     \item `"dd"`: Density-dependence scenario example.
+#'     \item `"cal"`: Standard calibration example.
+#'     \item `"cal_dd"`: Density-dependence calibration example.
+#'   }
+#'
+#' @return
+#' A named list containing example offshore renewable development parameters
+#' for use with [seabord()].
+#'
+#' @details
+#' The returned `ordPar` object contains settings describing the offshore
+#' renewable developments included in the model, including footprint and
+#' buffer-zone parameters where applicable.
+#'
+#' See the package input vignette for a description of the input objects
+#' required by [seabord()]:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
+#' # Load ORD parameters for the standard scenario example
 #' ordPar <- get_example_ordPar()
 #'
+#' # Load ORD parameters for the density-dependence example
+#' ordPar_dd <- get_example_ordPar("dd")
+#'
+#' # Inspect the available parameters
+#' names(ordPar)
+#'
+#' @seealso
+#' [get_example_par()], [get_example_modpar()],
+#' [get_example_switches()], [get_example_ORDpoly()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_ordPar <- function(type = NULL) {
   if(is.null(type)){
@@ -177,18 +303,49 @@ get_example_ordPar <- function(type = NULL) {
   }
 }
 
-#' Load example switch settings
+#' Load example model switches
 #'
-#' Retrieves the example switch configuration (`switches`) used throughout
-#' the package examples and vignettes. This object contains logical flags
-#' and settings that control which model components and outputs are used
-#' during a seabORD simulation.
+#' @description
+#' Retrieves an example `switches` list containing settings that control
+#' optional model behaviour, execution modes, and output generation in a
+#' seabORD analysis.
 #'
-#' @return A list containing example model switch settings.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard scenario example.
+#'     \item `"dd"`: Density-dependence scenario example.
+#'     \item `"cal"`: Standard calibration example.
+#'     \item `"cal_dd"`: Density-dependence calibration example.
+#'   }
+#'
+#' @return
+#' A named list containing example model switches for use with [seabord()].
+#'
+#' @details
+#' The returned object contains switches controlling features such as the
+#' model mode, execution environment, output detail, file creation, and
+#' debugging behaviour.
+#'
+#' See the package input vignette for a description of the input objects
+#' required by [seabord()]:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
+#' # Load switches for the standard scenario example
 #' switches <- get_example_switches()
 #'
+#' # Load switches for the calibration example
+#' switches_cal <- get_example_switches("cal")
+#'
+#' # Inspect the available switches
+#' names(switches)
+#'
+#' @seealso
+#' [get_example_par()], [get_example_modpar()],
+#' [get_example_ordPar()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_switches <- function(type = NULL) {
   if(is.null(type)){
@@ -202,40 +359,81 @@ get_example_switches <- function(type = NULL) {
   }
 }
 
-#' Load example flight grid correction raster
+#' Load the example flight-grid correction object
 #'
-#' Retrieves the example flight grid correction TransitionLayer
-#' (`FlightGridcorrection_3035`) supplied with the package. This TransitionLayer is
-#' used to correct flight distances by accounting for the difference
-#' between straight-line movement and movement across the model grid.
+#' @description
+#' Retrieves the example flight-grid correction transition object supplied
+#' with the package.
 #'
-#' The TransitionLayer is provided in the ETRS89 / LAEA Europe projection
+#' @return
+#' A `TransitionLayer` containing the example flight-grid correction values in
+#' the ETRS89-extended / LAEA Europe coordinate reference system
 #' (EPSG:3035).
 #'
-#' @return A `TransitionLayer` containing example flight grid correction values.
+#' @details
+#' The flight-grid correction object accounts for the additional distance
+#' associated with movement across the raster grid compared with direct
+#' straight-line movement. It is used when calculating distance-by-sea routes
+#' for seabORD simulations.
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
+#' # Load the example flight-grid correction object
 #' fgc <- get_example_fgc_3035()
+#'
+#' # Inspect the object
+#' fgc
+#'
+#' @seealso
+#' [get_example_fltdist_base()], [get_example_DBS_map()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_fgc_3035 <- function(){
   seabORD::FlightGridcorrection_3035
 }
 
-#' Load example ORD polygons for distance-decay workflows
+#' Load example offshore renewable development polygons
 #'
-#' Retrieves the example offshore renewable development (ORD) polygons
-#' (`ORDpoly_example_wfold`) supplied with the package. These polygons
-#' represent the wind farm footprints used in the Whinnyfold
-#' density-dependence example workflow.
+#' @description
+#' Retrieves example offshore renewable development polygons supplied with
+#' the package.
 #'
-#' @return An `sf` object containing example ORD polygons.
+#' @param type Character string specifying the example polygon dataset to
+#'   load. Available options are:
+#'   \itemize{
+#'     \item `NULL`: Polygons for the standard scenario example.
+#'     \item `"dd"`: Polygons for the Whinnyfold density-dependence example.
+#'   }
+#'
+#' @return
+#' An `sf` object containing example offshore renewable development
+#' footprints.
+#'
+#' @details
+#' The returned polygons represent the offshore renewable development
+#' footprints used by the selected example workflow. They can be supplied as
+#' the `ORDpoly` argument to [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' ORDpolys <- get_example_ORDpolys_dd()
+#' # Load polygons for the standard scenario example
+#' ORDpoly <- get_example_ORDpoly()
 #'
-#' # View the polygons
-#' plot(sf::st_geometry(ORDpolys))
+#' # Load polygons for the density-dependence example
+#' ORDpoly_dd <- get_example_ORDpoly("dd")
 #'
+#' # Plot the polygon geometry
+#' plot(sf::st_geometry(ORDpoly))
+#'
+#' @seealso
+#' [get_example_ordPar()] and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_ORDpoly <- function(type = NULL) {
   if (is.null(type)){
@@ -245,34 +443,49 @@ get_example_ORDpoly <- function(type = NULL) {
   }
 }
 
-#' Load Example Seamask Raster
+#' Load the example sea-mask raster
 #'
-#' Reconstructs the example seamask raster distributed with the package.
-#' The function creates a raster from the stored metadata, populates it
-#' with the example seamask values, and assigns the layer name
-#' `"seamask_3035"`.
+#' @description
+#' Reconstructs and returns the example sea-mask raster supplied with the
+#' package.
 #'
-#' @return A `RasterLayer` object containing the example seamask data.
+#' @return
+#' A [raster::RasterLayer-class] object containing the example sea mask. The
+#' returned raster layer is named `"seamask_3035"`.
 #'
 #' @details
-#' The example seamask is stored internally as a list containing:
+#' The example sea mask is stored internally as a list containing:
 #' \itemize{
-#'   \item `metadata`: raster dimensions, extent and coordinate reference system.
-#'   \item `matrix`: raster cell values.
+#'   \item `metadata`: Raster dimensions, extent, and coordinate reference
+#'     system.
+#'   \item `matrix`: Raster cell values.
 #' }
 #'
-#' The raster is reconstructed using
-#' [raster_from_metadata()] and then populated with the stored values.
+#' The raster is reconstructed from the stored metadata using the package's
+#' internal raster-construction helper and is then populated with the stored
+#' cell values.
+#'
+#' The returned raster can be supplied as the `seamask` argument to
+#' [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
+#' # Load the example sea mask
 #' seamask <- get_example_seamask()
 #'
-#' # Inspect raster properties
+#' # Inspect the raster
 #' seamask
 #'
-#' # Plot seamask
+#' # Plot the raster
 #' raster::plot(seamask)
 #'
+#' @seealso
+#' [get_example_brddata()], [get_example_frgcompdata()],
+#' [get_example_fltdist_base()], and [seabord()].
+#'
+#' @family example data
 #' @export
 get_example_seamask <- function(){
 
@@ -293,38 +506,47 @@ get_example_seamask <- function(){
 
 }
 
-#' Load an example SPA site record
+#' Load example SPA coordinate data
 #'
-#' Retrieves the coordinates and associated information for a single site
-#' from the example `spacoordinates` dataset included with the package.
+#' @description
+#' Retrieves the coordinates and associated information for the Special
+#' Protection Area used by the selected example workflow.
 #'
-#' @param site_code Character string giving the site code to extract.
-#'   Defaults to `"UK9004171"`.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard example using site code `"UK9004171"`.
+#'     \item `"dd"`: Density-dependence example using site code `"UK9002491"`.
+#'   }
 #'
-#' @return A tibble containing the matching row(s) from
-#'   `spacoordinates`. If the supplied `site_code` is not found, an empty
-#'   tibble is returned.
+#' @return
+#' A tibble containing the coordinate record for the SPA used by the selected
+#' example workflow.
 #'
 #' @details
-#' This function provides convenient access to a single example site from
-#' the package dataset. It is primarily intended for demonstrations,
-#' tutorials, and testing workflows. Site designation information for the
-#' same SPA can be obtained with [get_example_spadat2()].
+#' The function filters the package's built-in `spacoordinates` dataset to
+#' return the SPA coordinate record associated with the selected workflow.
+#'
+#' The returned object can be supplied as the `spadat1` argument to
+#' [seabord()].
+#'
+#' Corresponding SPA designation information can be retrieved with
+#' [get_example_spadat2()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Load the default example site
-#' spa_site <- get_example_spadat1()
+#' # Load coordinates for the standard example SPA
+#' spadat1 <- get_example_spadat1()
 #'
-#' # Load a specific site
-#' spa_site <- get_example_spadat1("UK9004171")
-#'
-#' # Retrieve the corresponding SPA information
-#' spa_info <- get_example_spadat2("UK9004171")
+#' # Load coordinates for the density-dependence example SPA
+#' spadat1_dd <- get_example_spadat1("dd")
 #'
 #' @seealso
-#' [get_example_spadat2()] for retrieving SPA designation information for
-#' the same site.
+#' [get_example_spadat2()] and [seabord()].
 #'
+#' @family example data
 #' @export
 get_example_spadat1 <- function(type = NULL) {
 
@@ -344,33 +566,47 @@ get_example_spadat1 <- function(type = NULL) {
 
 }
 
-
-#' Load an example SPA site designation record
+#' Load example SPA designation data
 #'
-#' Retrieves information for a single Special Protection Area (SPA) from
-#' the example `spalist` dataset included with the package.
+#' @description
+#' Retrieves the designation and associated information for the Special
+#' Protection Area used by the selected example workflow.
 #'
-#' @param site_code Character string giving the site code to extract.
-#'   Defaults to `"UK9004171"`.
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard example using site code `"UK9004171"`.
+#'     \item `"dd"`: Density-dependence example using site code `"UK9002491"`.
+#'   }
 #'
-#' @return A tibble containing the matching row(s) from `spalist`. If the
-#'   supplied `site_code` is not found, an empty tibble is returned.
+#' @return
+#' A tibble containing the SPA designation record for the selected example
+#' workflow.
 #'
 #' @details
-#' This function provides convenient access to an example SPA record from
-#' the package dataset and is intended for demonstrations, tutorials, and
-#' testing workflows.
+#' The function filters the package's built-in `spalist` dataset to return the
+#' SPA designation record associated with the selected workflow.
+#'
+#' The returned object can be supplied as the `spadat2` argument to
+#' [seabord()].
+#'
+#' Corresponding SPA coordinate information can be retrieved with
+#' [get_example_spadat1()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Load the default example SPA
-#' spa <- get_example_spadat2()
+#' # Load designation data for the standard example SPA
+#' spadat2 <- get_example_spadat2()
 #'
-#' # Load a specific SPA by site code
-#' spa <- get_example_spadat2("UK9004171")
+#' # Load designation data for the density-dependence example SPA
+#' spadat2_dd <- get_example_spadat2("dd")
 #'
 #' @seealso
-#' [get_example_spadat1()] for retrieving site coordinate information.
+#' [get_example_spadat1()] and [seabord()].
 #'
+#' @family example data
 #' @export
 get_example_spadat2 <- function(type = NULL) {
 
@@ -390,89 +626,91 @@ get_example_spadat2 <- function(type = NULL) {
 
 }
 
-
-
-#' Load species-specific example data
+#' Load example species parameters
 #'
-#' Retrieves species-specific energetics and prey data from the
-#' `energeticsandpreydata` dataset included with the package.
-#'
-#' @param species_code Character string giving the species code of
-#'   interest. Supported values are:
-#'   \itemize{
-#'     \item `"KI"`: Black-legged Kittiwake
-#'     \item `"GU"`: Common Guillemot
-#'     \item `"RA"`: Razorbill
-#'     \item `"PU"`: Atlantic Puffin
-#'   }
-#'   Defaults to `"KI"`.
+#' @description
+#' Retrieves the species-specific energetics, demography, and prey parameters
+#' used by the package's Kittiwake example.
 #'
 #' @return
-#' A data frame containing the species-specific energetics and prey
-#' parameters used by seabORD. If the supplied `species_code` is not
-#' present in the dataset, an empty data frame is returned.
+#' A data frame containing the species-specific parameters for
+#' Kittiwake, identified by species code `"KI"`.
 #'
 #' @details
-#' This function provides convenient access to the built-in species
-#' parameter dataset used by seabORD. Species-specific data for all four
-#' seabird species modelled by the package are stored in
-#' `energeticsandpreydata`.
+#' This function calls `get_spdat("KI")` to retrieve the
+#' Kittiwake parameters from the species-parameter data supplied with the
+#' package.
+#'
+#' The returned object can be supplied as the `spdat` argument to [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Black-legged Kittiwake
-#' ki_data <- get_example_spdat("KI")
+#' # Load the example Kittiwake species parameters
+#' spdat <- get_example_spdat()
 #'
-#' # Common Guillemot
-#' gu_data <- get_example_spdat("GU")
+#' # Inspect the available parameters
+#' names(spdat)
 #'
-#' # Razorbill
-#' ra_data <- get_example_spdat("RA")
+#' @seealso
+#' [get_spdat()] and [seabord()].
 #'
-#' # Atlantic Puffin
-#' pu_data <- get_example_spdat("PU")
-#'
+#' @family example data
 #' @export
+
 get_example_spdat <- function() {
   species_code <- "KI"
   get_spdat(species_code)
 }
 
 
-
-#' Load example seabird density raster data
+#' Load example seabird-distribution raster data
 #'
-#' Creates a raster layer from the example `BrdData_example` dataset
-#' included with the package. The raster is reconstructed from the stored
-#' metadata and populated with the associated seabird density values.
+#' @description
+#' Reconstructs and returns the seabird-distribution raster used by the selected
+#' example workflow.
+#'
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Forth Islands standard example.
+#'     \item `"dd"`: Whinnyfold density-dependence example.
+#'   }
 #'
 #' @return
-#' A `RasterLayer` containing example seabird density data for the Forth
-#' Islands study area. The raster includes the correct extent, resolution,
-#' and coordinate reference system derived from the example metadata.
+#' A [raster::RasterLayer-class] object containing example seabird-distribution
+#' data with the appropriate dimensions, extent, coordinate reference system,
+#' and layer name.
 #'
 #' @details
-#' This function provides a ready-to-use example raster for demonstrations,
-#' tutorials, and testing workflows. The raster is created from the
-#' built-in `BrdData_example` dataset using
-#' [raster_from_metadata()] and populated with the associated bird density
-#' values.
+#' The raster is reconstructed from data stored internally as separate
+#' metadata and cell-value objects.
 #'
-#' The returned raster layer is named `"Forth.Islands"`.
+#' For the standard example, the returned layer is named `"Forth.Islands"`.
+#' For the density-dependence example, it is named `"Whinnyfold"`.
+#'
+#' The returned raster can be supplied as the `BrdData` argument to
+#' [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Load the example bird density raster
-#' brddata <- get_example_brddata()
+#' # Load the standard example bird-density raster
+#' BrdData <- get_example_brddata()
 #'
-#' # Inspect the raster
-#' brddata
+#' # Load the density-dependence example
+#' BrdData_dd <- get_example_brddata("dd")
 #'
 #' # Plot the raster
-#' plot(brddata)
+#' raster::plot(BrdData)
 #'
 #' @seealso
-#' [raster_from_metadata()] for creating rasters from metadata,
-#' [get_example_seamask()] for loading the example sea mask raster.
+#' [get_example_seamask()], [get_example_frgcompdata()],
+#' [get_example_fltdist_base()], and [seabord()].
 #'
+#' @family example
 #' @export
 get_example_brddata <- function(type = NULL) {
 
@@ -503,49 +741,56 @@ get_example_brddata <- function(type = NULL) {
 }
 
 
-#' Load example competition distribution raster data
+#' Load example foraging-competition raster data
 #'
-#' Creates a raster layer from the example `frgcompdata_example` dataset
-#' included with the package. The raster is reconstructed from the stored
-#' metadata and populated with the associated competition distribution
-#' values.
+#' @description
+#' Reconstructs and returns the foraging-competition raster used by the
+#' selected example workflow.
+#'
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Forth Islands standard example.
+#'     \item `"dd"`: Whinnyfold density-dependence example.
+#'   }
 #'
 #' @return
-#' A `RasterLayer` containing example competition distribution data for
-#' the Forth Islands study area. The raster includes the correct extent,
-#' resolution, and coordinate reference system derived from the example
-#' metadata.
+#' A [raster::RasterLayer-class] object containing example foraging-competition
+#' data with the appropriate dimensions, extent, coordinate reference system,
+#' and layer name.
 #'
 #' @details
-#' This function provides a ready-to-use example raster for
-#' demonstrations, tutorials, and testing workflows.
+#' The raster represents the distribution of birds from colonies that are not
+#' simulated directly but may compete with the modelled population at
+#' foraging locations.
 #'
-#' The raster represents a competition distribution map, i.e. the
-#' distribution of conspecifics from surrounding colonies that may
-#' interact with the colony or SPA being simulated. This information is
-#' used throughout the seabORD model to estimate how competition from
-#' other colonies influences intake rate at different foraging locations.
+#' The raster is reconstructed from data stored internally as separate
+#' metadata and cell-value objects.
 #'
-#' The raster is reconstructed from the built-in
-#' `frgcompdata_example` dataset using [raster_from_metadata()] and
-#' populated with the associated competition distribution values.
+#' For the standard example, the returned layer is named `"Forth.Islands"`.
+#' For the density-dependence example, it is named `"Whinnyfold"`.
 #'
-#' The returned raster layer is named `"Forth.Islands"`.
+#' The returned raster can be supplied as the `FrgCompData` argument to
+#' [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Load the example competition distribution raster
-#' frgcompdata <- get_example_frgcompdata()
+#' # Load the standard example competition raster
+#' FrgCompData <- get_example_frgcompdata()
 #'
-#' # Inspect the raster
-#' frgcompdata
+#' # Load the density-dependence example
+#' FrgCompData_dd <- get_example_frgcompdata("dd")
 #'
 #' # Plot the raster
-#' plot(frgcompdata)
+#' raster::plot(FrgCompData)
 #'
 #' @seealso
-#' [plot_frgcompdata()] for plotting the competition distribution raster,
-#' [raster_from_metadata()] for creating rasters from metadata.
+#' [get_example_brddata()], [get_example_seamask()],
+#' [get_example_fltdist_base()], and [seabord()].
 #'
+#' @family example data
 #' @export
 get_example_frgcompdata <- function(type = NULL) {
 
@@ -579,46 +824,55 @@ get_example_frgcompdata <- function(type = NULL) {
 
 }
 
-#' Load example flight distance raster
+#' Load example baseline flight-distance raster data
 #'
-#' Creates a raster layer from the example `UK9004171_bysea_3035`
-#' dataset included with the package. The raster is reconstructed from
-#' the stored metadata and populated with the associated flight distance
-#' values.
+#' @description
+#' Reconstructs and returns the baseline distance-by-sea raster used by the
+#' selected example workflow.
+#'
+#' @param type Character string specifying the example workflow to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Standard example for SPA site `"UK9004171"`.
+#'     \item `"dd"`: Density-dependence example for SPA site `"UK9002491"`.
+#'   }
 #'
 #' @return
-#' A `RasterLayer` containing example flight distances from SPA
-#' `"UK9004171"`. The raster includes the correct extent, resolution,
-#' and coordinate reference system derived from the example metadata.
+#' A [raster::RasterLayer-class] object containing baseline flight distances
+#' from the selected SPA to the cells in the model domain.
 #'
 #' @details
-#' This function provides a ready-to-use example raster for
-#' demonstrations, tutorials, and testing workflows.
+#' The raster represents distance by sea from the example colony to each
+#' reachable raster cell. These distances are used by seabORD to estimate
+#' travel time and energetic costs associated with foraging trips.
 #'
-#' The raster represents the distance at sea from the example SPA
-#' `"UK9004171"` to each raster cell. Flight distance is a key input to
-#' seabORD and is used throughout the model to estimate travel costs
-#' associated with foraging at different locations.
+#' The raster is reconstructed from data stored internally as separate
+#' metadata and cell-value objects.
 #'
-#' The raster is reconstructed from the built-in
-#' `UK9004171_bysea_3035` dataset using [raster_from_metadata()] and
-#' populated with the associated distance values.
+#' For the standard example, the returned layer is named `"UK9004171"`.
+#' For the density-dependence example, it is named `"UK9002491"`.
 #'
-#' The returned raster layer is named `"UK9004171"`.
+#' The returned raster can be supplied as the `fltdist_base` argument to
+#' [seabord()].
+#'
+#' See the package input vignette for an example:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
-#' # Load the example flight distance raster
+#' # Load the standard example baseline flight-distance raster
 #' fltdist_base <- get_example_fltdist_base()
 #'
-#' # Inspect the raster
-#' fltdist_base
+#' # Load the density-dependence example
+#' fltdist_base_dd <- get_example_fltdist_base("dd")
 #'
 #' # Plot the raster
-#' plot(fltdist_base)
+#' raster::plot(fltdist_base)
 #'
 #' @seealso
-#' [raster_from_metadata()] for creating rasters from metadata.
+#' [get_example_DBS_map()], [get_example_fgc_3035()],
+#' [get_example_seamask()], and [seabord()].
 #'
+#' @family example data
 #' @export
 get_example_fltdist_base <- function(type = NULL) {
 
@@ -654,32 +908,57 @@ get_example_fltdist_base <- function(type = NULL) {
 
 }
 
-#' Load the example Distance By Sea (DBS) map
+
+#' Load an example distance-by-sea raster
 #'
-#' Retrieves and reconstructs the example Distance By Sea (DBS) map
-#' included with the package and returns it as a `RasterLayer`.
-#' The raster is created from the stored metadata and populated with
-#' the example DBS values.
+#' @description
+#' Reconstructs and returns an example distance-by-sea raster, either without
+#' or with offshore renewable developments included.
 #'
-#' @return A `RasterLayer` containing the example Distance By Sea (DBS)
-#'   map. The layer is named `"DBS_map"`.
+#' @param type Character string specifying the distance-by-sea raster to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Baseline distance-by-sea raster without offshore
+#'       renewable developments.
+#'     \item `"ords"`: Distance-by-sea raster with offshore renewable
+#'       developments included.
+#'   }
+#'
+#' @return
+#' A [raster::RasterLayer-class] object containing example distance-by-sea
+#' values.
 #'
 #' @details
-#' The DBS map represents the distance travelled over sea between
-#' locations. The raster is reconstructed from example data bundled with the package
-#' using the associated spatial metadata.
+#' The raster is reconstructed from data stored internally as separate
+#' metadata and cell-value objects.
+#'
+#' When `type = NULL`, the returned layer is named `"DBS_map"`. When
+#' `type = "ords"`, the returned layer is named `"DBS_withORDs"`.
+#'
+#' The baseline and ORD-inclusive rasters can be used to inspect how offshore
+#' renewable development footprints alter available movement routes and
+#' flight distances.
+#'
+#' See the package input vignette for related spatial inputs:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}.
 #'
 #' @examples
 #' \dontrun{
+#' # Load the baseline distance-by-sea raster
 #' DBS_map <- get_example_DBS_map()
 #'
-#' # Inspect the raster
-#' DBS_map
+#' # Load the distance-by-sea raster with ORDs
+#' DBS_with_ORDs <- get_example_DBS_map("ords")
 #'
-#' # Plot the example DBS map
+#' # Plot the baseline raster
 #' raster::plot(DBS_map)
 #' }
 #'
+#' @seealso
+#' [get_example_fltdist_base()], [get_example_fgc_3035()],
+#' and [get_example_ORDpoly()].
+#'
+#' @family example data
 #' @export
 get_example_DBS_map <- function(type = NULL){
 
@@ -713,27 +992,56 @@ get_example_DBS_map <- function(type = NULL){
 
 }
 
-#' Load example model outputs
+#' Load example seabORD model output
 #'
-#' Retrieves example seabORD model outputs supplied with the package.
-#' Different example outputs can be loaded by specifying the `type`
-#' argument.
+#' @description
+#' Retrieves a precomputed seabORD model-output object for use in package
+#' examples, vignettes, plotting functions, and testing workflows.
 #'
-#' Currently supported output types are:
-#' \itemize{
-#'   \item \code{"cal_dd"}: Output from the density-dependence
-#'   calibration example.
-#' }
+#' @param type Character string specifying the example output to load.
+#'   Available options are:
+#'   \itemize{
+#'     \item `NULL`: Output from the standard scenario example.
+#'     \item `"cal"`: Output from the standard calibration example.
+#'     \item `"cal_dd"`: Output from the density-dependence calibration
+#'       example.
+#'   }
 #'
-#' @param type Character string specifying which example output to load.
-#' See Details for available options.
+#' @return
+#' A precomputed seabORD model-output object. Its contents depend on the
+#' selected example and may include adult, chick, flight, survival, impact,
+#' parameter, and spatial output components.
 #'
-#' @return An example seabORD output object.
+#' @details
+#' This function provides access to precomputed model outputs so that examples
+#' and vignettes can demonstrate output processing and plotting without
+#' rerunning the complete simulation.
+#'
+#' The structure of the returned object corresponds to the output produced by
+#' [seabord()], although individual components depend on the model mode and
+#' output switches used when the example was generated.
+#'
+#' See the package output vignette for guidance on examining and plotting
+#' seabORD results:
+#' \code{vignette("I_exampleKI_output", package = "seabORD")}.
 #'
 #' @examples
-#' # Load calibration output from the density-dependence example
-#' output <- get_example_output("cal_dd")
+#' # Load the standard scenario output
+#' output <- get_example_output()
 #'
+#' # Load the standard calibration output
+#' calibration_output <- get_example_output("cal")
+#'
+#' # Load the density-dependence calibration output
+#' calibration_output_dd <- get_example_output("cal_dd")
+#'
+#' # Inspect the top-level output components
+#' names(output)
+#'
+#' @seealso
+#' [seabord()] and [get_example_par()].
+#'
+#' @family example data
 #' @export
 get_example_output <- function(type = NULL) {
   if (is.null(type)) {

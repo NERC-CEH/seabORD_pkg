@@ -2,20 +2,65 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_switches}
 \alias{get_example_switches}
-\title{Load example switch settings}
+\title{Load example model switches}
 \usage{
 get_example_switches(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example workflow to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Standard scenario example.
+\item \code{"dd"}: Density-dependence scenario example.
+\item \code{"cal"}: Standard calibration example.
+\item \code{"cal_dd"}: Density-dependence calibration example.
+}}
+}
 \value{
-A list containing example model switch settings.
+A named list containing example model switches for use with \code{\link[=seabord]{seabord()}}.
 }
 \description{
-Retrieves the example switch configuration (\code{switches}) used throughout
-the package examples and vignettes. This object contains logical flags
-and settings that control which model components and outputs are used
-during a seabORD simulation.
+Retrieves an example \code{switches} list containing settings that control
+optional model behaviour, execution modes, and output generation in a
+seabORD analysis.
+}
+\details{
+The returned object contains switches controlling features such as the
+model mode, execution environment, output detail, file creation, and
+debugging behaviour.
+
+See the package input vignette for a description of the input objects
+required by \code{\link[=seabord]{seabord()}}:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
+# Load switches for the standard scenario example
 switches <- get_example_switches()
 
+# Load switches for the calibration example
+switches_cal <- get_example_switches("cal")
+
+# Inspect the available switches
+names(switches)
+
 }
+\seealso{
+\code{\link[=get_example_par]{get_example_par()}}, \code{\link[=get_example_modpar]{get_example_modpar()}},
+\code{\link[=get_example_ordPar]{get_example_ordPar()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()}
+}
+\concept{example data}

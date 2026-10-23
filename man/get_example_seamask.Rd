@@ -2,36 +2,64 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_seamask}
 \alias{get_example_seamask}
-\title{Load Example Seamask Raster}
+\title{Load the example sea-mask raster}
 \usage{
 get_example_seamask()
 }
 \value{
-A \code{RasterLayer} object containing the example seamask data.
+A \link[raster:Raster-classes]{raster::RasterLayer} object containing the example sea mask. The
+returned raster layer is named \code{"seamask_3035"}.
 }
 \description{
-Reconstructs the example seamask raster distributed with the package.
-The function creates a raster from the stored metadata, populates it
-with the example seamask values, and assigns the layer name
-\code{"seamask_3035"}.
+Reconstructs and returns the example sea-mask raster supplied with the
+package.
 }
 \details{
-The example seamask is stored internally as a list containing:
+The example sea mask is stored internally as a list containing:
 \itemize{
-\item \code{metadata}: raster dimensions, extent and coordinate reference system.
-\item \code{matrix}: raster cell values.
+\item \code{metadata}: Raster dimensions, extent, and coordinate reference
+system.
+\item \code{matrix}: Raster cell values.
 }
 
-The raster is reconstructed using
-\code{\link[=raster_from_metadata]{raster_from_metadata()}} and then populated with the stored values.
+The raster is reconstructed from the stored metadata using the package's
+internal raster-construction helper and is then populated with the stored
+cell values.
+
+The returned raster can be supplied as the \code{seamask} argument to
+\code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
+# Load the example sea mask
 seamask <- get_example_seamask()
 
-# Inspect raster properties
+# Inspect the raster
 seamask
 
-# Plot seamask
+# Plot the raster
 raster::plot(seamask)
 
 }
+\seealso{
+\code{\link[=get_example_brddata]{get_example_brddata()}}, \code{\link[=get_example_frgcompdata]{get_example_frgcompdata()}},
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}, and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

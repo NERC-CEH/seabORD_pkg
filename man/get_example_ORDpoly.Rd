@@ -2,23 +2,61 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_ORDpoly}
 \alias{get_example_ORDpoly}
-\title{Load example ORD polygons for distance-decay workflows}
+\title{Load example offshore renewable development polygons}
 \usage{
 get_example_ORDpoly(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the example polygon dataset to
+load. Available options are:
+\itemize{
+\item \code{NULL}: Polygons for the standard scenario example.
+\item \code{"dd"}: Polygons for the Whinnyfold density-dependence example.
+}}
+}
 \value{
-An \code{sf} object containing example ORD polygons.
+An \code{sf} object containing example offshore renewable development
+footprints.
 }
 \description{
-Retrieves the example offshore renewable development (ORD) polygons
-(\code{ORDpoly_example_wfold}) supplied with the package. These polygons
-represent the wind farm footprints used in the Whinnyfold
-density-dependence example workflow.
+Retrieves example offshore renewable development polygons supplied with
+the package.
+}
+\details{
+The returned polygons represent the offshore renewable development
+footprints used by the selected example workflow. They can be supplied as
+the \code{ORDpoly} argument to \code{\link[=seabord]{seabord()}}.
+
+See the package input vignette for an example:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
-ORDpolys <- get_example_ORDpolys_dd()
+# Load polygons for the standard scenario example
+ORDpoly <- get_example_ORDpoly()
 
-# View the polygons
-plot(sf::st_geometry(ORDpolys))
+# Load polygons for the density-dependence example
+ORDpoly_dd <- get_example_ORDpoly("dd")
+
+# Plot the polygon geometry
+plot(sf::st_geometry(ORDpoly))
 
 }
+\seealso{
+\code{\link[=get_example_ordPar]{get_example_ordPar()}} and \code{\link[=seabord]{seabord()}}.
+
+Other example data: 
+\code{\link{get_example_DBS_map}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

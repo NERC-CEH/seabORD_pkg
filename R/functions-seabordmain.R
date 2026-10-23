@@ -2,27 +2,31 @@
 ## FUNCTIONS for SeabORD v2.0.x
 ## Author: UKCEH
 ## Date: From May 2020
-##
 
 #'
-#' @title SeabORD main function
+#' @title Run a SeabORD simulation
 #'
 #' @description A model to estimate the population consequences of displacement
-#'   from proposed offshore renewable energy developments for key seabird species
+#'   from proposed offshore renewable energy developments for key seabird species.
+#'   The function performs one or more stochastic simulation replicates and returns summaries of adult, chick, flight and survival metrics.
+#' @details
+#' Before running this function, all model inputs must be prepared.
+#' A complete description of the required input objects is provided in:
+#' \code{vignette("C_KI_inputs", package = "seabORD")}
 #'
 #' @param Par List - The main parameters controlling/defining this run
 #' @param modPar List - Parameters relating to the model mode and computer environment
 #' @param ordPar List -  Input parameters relating to the ORDs
 #' @param switches List -  A set of switches/flags used to control optional features of the run
 #' @param seamask Raster - land/sea grid, 1km expected.
-#' @param spadat1 description TBC
-#' @param spadat2 description TBC
-#' @param spdat Species-specific parameters
-#' @param BrdData description TBC
-#' @param FrgCompData description TBC
-#' @param fltdist_base Flight distance by sea, without ORDs. See user guide for details.
-#' @param FlightGridcorrection Flight distance transition layer (gdistance)
-#' @param ORDpoly The ORD footprints
+#' @param spadat1 Tibble - Information relating to the colony/SPA
+#' @param spadat2 Tibble - Information relating to the colony/SPA
+#' @param spdat Dataframe - Species-specific parameters
+#' @param BrdData Raster - Bird distribution map - derived from GPS data or failing that, a distance-decay model
+#' @param FrgCompData Raster - Competition distribution map - derived from GPS data or failing that, a distance-decay model
+#' @param fltdist_base Raster - Flight distance by sea, without ORDs. See user guide for details.
+#' @param FlightGridcorrection Raster - Flight distance transition layer (gdistance) corrected for distortions relating to the CRS
+#' @param ORDpoly Multipolygon (simple features) - The ORD footprints
 #'
 #' @importFrom raster ncol nrow raster calc cellStats crs extent ncell projectRaster values
 #' @importFrom stats sd
@@ -927,12 +931,7 @@ seabord <- function(Par, modPar, ordPar, switches, seamask, spadat1, spadat2,
 
     }
 
-  } #<-- (next simrun) or end of duplicate pairs --------------------------------<
-
-  ##============================================================================
-  ## SECTION -- Summary Calculations -- EXPERIMENTAL
-
-
+  }
 
   ##============================================================================
   ## SECTION -- Output & close --

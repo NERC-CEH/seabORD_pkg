@@ -16,57 +16,62 @@ plot_ORD_obstruction(
 )
 }
 \arguments{
-\item{DBS_map}{A \code{RasterLayer} containing Distance By Sea values
-calculated without ORDs.}
+\item{DBS_map}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing baseline
+distance-by-sea values calculated without ORD obstruction.}
 
-\item{DBS_withORDs}{A \code{RasterLayer} containing Distance By Sea values
-calculated with ORDs present.}
+\item{DBS_withORDs}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing
+distance-by-sea values calculated with ORD obstruction.}
 
-\item{colony}{An \code{sf} point object representing the colony location
-used to define the plotting extent.}
+\item{colony}{An \code{sf} point object containing the colony location used to
+define the plotting extent. The object must use a projected coordinate
+reference system with coordinates measured in metres.}
 
-\item{smalltol}{Numeric threshold used to identify meaningful
-increases in Distance By Sea. Cells where
-\code{DBS_withORDs - DBS_map > smalltol} are classified as obstructed.
+\item{smalltol}{Non-negative numeric scalar defining the minimum increase
+in distance by sea required for a cell to be classified as obstructed.
 Defaults to \code{0.01}.}
 
-\item{km_to_left}{Distance (km) to extend the plotting area westward.
-Defaults to \code{30}.}
+\item{km_to_left}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area west of the colony. Defaults to
+\code{30}.}
 
-\item{km_to_right}{Distance (km) to extend the plotting area eastward.
-Defaults to \code{50}.}
+\item{km_to_right}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area east of the colony. Defaults to
+\code{50}.}
 
-\item{km_up}{Distance (km) to extend the plotting area northward.
-Defaults to \code{30}.}
+\item{km_up}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area north of the colony. Defaults to
+\code{30}.}
 
-\item{km_down}{Distance (km) to extend the plotting area southward.
-Defaults to \code{70}.}
+\item{km_down}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area south of the colony. Defaults to
+\code{70}.}
 }
 \value{
-A \code{ggplot} object showing the area affected by ORD obstruction.
-Cells shown in red indicate where Distance By Sea increases by more
-than \code{smalltol} due to the presence of ORDs.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object classifying raster cells as accessible sea,
+obstructed sea, or land.
 }
 \description{
-Creates a map highlighting locations where the presence of Offshore
-Renewable Developments (ORDs) increases Distance By Sea (DBS)
-relative to an unobstructed scenario.
+Identifies and plots raster cells where offshore renewable developments
+increase distance by sea relative to the unobstructed baseline.
 }
 \details{
-The function compares Distance By Sea surfaces calculated with and
-without Offshore Renewable Developments. Areas identified as
-obstructed represent locations where travel routes are altered by the
-presence of ORDs, resulting in longer sea-travel distances.
+A cell is classified as obstructed when:
 
-The plot is cropped around the supplied colony location using
-\code{\link[=create_crop_extent_colony]{create_crop_extent_colony()}} to focus on the area of interest and
-improve plotting performance.
+\deqn{DBS_{\mathrm{with\ ORDs}} - DBS_{\mathrm{baseline}} >
+\mathrm{smalltol}}
+
+Obstructed cells therefore represent locations for which the presence of
+ORD footprints alters the available routes and increases the distance
+travelled over sea.
+
+The comparison raster is cropped around \code{colony} using the specified
+directional distances. Accessible sea is displayed in white, obstructed
+sea in red, and land in grey.
 }
 \examples{
 \dontrun{
 DBS_map <- get_example_DBS_map()
-DBS_withORDs <- get_example_DBS_map_with_ORDs()
-colony <- get_example_colony_3035()
+DBS_withORDs <- get_example_DBS_map("ords")
 
 plot_ORD_obstruction(
   DBS_map = DBS_map,
@@ -77,7 +82,24 @@ plot_ORD_obstruction(
 
 }
 \seealso{
-\code{\link[=get_example_DBS_map]{get_example_DBS_map()}},
-\code{\link[=get_example_DBS_map_with_ORDs]{get_example_DBS_map_with_ORDs()}},
-\code{\link[=create_crop_extent_colony]{create_crop_extent_colony()}}
+\code{\link[=get_example_DBS_map]{get_example_DBS_map()}} for loading the baseline and ORD-inclusive
+distance-by-sea rasters, and \code{\link[=plot_DBS_map]{plot_DBS_map()}} for plotting either raster
+separately.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

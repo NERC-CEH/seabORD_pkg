@@ -30,5 +30,5 @@ seed).
 }
 \examples{
   set_seedvalues(2327, 10, 5)
-  
+
 }

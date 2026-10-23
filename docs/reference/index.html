@@ -18,29 +18,32 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
+    <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
+    <a class="dropdown-item" href="../articles/B_seabord_overview.html">seabORD Overview</a>
+    <a class="dropdown-item" href="../articles/C_seabord_inputs.html">seabORD Inputs</a>
+    <a class="dropdown-item" href="../articles/J_main_functions.html">Main Functions</a>
+  </div>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>Getting Started</h6>
-    <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
-    <a class="dropdown-item" href="../articles/B_explanation_model.html">Overview of seabORD</a>
-    <a class="dropdown-item" href="../articles/C_KI_inputs.html">Example kittiwake:  step 1 - seabORD inputs</a>
-    <a class="dropdown-item" href="../articles/J_main_functions.html">Main functions behind seabORD</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Kittiwake example case</h6>
-    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Example: step 1.1 - creating a distance-decay map</a>
-    <a class="dropdown-item" href="../articles/E_KI_calib_decay.html">Example kittiwake:  step 2.1 - seabORD calibration - distance decay</a>
-    <a class="dropdown-item" href="../articles/F_exampleKI_calib.html">Example kittiwake:  step 2.2 - seabORD calibration - GPS maps</a>
-    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Example kittiwake:  step 3.1 - seabORD run - distance decay</a>
-    <a class="dropdown-item" href="../articles/H_exampleKI_run.html">Example kittiwake:  step 3.2 - seabORD run - GPS maps</a>
-    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Example kittiwake:  step 4 - interpreting the outputs</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Help</h6>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-example-cases">Example Cases</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-example-cases">
+    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Kittiwake Example - Distance decay</a>
+    <a class="dropdown-item" href="../articles/H_KI_run_gps.html">Kittiwake Example - GPS</a>
+    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Exploring Outputs</a>
+    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Distance Decay Maps</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-help">Help</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-help">
     <a class="dropdown-item" href="../articles/K_FAQs.html">FAQs</a>
   </div>
+</li>
+<li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -70,7 +73,7 @@
           
           <code><a href="seabord.html">seabord()</a></code> 
         </dt>
-        <dd>SeabORD main function</dd>
+        <dd>Run a SeabORD simulation</dd>
       </dl></div><div class="section level2">
       <h2 id="main-functions-behind-the-seabord-model">Main functions behind the seabORD model<a class="anchor" aria-label="anchor" href="#main-functions-behind-the-seabord-model"></a></h2>
       
@@ -150,11 +153,6 @@
         <dd>Set the seeds needed for reproducibility</dd>
       </dl><dl><dt>
           
-          <code><a href="set_medianprey.html">set_medianprey()</a></code> 
-        </dt>
-        <dd>Set the median prey value across the region</dd>
-      </dl><dl><dt>
-          
           <code><a href="set_initialbirdtype.html">set_initialbirdtype()</a></code> 
         </dt>
         <dd>Create individual seabirds for the simulation</dd>
@@ -224,77 +222,77 @@
           
           <code><a href="get_example_brddata.html">get_example_brddata()</a></code> 
         </dt>
-        <dd>Load example seabird density raster data</dd>
+        <dd>Load example seabird-distribution raster data</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_DBS_map.html">get_example_DBS_map()</a></code> 
         </dt>
-        <dd>Load the example Distance By Sea (DBS) map</dd>
+        <dd>Load an example distance-by-sea raster</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_fgc_3035.html">get_example_fgc_3035()</a></code> 
         </dt>
-        <dd>Load example flight grid correction raster</dd>
+        <dd>Load the example flight-grid correction object</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_fltdist_base.html">get_example_fltdist_base()</a></code> 
         </dt>
-        <dd>Load example flight distance raster</dd>
+        <dd>Load example baseline flight-distance raster data</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_frgcompdata.html">get_example_frgcompdata()</a></code> 
         </dt>
-        <dd>Load example competition distribution raster data</dd>
+        <dd>Load example foraging-competition raster data</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_modpar.html">get_example_modpar()</a></code> 
         </dt>
-        <dd>Load example model parameters</dd>
+        <dd>Load example model-control parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_ordPar.html">get_example_ordPar()</a></code> 
         </dt>
-        <dd>Load example ordPar object</dd>
+        <dd>Load example offshore renewable development parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_ORDpoly.html">get_example_ORDpoly()</a></code> 
         </dt>
-        <dd>Load example ORD polygons for distance-decay workflows</dd>
+        <dd>Load example offshore renewable development polygons</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_output.html">get_example_output()</a></code> 
         </dt>
-        <dd>Load example model outputs</dd>
+        <dd>Load example seabORD model output</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_par.html">get_example_par()</a></code> 
         </dt>
-        <dd>Load example parameter lists</dd>
+        <dd>Load example biological and simulation parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_seamask.html">get_example_seamask()</a></code> 
         </dt>
-        <dd>Load Example Seamask Raster</dd>
+        <dd>Load the example sea-mask raster</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_spadat1.html">get_example_spadat1()</a></code> 
         </dt>
-        <dd>Load an example SPA site record</dd>
+        <dd>Load example SPA coordinate data</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_spadat2.html">get_example_spadat2()</a></code> 
         </dt>
-        <dd>Load an example SPA site designation record</dd>
+        <dd>Load example SPA designation data</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_spdat.html">get_example_spdat()</a></code> 
         </dt>
-        <dd>Load species-specific example data</dd>
+        <dd>Load example species parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_example_switches.html">get_example_switches()</a></code> 
         </dt>
-        <dd>Load example switch settings</dd>
+        <dd>Load example model switches</dd>
       </dl><dl><dt>
           
           <code><a href="get_spdat.html">get_spdat()</a></code> 
@@ -313,29 +311,29 @@
 
       <dl><dt>
           
-          <code><a href="create_colony_point.html">create_colony_point()</a></code> 
+          <code><a href="set_colony_point.html">set_colony_point()</a></code> 
         </dt>
         <dd>Create a colony location point</dd>
       </dl><dl><dt>
           
-          <code><a href="create_ORD_buffer.html">create_ORD_buffer()</a></code> 
+          <code><a href="set_ORD_buffer.html">set_ORD_buffer()</a></code> 
         </dt>
         <dd>Create buffer polygons around ORDs</dd>
       </dl><dl><dt>
           
-          <code><a href="create_prey_sequence_in_par.html">create_prey_sequence_in_par()</a></code> 
+          <code><a href="set_prey_sequence_in_par.html">set_prey_sequence_in_par()</a></code> 
         </dt>
         <dd>Create a prey calibration sequence in Par</dd>
       </dl><dl><dt>
           
-          <code><a href="create_crop_extent_colony.html">create_crop_extent_colony()</a></code> 
-        </dt>
-        <dd>Create a crop extent around a colony</dd>
-      </dl><dl><dt>
-          
-          <code><a href="calculate_pc_in_ORD_buffer.html">calculate_pc_in_ORD_buffer()</a></code> 
+          <code><a href="calc_pc_in_ORD_buffer.html">calc_pc_in_ORD_buffer()</a></code> 
         </dt>
         <dd>Calculate the percentage of a DD map within ORD buffer zones</dd>
+      </dl><dl><dt>
+          
+          <code><a href="calc_calibration_range.html">calc_calibration_range()</a></code> 
+        </dt>
+        <dd>Identify prey values meeting calibration criteria</dd>
       </dl><dl><dt>
           
           <code><a href="summarise_ORD_impact.html">summarise_ORD_impact()</a></code> 
@@ -346,11 +344,6 @@
           <code><a href="check_calibration_inputs.html">check_calibration_inputs()</a></code> 
         </dt>
         <dd>Check calibration input consistency</dd>
-      </dl><dl><dt>
-          
-          <code><a href="find_calibration_range.html">find_calibration_range()</a></code> 
-        </dt>
-        <dd>Identify prey values meeting calibration criteria</dd>
       </dl></div><div class="section level2">
       <h2 id="plotting-input-output">Plotting input/output<a class="anchor" aria-label="anchor" href="#plotting-input-output"></a></h2>
       
@@ -371,12 +364,12 @@
           
           <code><a href="plot_BirdFlightMap.html">plot_BirdFlightMap()</a></code> 
         </dt>
-        <dd>Plot a BirdFlightMap raster</dd>
+        <dd>Plot a bird-flight map</dd>
       </dl><dl><dt>
           
           <code><a href="plot_brddata.html">plot_brddata()</a></code> 
         </dt>
-        <dd>Plot a BrdData raster</dd>
+        <dd>Plot a bird-distribution raster</dd>
       </dl><dl><dt>
           
           <code><a href="plot_calibration_outputs.html">plot_calibration_outputs()</a></code> 
@@ -391,42 +384,42 @@
           
           <code><a href="plot_colony_location.html">plot_colony_location()</a></code> 
         </dt>
-        <dd>Plot a colony location against the coastline</dd>
+        <dd>Plot a colony location and surrounding coastline</dd>
       </dl><dl><dt>
           
           <code><a href="plot_DBS_map.html">plot_DBS_map()</a></code> 
         </dt>
-        <dd>Plot a Distance By Sea (DBS) raster</dd>
+        <dd>Plot a distance-by-sea raster</dd>
       </dl><dl><dt>
           
           <code><a href="plot_DD_map.html">plot_DD_map()</a></code> 
         </dt>
-        <dd>Plot a DD map raster</dd>
+        <dd>Plot a distance-decay map</dd>
       </dl><dl><dt>
           
           <code><a href="plot_DD_map_with_ORDs.html">plot_DD_map_with_ORDs()</a></code> 
         </dt>
-        <dd>Plot a DD map with ORD footprints and buffer zones</dd>
+        <dd>Plot a distance-decay map with ORD footprints</dd>
       </dl><dl><dt>
           
           <code><a href="plot_flight_distance.html">plot_flight_distance()</a></code> 
         </dt>
-        <dd>Plot flight distance by season</dd>
+        <dd>Plot mean flight distance by season</dd>
       </dl><dl><dt>
           
           <code><a href="plot_fltdist_base.html">plot_fltdist_base()</a></code> 
         </dt>
-        <dd>Plot a flight distance raster</dd>
+        <dd>Plot a baseline flight-distance raster</dd>
       </dl><dl><dt>
           
           <code><a href="plot_frgcompdata.html">plot_frgcompdata()</a></code> 
         </dt>
-        <dd>Plot a competition distribution raster</dd>
+        <dd>Plot a foraging-competition raster</dd>
       </dl><dl><dt>
           
           <code><a href="plot_ORDpoly.html">plot_ORDpoly()</a></code> 
         </dt>
-        <dd>Plot an ORD polygon</dd>
+        <dd>Plot offshore renewable development polygons</dd>
       </dl><dl><dt>
           
           <code><a href="plot_ORD_obstruction.html">plot_ORD_obstruction()</a></code> 
@@ -436,7 +429,7 @@
           
           <code><a href="plot_seamask.html">plot_seamask()</a></code> 
         </dt>
-        <dd>Plot seamask raster</dd>
+        <dd>Plot a sea-mask raster</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

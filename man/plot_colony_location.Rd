@@ -2,39 +2,67 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_colony_location}
 \alias{plot_colony_location}
-\title{Plot a colony location against the coastline}
+\title{Plot a colony location and surrounding coastline}
 \usage{
 plot_colony_location(colony, expand_km = 1)
 }
 \arguments{
-\item{colony}{An \code{sf} point object containing the colony location in
-EPSG:3035.}
+\item{colony}{An \code{sf} point object containing the colony location. The
+object must use the ETRS89-extended / LAEA Europe coordinate reference
+system (EPSG:3035).}
 
-\item{expand_km}{Distance (km) to extend the plotting window around the
-colony. Defaults to 1.}
+\item{expand_km}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting window from the colony in each
+direction. Defaults to \code{1}.}
 }
 \value{
-A \code{ggplot} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the colony location and surrounding
+coastline.
 }
 \description{
-Creates a zoomed-in map showing a colony location relative to the
-coastline, allowing the user to visually confirm that the colony is
-located on land and adjacent to the sea.
+Creates a detailed map of a colony location and the surrounding coastline.
 }
 \details{
-The plot is centred on the colony location and displays a square window
-extending \code{expand_km} kilometres in all directions. This is useful for
-checking that colony coordinates have been specified correctly before
-generating distance-at-sea layers or running seabORD simulations.
+The plot is centred on the supplied colony point and displays a square
+plotting window extending \code{expand_km} kilometres to the north, south, east,
+and west.
+
+This plot can be used to check that colony coordinates are correctly
+positioned on the coastline before generating distance-by-sea rasters or
+running a seabORD simulation.
+
+The coastline is displayed in grey and the colony is shown using a blue
+cross.
 }
 \examples{
+\dontrun{
 colony <- create_colony_point(
   lon = -1.85849,
   lat = 57.388807
 )
 
 plot_colony_location(
-  colony = colony
+  colony = colony,
+  expand_km = 1
 )
+}
 
 }
+\seealso{
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

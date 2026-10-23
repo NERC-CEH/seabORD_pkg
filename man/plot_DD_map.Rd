@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_DD_map}
 \alias{plot_DD_map}
-\title{Plot a DD map raster}
+\title{Plot a distance-decay map}
 \usage{
 plot_DD_map(
   DD_map,
@@ -12,43 +12,85 @@ plot_DD_map(
   km_up = 30,
   km_down = 70,
   crop = FALSE,
-  title = "DD map"
+  title = "Distance-decay map"
 )
 }
 \arguments{
-\item{DD_map}{A \code{RasterLayer} containing DD map data.}
+\item{DD_map}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing
+distance-decay values.}
 
-\item{colony}{An \code{sf} point object giving the colony location.
-If supplied together with the cropping distances, the raster
-is cropped around the colony before plotting.}
+\item{colony}{An \code{sf} point object containing the colony location. This is
+required when \code{crop = TRUE} and must use a projected coordinate reference
+system with coordinates measured in metres.}
 
-\item{km_to_left}{Distance (km) to extend the cropped map westward.
-Defaults to 30.}
+\item{km_to_left}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the cropped area west of the colony. Defaults to
+\code{30}.}
 
-\item{km_to_right}{Distance (km) to extend the cropped map eastward.
-Defaults to 50.}
+\item{km_to_right}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the cropped area east of the colony. Defaults to
+\code{50}.}
 
-\item{km_up}{Distance (km) to extend the cropped map northward.
-Defaults to 30.}
+\item{km_up}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the cropped area north of the colony. Defaults to
+\code{30}.}
 
-\item{km_down}{Distance (km) to extend the cropped map southward.
-Defaults to 70.}
+\item{km_down}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the cropped area south of the colony. Defaults to
+\code{70}.}
 
-\item{crop}{Logical. Should the raster be cropped around the colony
-location? Defaults to \code{FALSE}.}
+\item{crop}{Logical scalar indicating whether \code{DD_map} should be cropped
+around \code{colony}. Defaults to \code{FALSE}.}
 
-\item{title}{Character string giving the plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Distance-decay map"}.}
 }
 \value{
-A \code{ggplot} object showing the DD map raster.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distance-decay raster.
 }
 \description{
-Creates a map of DD values and optionally crops the map around a
-colony location for closer inspection.
+Creates a map of a distance-decay raster and optionally crops the map
+around a colony location.
+}
+\details{
+When \code{crop = FALSE}, the complete raster is plotted.
+
+When \code{crop = TRUE}, \code{colony} must be supplied. The plotting extent is
+calculated using the four directional distances. These distances are
+converted from kilometres to metres, so the colony and raster must use a
+projected coordinate reference system with coordinates measured in metres.
 }
 \examples{
-DD_map <- get_example_DD_map()
-
+\dontrun{
+# Plot the complete distance-decay map
 plot_DD_map(DD_map)
 
+# Plot the map cropped around a colony
+plot_DD_map(
+  DD_map = DD_map,
+  colony = colony,
+  crop = TRUE
+)
 }
+
+}
+\seealso{
+\code{\link[=plot_DD_map_with_ORDs]{plot_DD_map_with_ORDs()}} for adding ORD footprints and buffer zones.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

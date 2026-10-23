@@ -13,7 +13,13 @@
     <loc>/articles/B_explanation_model.html</loc>
   </url>
   <url>
+    <loc>/articles/B_seabord_overview.html</loc>
+  </url>
+  <url>
     <loc>/articles/C_KI_inputs.html</loc>
+  </url>
+  <url>
+    <loc>/articles/C_seabord_inputs.html</loc>
   </url>
   <url>
     <loc>/articles/D_DistanceDecayMap.html</loc>
@@ -29,6 +35,9 @@
   </url>
   <url>
     <loc>/articles/H_exampleKI_run.html</loc>
+  </url>
+  <url>
+    <loc>/articles/H_KI_run_gps.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -76,6 +85,9 @@
     <loc>/reference/calc_birddensmap_dd_pinhalf.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_calibration_range.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_chickcare.html</loc>
   </url>
   <url>
@@ -92,6 +104,9 @@
   </url>
   <url>
     <loc>/reference/calc_othermortality.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_pc_in_ORD_buffer.html</loc>
   </url>
   <url>
     <loc>/reference/calc_pSurvival.html</loc>
@@ -286,6 +301,9 @@
     <loc>/reference/seamask_3035_example.html</loc>
   </url>
   <url>
+    <loc>/reference/set_colony_point.html</loc>
+  </url>
+  <url>
     <loc>/reference/set_initialbirdstate.html</loc>
   </url>
   <url>
@@ -296,6 +314,12 @@
   </url>
   <url>
     <loc>/reference/set_medianprey.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_ORD_buffer.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_prey_sequence_in_par.html</loc>
   </url>
   <url>
     <loc>/reference/set_seedvalues.html</loc>

@@ -2,16 +2,59 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_flight_distance}
 \alias{plot_flight_distance}
-\title{Plot flight distance by season}
+\title{Plot mean flight distance by season}
 \usage{
 plot_flight_distance(sbordout_output_flight)
 }
 \arguments{
-\item{sbordout}{A seabORD model output object.}
+\item{sbordout_output_flight}{A seabORD flight-output object containing a
+\code{data} component. The data must include the columns \code{Season} and
+\code{Tot_basickm.mn}, such as \code{sbordout$output_f0}.}
 }
 \value{
-A \code{ggplot} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distribution of mean total flight
+distance within each season.
 }
 \description{
-Plot flight distance by season
+Creates a boxplot comparing mean total baseline flight distance between
+modelled seasons.
 }
+\details{
+\code{Tot_basickm.mn} is the mean total baseline flight distance, in kilometres,
+across simulated birds within a replicate.
+
+Each boxplot summarises \code{Tot_basickm.mn} across simulation replicates for
+one modelled season. This allows flight-distance distributions in the
+baseline and scenario seasons to be compared.
+}
+\examples{
+\dontrun{
+sbordout <- get_example_output()
+
+plot_flight_distance(
+  sbordout_output_flight = sbordout$output_f0
+)
+}
+
+}
+\seealso{
+\code{\link[=plot_adult_body_mass]{plot_adult_body_mass()}} for plotting adult body mass and
+\code{\link[=plot_chick_survival]{plot_chick_survival()}} for plotting chick survival.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

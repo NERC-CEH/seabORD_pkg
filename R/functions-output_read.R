@@ -45,7 +45,7 @@
 #' \dontrun{
 #' sbordout <- seabORD::example_calibration_output_dd
 #'
-#' calibration_range <- find_calibration_range(
+#' calibration_range <- calc_calibration_range(
 #'   sbordout = sbordout,
 #'   masslower = 0.09,
 #'   massupper = 0.11,
@@ -58,7 +58,7 @@
 #' }
 #'
 #' @export
-find_calibration_range <- function(
+calc_calibration_range <- function(
     sbordout,
     masslower = 0.09,
     massupper = 0.11,

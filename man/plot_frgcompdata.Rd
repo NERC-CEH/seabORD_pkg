@@ -2,44 +2,75 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_frgcompdata}
 \alias{plot_frgcompdata}
-\title{Plot a competition distribution raster}
+\title{Plot a foraging-competition raster}
 \usage{
-plot_frgcompdata(frgcompdata, title = "coasts (red) and FrgCompData")
+plot_frgcompdata(
+  frgcompdata,
+  title = "Coastline and foraging-competition distribution",
+  zoom = FALSE
+)
 }
 \arguments{
-\item{frgcompdata}{A \code{RasterLayer} containing competition distribution
-data, such as the object returned by
+\item{frgcompdata}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing the
+foraging-competition distribution, such as the object returned by
 \code{\link[=get_example_frgcompdata]{get_example_frgcompdata()}}.}
 
-\item{title}{Character string giving the plot title.
-Defaults to \code{"coasts (red) and FrgCompData"}.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Coastline and foraging-competition distribution"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{frgcompdata} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{ggplot} object showing the competition distribution raster together
-with coastlines for geographical context.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the foraging-competition raster and
+coastline.
 }
 \description{
-Creates a map of the competition distribution used by seabORD to
-represent the influence of conspecifics from surrounding colonies on
-foraging behaviour and intake rates.
+Creates a map of the spatial distribution of birds from colonies that are
+not simulated directly but may compete with the modelled population at
+foraging locations.
 }
 \details{
-The coastline dataset (\code{cef_coast_4326}) is reprojected to match the
-coordinate reference system of the input raster before plotting.
+The input raster represents the spatial distribution of birds from
+surrounding colonies that are not simulated directly. These birds may
+compete with the modelled population and influence intake rates at
+foraging locations.
 
-Competition distribution values are displayed using a viridis colour
-scale, while cells with a value of zero are displayed as missing values
-in grey.
+Raster cells with a value of zero are converted to missing values before
+plotting. Non-missing values are displayed using a continuous viridis
+colour scale.
+
+The coastline data supplied with the package are transformed to the
+coordinate reference system of \code{frgcompdata} before plotting.
 }
 \examples{
-# Load example competition distribution data
+# Load and plot the standard example competition distribution
 frgcompdata <- get_example_frgcompdata()
-
-# Create and display the map
 plot_frgcompdata(frgcompdata)
+
+# Load and plot the density-dependence example
+frgcompdata_dd <- get_example_frgcompdata("dd")
+plot_frgcompdata(frgcompdata_dd)
 
 }
 \seealso{
-\code{\link[=get_example_frgcompdata]{get_example_frgcompdata()}} for loading the example competition
-distribution raster.
+\code{\link[=get_example_frgcompdata]{get_example_frgcompdata()}} for loading example foraging-competition
+rasters and \code{\link[=plot_brddata]{plot_brddata()}} for plotting bird-distribution data.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_DD_map_with_ORDs}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_seamask}()}
 }
+\concept{plotting functions}

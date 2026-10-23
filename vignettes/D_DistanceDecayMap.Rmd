@@ -1,8 +1,8 @@
 ---
-title: "Example: step 1.1 - creating a distance-decay map"
+title: "Create a distance-decay map"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example: step 1.1 - creating a distance-decay map}
+  %\VignetteIndexEntry{Create a distance-decay map}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -44,7 +44,7 @@ This example will include the following steps:
 4.  Plot the distance decay map with OWFs
 5.  Assess the interaction with OWFs
 
-## devtools::build_vignettes()1. DBS (Distance By Sea) map
+## 1. DBS (Distance By Sea) map
 
 First we set the colony location, in this case Whinnyfold, but you could change this to any colony around the UK that you wish to model.
 
@@ -52,7 +52,7 @@ First we set the colony location, in this case Whinnyfold, but you could change 
 
 ```{r}
 #Set the location of an example colony e.g., at Whinnyfold:
-example_colony_3035 <- seabORD::create_colony_point(lon = -1.85849,
+example_colony_3035 <- seabORD::set_colony_point(lon = -1.85849,
                                                     lat = 57.388807)
 
 # check the colony location is beside sea cells using a plot:
@@ -154,7 +154,7 @@ Now using the "calc_dist_restricted" function again, we can calculate the distan
 First let's calculate the ORDpolys_with_buffer (like on the map above)
 
 ```{r}
-example_ORDpolys_with_buffer <- seabORD::create_ORD_buffer(
+example_ORDpolys_with_buffer <- seabORD::set_ORD_buffer(
   example_ORDpolys,
   bufferwidth = 2
 )
@@ -165,7 +165,7 @@ Since the DD map is normalized, the result can be interpreted as the **percentag
 ```{r}
 
 #quick assessment of the percentage of the density decay map being occupied by the ORDs and their buffers.
-seabORD::calculate_pc_in_ORD_buffer(example_DD_map,
+seabORD::calc_pc_in_ORD_buffer(example_DD_map,
                                     example_ORDpolys_with_buffer)
 
 # this tells us that just over 1% of the normalised raster is being occupied by ORDs in this case.

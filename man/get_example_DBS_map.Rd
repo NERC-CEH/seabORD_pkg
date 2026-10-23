@@ -2,34 +2,72 @@
 % Please edit documentation in R/functions-get_examples.R
 \name{get_example_DBS_map}
 \alias{get_example_DBS_map}
-\title{Load the example Distance By Sea (DBS) map}
+\title{Load an example distance-by-sea raster}
 \usage{
 get_example_DBS_map(type = NULL)
 }
+\arguments{
+\item{type}{Character string specifying the distance-by-sea raster to load.
+Available options are:
+\itemize{
+\item \code{NULL}: Baseline distance-by-sea raster without offshore
+renewable developments.
+\item \code{"ords"}: Distance-by-sea raster with offshore renewable
+developments included.
+}}
+}
 \value{
-A \code{RasterLayer} containing the example Distance By Sea (DBS)
-map. The layer is named \code{"DBS_map"}.
+A \link[raster:Raster-classes]{raster::RasterLayer} object containing example distance-by-sea
+values.
 }
 \description{
-Retrieves and reconstructs the example Distance By Sea (DBS) map
-included with the package and returns it as a \code{RasterLayer}.
-The raster is created from the stored metadata and populated with
-the example DBS values.
+Reconstructs and returns an example distance-by-sea raster, either without
+or with offshore renewable developments included.
 }
 \details{
-The DBS map represents the distance travelled over sea between
-locations. The raster is reconstructed from example data bundled with the package
-using the associated spatial metadata.
+The raster is reconstructed from data stored internally as separate
+metadata and cell-value objects.
+
+When \code{type = NULL}, the returned layer is named \code{"DBS_map"}. When
+\code{type = "ords"}, the returned layer is named \code{"DBS_withORDs"}.
+
+The baseline and ORD-inclusive rasters can be used to inspect how offshore
+renewable development footprints alter available movement routes and
+flight distances.
+
+See the package input vignette for related spatial inputs:
+\code{vignette("C_KI_inputs", package = "seabORD")}.
 }
 \examples{
 \dontrun{
+# Load the baseline distance-by-sea raster
 DBS_map <- get_example_DBS_map()
 
-# Inspect the raster
-DBS_map
+# Load the distance-by-sea raster with ORDs
+DBS_with_ORDs <- get_example_DBS_map("ords")
 
-# Plot the example DBS map
+# Plot the baseline raster
 raster::plot(DBS_map)
 }
 
 }
+\seealso{
+\code{\link[=get_example_fltdist_base]{get_example_fltdist_base()}}, \code{\link[=get_example_fgc_3035]{get_example_fgc_3035()}},
+and \code{\link[=get_example_ORDpoly]{get_example_ORDpoly()}}.
+
+Other example data: 
+\code{\link{get_example_ORDpoly}()},
+\code{\link{get_example_fgc_3035}()},
+\code{\link{get_example_fltdist_base}()},
+\code{\link{get_example_frgcompdata}()},
+\code{\link{get_example_modpar}()},
+\code{\link{get_example_ordPar}()},
+\code{\link{get_example_output}()},
+\code{\link{get_example_par}()},
+\code{\link{get_example_seamask}()},
+\code{\link{get_example_spadat1}()},
+\code{\link{get_example_spadat2}()},
+\code{\link{get_example_spdat}()},
+\code{\link{get_example_switches}()}
+}
+\concept{example data}

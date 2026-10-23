@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions-plots.R
 \name{plot_DD_map_with_ORDs}
 \alias{plot_DD_map_with_ORDs}
-\title{Plot a DD map with ORD footprints and buffer zones}
+\title{Plot a distance-decay map with ORD footprints}
 \usage{
 plot_DD_map_with_ORDs(
   DD_map,
@@ -17,55 +17,90 @@ plot_DD_map_with_ORDs(
 )
 }
 \arguments{
-\item{DD_map}{A \code{RasterLayer} containing DD values.}
+\item{DD_map}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing
+distance-decay values.}
 
-\item{ORDpolys}{An \code{sf} polygon object defining ORD footprints.}
+\item{ORDpolys}{An \code{sf} polygon object containing one or more offshore
+renewable development footprints.}
 
-\item{colony}{An \code{sf} point object giving the colony location used to
-define the plotting extent.}
+\item{colony}{An \code{sf} point object containing the colony location used to
+define the plotting extent. The object must use a projected coordinate
+reference system with coordinates measured in metres.}
 
-\item{bufferwidth}{Width of the ORD buffer in kilometres.
-Defaults to \code{2}.}
+\item{bufferwidth}{Non-negative numeric scalar giving the width, in
+kilometres, of the buffer created around each ORD footprint. Defaults to
+\code{2}.}
 
-\item{km_to_left}{Distance (km) to extend the plotting area westward.
-Defaults to \code{30}.}
+\item{km_to_left}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area west of the colony. Defaults to
+\code{30}.}
 
-\item{km_to_right}{Distance (km) to extend the plotting area eastward.
-Defaults to \code{50}.}
+\item{km_to_right}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area east of the colony. Defaults to
+\code{50}.}
 
-\item{km_up}{Distance (km) to extend the plotting area northward.
-Defaults to \code{30}.}
+\item{km_up}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area north of the colony. Defaults to
+\code{30}.}
 
-\item{km_down}{Distance (km) to extend the plotting area southward.
-Defaults to \code{70}.}
+\item{km_down}{Non-negative numeric scalar giving the distance, in
+kilometres, to extend the plotting area south of the colony. Defaults to
+\code{70}.}
 
-\item{title}{Character string giving the plot title.}
+\item{title}{Character string giving the plot title. Defaults to
+\code{"Distance-decay map and ORD footprints"}.}
 }
 \value{
-A \code{ggplot} object showing the DD raster, ORD footprints, buffer zones
-and coastline.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the distance-decay raster, ORD
+footprints, ORD buffer zones, and coastline.
 }
 \description{
-Creates a map showing the DD raster together with offshore wind farm
-footprints (ORD polygons), user-defined buffer zones and coastlines.
+Creates a map showing a distance-decay raster together with offshore
+renewable development footprints, associated buffer zones, and the
+coastline.
 }
 \details{
-The raster is cropped around the colony location before plotting to
-improve rendering speed and focus the visualisation on the area of
-interest.
+The distance-decay raster and coastline are cropped around the colony
+before plotting. This focuses the map on the area of interest and reduces
+the amount of spatial data that must be rendered.
 
-A buffer is generated around each ORD polygon and displayed alongside
-the original footprint. Coastlines are cropped to the same spatial
-extent to further reduce plotting time.
+ORD footprints are displayed in blue and their associated buffer zones are
+displayed in light blue. Distance-decay values are displayed using a
+continuous viridis colour scale.
+
+All spatial inputs should use compatible projected coordinate reference
+systems.
 }
 \examples{
 \dontrun{
-plot_DD_map_ORD(
+plot_DD_map_with_ORDs(
   DD_map = DD_map,
   ORDpolys = ORDpolys,
-  colony = colonyLAEA,
-  UK_coastline = UK_coastline_LAEA
+  colony = colony,
+  bufferwidth = 2
 )
 }
 
 }
+\seealso{
+\code{\link[=plot_DD_map]{plot_DD_map()}} for plotting a distance-decay raster without ORD
+footprints, \code{\link[=get_example_ORDpoly]{get_example_ORDpoly()}} for loading example ORD polygons, and
+\code{\link[=plot_ORD_obstruction]{plot_ORD_obstruction()}} for identifying obstructed areas.
+
+Other plotting functions: 
+\code{\link{plot_BirdFlightMap}()},
+\code{\link{plot_DBS_map}()},
+\code{\link{plot_DD_map}()},
+\code{\link{plot_ORD_obstruction}()},
+\code{\link{plot_ORDpoly}()},
+\code{\link{plot_adult_body_mass}()},
+\code{\link{plot_brddata}()},
+\code{\link{plot_calibration_outputs}()},
+\code{\link{plot_chick_survival}()},
+\code{\link{plot_colony_location}()},
+\code{\link{plot_flight_distance}()},
+\code{\link{plot_fltdist_base}()},
+\code{\link{plot_frgcompdata}()},
+\code{\link{plot_seamask}()}
+}
+\concept{plotting functions}

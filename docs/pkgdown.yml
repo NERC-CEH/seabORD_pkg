@@ -3,15 +3,13 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   A_installing_seabord: A_installing_seabord.html
-  B_explanation_model: B_explanation_model.html
-  C_KI_inputs: C_KI_inputs.html
+  B_seabord_overview: B_seabord_overview.html
+  C_seabord_inputs: C_seabord_inputs.html
   D_DistanceDecayMap: D_DistanceDecayMap.html
-  E_KI_calib_decay: E_KI_calib_decay.html
-  F_exampleKI_calib: F_exampleKI_calib.html
   G_KI_run_decay: G_KI_run_decay.html
-  H_exampleKI_run: H_exampleKI_run.html
+  H_KI_run_gps: H_KI_run_gps.html
   I_exampleKI_output: I_exampleKI_output.html
   J_main_functions: J_main_functions.html
   K_FAQs: K_FAQs.html
-last_built: 2026-10-20T11:29Z
+last_built: 2026-10-23T13:50Z
 
