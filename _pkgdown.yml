@@ -22,9 +22,9 @@ navbar:
       menu:
       - text: Installing seabORD
         href: articles/A_installing_seabord.html
-      - text: Model Overview
+      - text: seabORD Overview
         href: articles/B_seabord_overview.html
-      - text: Model Inputs
+      - text: seabORD Inputs
         href: articles/C_seabord_inputs.html
       - text: Main Functions
         href: articles/J_main_functions.html

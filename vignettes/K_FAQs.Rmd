@@ -1,8 +1,8 @@
 ---
-title: "FAQs"
+title: "FAQs & common pitfalls"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{FAQs}
+  %\VignetteIndexEntry{FAQs & common pitfalls}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,3 +14,5 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+WORK IN PORGRESS: Link to article appendix with some text

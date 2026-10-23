@@ -6,7 +6,8 @@
 \usage{
 plot_fltdist_base(
   fltdist_base,
-  title = "Coastline and baseline flight distance"
+  title = "Coastline and baseline flight distance",
+  zoom = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,9 @@ baseline flight distances, such as the object returned by
 
 \item{title}{Character string giving the plot title. Defaults to
 \code{"Coastline and baseline flight distance"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{fltdist_base} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the baseline flight-distance raster

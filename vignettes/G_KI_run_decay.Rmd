@@ -92,7 +92,7 @@ FrgCompData_example <- seabORD::get_example_frgcompdata(type = "dd")
 ```
 
 ```{r, echo=FALSE}
-seabORD::plot_frgcompdata(frgcompdata = FrgCompData_example)
+seabORD::plot_frgcompdata(frgcompdata = FrgCompData_example, zoom = TRUE)
 ```
 
 #### fltdist_base
@@ -102,7 +102,7 @@ fltdist_base_example <- seabORD::get_example_fltdist_base(type = "dd")
 ```
 
 ```{r,  echo=FALSE}
-seabORD::plot_fltdist_base(fltdist_base = fltdist_base_example)
+seabORD::plot_fltdist_base(fltdist_base = fltdist_base_example, , zoom = TRUE)
 ```
 
 #### FlightGridcorrection

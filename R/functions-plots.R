@@ -432,7 +432,8 @@ plot_frgcompdata <- function(
 #'   [get_example_fltdist_base()].
 #' @param title Character string giving the plot title. Defaults to
 #'   `"Coastline and baseline flight distance"`.
-#'
+#' @param zoom Logical. If `TRUE`, zooms the map to the extent of
+#'   `fltdist_base` plus a 10 km buffer. Defaults to `FALSE`.
 #' @return
 #' A [ggplot2::ggplot()] object showing the baseline flight-distance raster
 #' and coastline.
@@ -467,7 +468,8 @@ plot_frgcompdata <- function(
 #' @export
 plot_fltdist_base <- function(
     fltdist_base,
-    title = "Coastline and baseline flight distance"
+    title = "Coastline and baseline flight distance",
+    zoom = FALSE
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -489,7 +491,7 @@ plot_fltdist_base <- function(
       0
     )
 
-  ggplot2::ggplot() +
+  p <- ggplot2::ggplot() +
     # Plot the raster
     ggplot2:: geom_raster(data = fltdist_base_df,  ggplot2::aes_string(
       x = "x",
@@ -504,6 +506,32 @@ plot_fltdist_base <- function(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title = title)
+
+
+  if (zoom) {
+
+    fltdist_base_zoom <- fltdist_base_df |>
+      dplyr::filter(!is.na(.data[[layer_name]]))
+
+    buffer <- 10000 # 10 km
+
+    p <- p +
+      ggplot2::coord_sf(
+        xlim = c(
+          min(fltdist_base_zoom$x) - buffer,
+          max(fltdist_base_zoom$x) + buffer
+        ),
+        ylim = c(
+          min(fltdist_base_zoom$y) - buffer,
+          max(fltdist_base_zoom$y) + buffer
+        ),
+        expand = FALSE
+      )
+
+  }
+
+  p
+
 }
 
 #' Plot offshore renewable development polygons

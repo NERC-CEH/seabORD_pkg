@@ -1,8 +1,8 @@
 ---
-title: "Example kittiwake:  step 1 - seabORD inputs"
+title: "seabORD Inputs"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example kittiwake:  step 1 - seabORD inputs}
+  %\VignetteIndexEntry{seabORD Inputs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,7 +21,7 @@ New to seabORD? This guide walks through all the inputs required for a simulatio
 To run seabORD several inputs are needed:
 
 | arguments | type | description |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Par | List | The main parameters controlling/defining this run e.g., species and colony |
 | modPar | List | Parameters relating to the model mode and computer environment |
 | ordPar | List | Input parameters relating to the ORDs |

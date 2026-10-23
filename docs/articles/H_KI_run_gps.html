@@ -48,8 +48,8 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
     <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
-    <a class="dropdown-item" href="../articles/B_seabord_overview.html">Model Overview</a>
-    <a class="dropdown-item" href="../articles/C_seabord_inputs.html">Model Inputs</a>
+    <a class="dropdown-item" href="../articles/B_seabord_overview.html">seabORD Overview</a>
+    <a class="dropdown-item" href="../articles/C_seabord_inputs.html">seabORD Inputs</a>
     <a class="dropdown-item" href="../articles/J_main_functions.html">Main Functions</a>
   </div>
 </li>
@@ -225,28 +225,15 @@ run</p>
 <p>NOTE: “NScalefactor” is set to 0.1 meaning we are running with 10% of
 the population, which may be sufficient for calibration runs.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Par_example_calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_par.html">get_example_par</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Par_example_calibration</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; List of 12</span></span>
-<span><span class="co">#&gt;  $ thisSpecies        : chr "KI"</span></span>
-<span><span class="co">#&gt;  $ colonies           : chr "UK9004171"</span></span>
-<span><span class="co">#&gt;  $ Nscalefactor       : num 0.1</span></span>
-<span><span class="co">#&gt;  $ Prob_Displacement  : num 0.6</span></span>
-<span><span class="co">#&gt;  $ Prob_Barrier       : num 1</span></span>
-<span><span class="co">#&gt;  $ PreyType           : chr "Uniform"</span></span>
-<span><span class="co">#&gt;  $ collision          : chr "Off"</span></span>
-<span><span class="co">#&gt;  $ SiteSelectionMethod: chr "Map"</span></span>
-<span><span class="co">#&gt;  $ MaxDistancekm      : num 0</span></span>
-<span><span class="co">#&gt;  $ PropInRange        : num 0</span></span>
-<span><span class="co">#&gt;  $ Npairspercol       : num 2898</span></span>
-<span><span class="co">#&gt;  $ Pmedian            : num [1:20] 170 171 171 172 172 ...</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">Par_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_par.html">get_example_par</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="modpar">modPar<a class="anchor" aria-label="anchor" href="#modpar"></a>
 </h5>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modPar_example_calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_modpar.html">get_example_modpar</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">modPar_example_calibration</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">modPar_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_modpar.html">get_example_modpar</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 5</span></span>
 <span><span class="co">#&gt;  $ Nparallel  : logi NA</span></span>
 <span><span class="co">#&gt;  $ initialseed: num 6598</span></span>
@@ -254,23 +241,22 @@ the population, which may be sufficient for calibration runs.</p>
 <span><span class="co">#&gt;  $ outputdir  : chr "output_seabORD"</span></span>
 <span><span class="co">#&gt;  $ Nreplicates: num 20</span></span></code></pre></div>
 <p>Create the output folder , for example “output_seabORD_calibration”
-and assign it</p>
+and assign it in the modPar list.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#set the output location in ModPar</span></span>
-<span><span class="co">#  specifically for calibration outputs if it doesn't alreay exist</span></span>
+<code class="sourceCode R"><span><span class="co">#set the output of ModPar</span></span>
+<span><span class="co">#specifically for calibration outputs if it doesn't alreay exist</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="st">"output_seabORD_calibration"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"output_seabORD_calibration"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modPar_example_calibration</span><span class="op">$</span><span class="va">outputdir</span> <span class="op">&lt;-</span> <span class="st">"output_seabORD_calibration"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">modPar_example</span><span class="op">$</span><span class="va">outputdir</span> <span class="op">&lt;-</span> <span class="st">"output_seabORD_calibration"</span></span></code></pre></div>
 <p>NOTE: Run this test! here is where our 20 replicates are specified -
 this must align with the number of prey values listed in
 “Par_example$Pmedian”.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Lets run a test to that effect:</span></span>
-<span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/check_calibration_inputs.html">check_calibration_inputs</a></span><span class="op">(</span></span>
-<span>  Par <span class="op">=</span> <span class="va">Par_example_calibration</span>,</span>
-<span>  modPar <span class="op">=</span> <span class="va">modPar_example_calibration</span></span>
+<code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/check_calibration_inputs.html">check_calibration_inputs</a></span><span class="op">(</span></span>
+<span>  Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
+<span>  modPar <span class="op">=</span> <span class="va">modPar_example</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Calibration inputs valid: 20 replicate(s) and 20 prey value(s).</span></span></code></pre></div>
 </div>
@@ -280,8 +266,8 @@ this must align with the number of prey values listed in
 <p>ordPar should be empty, as there doesn’t need to be as we are only
 running baseline runs with no ORDs included.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ordPar_example_calibration</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ordPar.html">get_example_ordPar</a></span><span class="op">(</span><span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ordPar_example_calibration</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">ordPar_example</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ordPar.html">get_example_ordPar</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ordPar_example</span><span class="op">)</span> </span>
 <span><span class="co">#&gt;  list()</span></span></code></pre></div>
 </div>
 <div class="section level5">
@@ -290,12 +276,10 @@ running baseline runs with no ORDs included.</p>
 <p>Turn on the switch “savebirdflightmap”, to see an example of the
 birdflightmap output</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#get the switches</span></span>
-<span><span class="va">switches_example_calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_switches.html">get_example_switches</a></span><span class="op">(</span><span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="co">#turn on savebirdflightmap</span></span>
-<span><span class="va">switches_example_calibration</span><span class="op">$</span><span class="va">savebirdflightmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<code class="sourceCode R"><span><span class="va">switches_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_switches.html">get_example_switches</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
+<span><span class="va">switches_example</span><span class="op">$</span><span class="va">savebirdflightmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">switches_example_calibration</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">switches_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 14</span></span>
 <span><span class="co">#&gt;  $ environment      : chr "serial"</span></span>
 <span><span class="co">#&gt;  $ modelmode        : chr "calibration"</span></span>
@@ -323,20 +307,19 @@ also use the example output.</p>
 as this is not needed.</p>
 <p>Calculates (Slow):</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SeabORDoutput</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="va">Par_example_calibration</span>,</span>
-<span>                                  ordPar <span class="op">=</span> <span class="va">ordPar_example_calibration</span>,</span>
-<span>                                  modPar <span class="op">=</span> <span class="va">modPar_example_calibration</span>,</span>
-<span>                                  switches <span class="op">=</span> <span class="va">switches_example_calibration</span>,</span>
-<span>                                  seamask <span class="op">=</span> <span class="va">seamask_example</span>,</span>
-<span>                                  spadat1 <span class="op">=</span> <span class="va">spadat1_example</span>,</span>
-<span>                                  spadat2 <span class="op">=</span> <span class="va">spadat2_example</span>,</span>
-<span>                                  spdat <span class="op">=</span> <span class="va">spdat_example</span>,</span>
-<span>                                  BrdData <span class="op">=</span> <span class="va">brddata_example</span>,</span>
-<span>                                  FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example_dd</span>,</span>
-<span>                                  fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
-<span>                                  FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection_example</span>,</span>
-<span>                                  ORDpoly <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">SeabORDoutput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
+<span>                         ordPar <span class="op">=</span> <span class="va">ordPar_example</span>,</span>
+<span>                         modPar <span class="op">=</span> <span class="va">modPar_example</span>,</span>
+<span>                         switches <span class="op">=</span> <span class="va">switches_example</span>,</span>
+<span>                         seamask <span class="op">=</span> <span class="va">seamask_example</span>,</span>
+<span>                         spadat1 <span class="op">=</span> <span class="va">spadat1_example</span>,</span>
+<span>                         spadat2 <span class="op">=</span> <span class="va">spadat2_example</span>,</span>
+<span>                         spdat <span class="op">=</span> <span class="va">spdat_example</span>,</span>
+<span>                         BrdData <span class="op">=</span> <span class="va">BrdData_example</span>,</span>
+<span>                         FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example</span>,</span>
+<span>                         fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
+<span>                         FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection</span>,</span>
+<span>                         ORDpoly <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>Load example calibration output (used throughout this vignette)</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sbordout_calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_output.html">get_example_output</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span></code></pre></div>
@@ -390,6 +373,7 @@ interactions, which is reassuring!</p>
 outputs (sbordout$output_c0) against the range of prey values across
 replicates to obtain our calibrated estimates to be used in the scenario
 runs going forward.</p>
+<p>Use the bounds for moderate conditions to be plotted.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Identify prey values that simultaneously satisfy</span></span>
 <span><span class="co"># the adult mass loss and productivity constraints</span></span>
@@ -400,6 +384,7 @@ runs going forward.</p>
 <span>  prodlower <span class="op">=</span> <span class="fl">0.45</span>,</span>
 <span>  produpper <span class="op">=</span> <span class="fl">0.55</span></span>
 <span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">#plot it</span></span>
 <span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_calibration_outputs.html">plot_calibration_outputs</a></span><span class="op">(</span></span>
 <span>  <span class="va">sbordout_calibration</span>,</span>
@@ -414,198 +399,6 @@ runs going forward.</p>
 </div>
 <div class="section level2">
 <h2 id="step-2-running-the-model">Step 2: Running the model<a class="anchor" aria-label="anchor" href="#step-2-running-the-model"></a>
-</h2>
-<p>In this example we will run 5 scenario runs (wind farm footprints
-included) with a range of prey values (173-174).</p>
-<p>Now that we have run our calibration step and discerned the prey
-values resulting in moderate conditions in the absence of wind farms, we
-can continue with running the main SeabORD runs with matched pairs of
-baseline (no ORDs) and scenario (ORDs included).</p>
-<div class="section level4">
-<h4 id="parameters-sets-for-the-calibration-run-1">Parameters sets for the calibration run<a class="anchor" aria-label="anchor" href="#parameters-sets-for-the-calibration-run-1"></a>
-</h4>
-<p>Set the parameters input specifically to perform the calibration
-run</p>
-<div class="section level5">
-<h5 id="par-1">Par<a class="anchor" aria-label="anchor" href="#par-1"></a>
-</h5>
-<p>NOTE: “NScalefactor” is set to 0.1 meaning we are running with 10% of
-the population, which may be sufficient for calibration runs.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">Par_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_par.html">get_example_par</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="modpar-1">modPar<a class="anchor" aria-label="anchor" href="#modpar-1"></a>
-</h5>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modPar_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_modpar.html">get_example_modpar</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 5</span></span>
-<span><span class="co">#&gt;  $ Nparallel  : logi NA</span></span>
-<span><span class="co">#&gt;  $ initialseed: num 6598</span></span>
-<span><span class="co">#&gt;  $ reference  : chr "serial_calibration_KI_UK9004171"</span></span>
-<span><span class="co">#&gt;  $ outputdir  : chr "output_seabORD"</span></span>
-<span><span class="co">#&gt;  $ Nreplicates: num 20</span></span></code></pre></div>
-<p>Create the output folder , for example “output_seabORD_calibration”
-and assign it in the modPar list.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#set the output of ModPar</span></span>
-<span><span class="co">#specifically for calibration outputs if it doesn't alreay exist</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="st">"output_seabORD_calibration"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"output_seabORD_calibration"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modPar_example</span><span class="op">$</span><span class="va">outputdir</span> <span class="op">&lt;-</span> <span class="st">"output_seabORD_calibration"</span></span></code></pre></div>
-<p>NOTE: Run this test! here is where our 20 replicates are specified -
-this must align with the number of prey values listed in
-“Par_example$Pmedian”.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/check_calibration_inputs.html">check_calibration_inputs</a></span><span class="op">(</span></span>
-<span>  Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
-<span>  modPar <span class="op">=</span> <span class="va">modPar_example</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Calibration inputs valid: 20 replicate(s) and 20 prey value(s).</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="ordpar-1">ordPar<a class="anchor" aria-label="anchor" href="#ordpar-1"></a>
-</h5>
-<p>ordPar should be empty, as there doesn’t need to be as we are only
-running baseline runs with no ORDs included.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ordPar_example</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ordPar.html">get_example_ordPar</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ordPar_example</span><span class="op">)</span> </span>
-<span><span class="co">#&gt;  list()</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="switches-1">Switches<a class="anchor" aria-label="anchor" href="#switches-1"></a>
-</h5>
-<p>Turn on the switch “savebirdflightmap”, to see an example of the
-birdflightmap output</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">switches_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_switches.html">get_example_switches</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span>
-<span><span class="va">switches_example</span><span class="op">$</span><span class="va">savebirdflightmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">switches_example</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 14</span></span>
-<span><span class="co">#&gt;  $ environment      : chr "serial"</span></span>
-<span><span class="co">#&gt;  $ modelmode        : chr "calibration"</span></span>
-<span><span class="co">#&gt;  $ debugmode        : num 0</span></span>
-<span><span class="co">#&gt;  $ bycol            : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ bysus            : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ bych             : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ printdaily       : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ printseason      : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ printpair        : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ printfinal       : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ minout           : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ silent           : logi FALSE</span></span>
-<span><span class="co">#&gt;  $ saverds          : logi TRUE</span></span>
-<span><span class="co">#&gt;  $ savebirdflightmap: logi TRUE</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level4">
-<h4 id="set-off-calibration-runs-1">Set off calibration runs<a class="anchor" aria-label="anchor" href="#set-off-calibration-runs-1"></a>
-</h4>
-<p>Now that the inputs have been prepared by loading them into our
-environment we can set off the run using the following code. You can
-also use the example output.</p>
-<p>The <strong>ORDpoly</strong> is set to NULL in the calibration run,
-as this is not needed.</p>
-<p>Calculates (Slow):</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SeabORDoutput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
-<span>                         ordPar <span class="op">=</span> <span class="va">ordPar_example</span>,</span>
-<span>                         modPar <span class="op">=</span> <span class="va">modPar_example</span>,</span>
-<span>                         switches <span class="op">=</span> <span class="va">switches_example</span>,</span>
-<span>                         seamask <span class="op">=</span> <span class="va">seamask_example</span>,</span>
-<span>                         spadat1 <span class="op">=</span> <span class="va">spadat1_example</span>,</span>
-<span>                         spadat2 <span class="op">=</span> <span class="va">spadat2_example</span>,</span>
-<span>                         spdat <span class="op">=</span> <span class="va">spdat_example</span>,</span>
-<span>                         BrdData <span class="op">=</span> <span class="va">BrdData_example</span>,</span>
-<span>                         FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example</span>,</span>
-<span>                         fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
-<span>                         FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection</span>,</span>
-<span>                         ORDpoly <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p>Load example calibration output (used throughout this vignette)</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sbordout_calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_output.html">get_example_output</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cal"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="plot-the-outputs-and-determine-prey-values-1">Plot the outputs and determine prey values<a class="anchor" aria-label="anchor" href="#plot-the-outputs-and-determine-prey-values-1"></a>
-</h4>
-<p>For this particular example we define moderate conditions for
-kittiwakes on the Isle of May against the two following outputs:</p>
-<table class="table">
-<colgroup>
-<col width="23%">
-<col width="21%">
-<col width="27%">
-<col width="27%">
-</colgroup>
-<thead><tr class="header">
-<th>Output</th>
-<th>Moderate value</th>
-<th>Upper bound (+10%)</th>
-<th>Lower bound (-10%)</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Adult mass loss</td>
-<td>10%</td>
-<td>11%</td>
-<td>9%</td>
-</tr>
-<tr class="even">
-<td>Chicks per nest</td>
-<td>50%</td>
-<td>55%</td>
-<td>45%</td>
-</tr>
-</tbody>
-</table>
-<p>Where adult mass loss is the average percentage mass loss of adults
-over the duration of the chick-rearing season being simulated, and
-chicks per nest is the average number of chicks surviving per nest. The
-aim of calibration is to find the shared prey values contained within
-the upper and lower bounds between each output.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_BirdFlightMap.html">plot_BirdFlightMap</a></span><span class="op">(</span></span>
-<span>  <span class="va">sbordout_calibration</span><span class="op">$</span><span class="va">BirdFlightMap</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="H_KI_run_gps_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
-<p>You can see from this map that there is no evidence of and ORD
-interactions, which is reassuring!</p>
-<p>Now we will plot the adult outputs (sbordout$output_a0) and the chick
-outputs (sbordout$output_c0) against the range of prey values across
-replicates to obtain our calibrated estimates to be used in the scenario
-runs going forward.</p>
-<p>Use the bounds for moderate conditions to be plotted.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Identify prey values that simultaneously satisfy</span></span>
-<span><span class="co"># the adult mass loss and productivity constraints</span></span>
-<span><span class="va">calibration</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_calibration_range.html">calc_calibration_range</a></span><span class="op">(</span></span>
-<span>  <span class="va">sbordout_calibration</span>,</span>
-<span>  masslower <span class="op">=</span> <span class="fl">0.09</span>,</span>
-<span>  massupper <span class="op">=</span> <span class="fl">0.11</span>,</span>
-<span>  prodlower <span class="op">=</span> <span class="fl">0.45</span>,</span>
-<span>  produpper <span class="op">=</span> <span class="fl">0.55</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plot it</span></span>
-<span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_calibration_outputs.html">plot_calibration_outputs</a></span><span class="op">(</span></span>
-<span>  <span class="va">sbordout_calibration</span>,</span>
-<span>  calibration <span class="op">=</span> <span class="va">calibration</span>,</span>
-<span>  masslower <span class="op">=</span> <span class="fl">0.09</span>,</span>
-<span>  massupper <span class="op">=</span> <span class="fl">0.11</span>,</span>
-<span>  prodlower <span class="op">=</span> <span class="fl">0.45</span>,</span>
-<span>  produpper <span class="op">=</span> <span class="fl">0.55</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="H_KI_run_gps_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="step-2-running-the-model-1">Step 2: Running the model<a class="anchor" aria-label="anchor" href="#step-2-running-the-model-1"></a>
 </h2>
 <p>Now that we have run our calibration step and discerned the prey
 values resulting in moderate conditions in the absence of wind farms, we
@@ -626,12 +419,12 @@ different wind farm footprints.</p>
 <h4 id="parameters-sets-for-the-scenario-run">Parameters sets for the scenario run<a class="anchor" aria-label="anchor" href="#parameters-sets-for-the-scenario-run"></a>
 </h4>
 <div class="section level5">
-<h5 id="par-2">Par<a class="anchor" aria-label="anchor" href="#par-2"></a>
+<h5 id="par-1">Par<a class="anchor" aria-label="anchor" href="#par-1"></a>
 </h5>
 <p>NOTE: “NScalefactor” is <strong>set to 1 meaning we are running with
 100%</strong> <strong>of the population</strong>, which is customary for
 scenario runs.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Par_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_par.html">get_example_par</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Par_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 12</span></span>
@@ -649,9 +442,9 @@ scenario runs.</p>
 <span><span class="co">#&gt;  $ Pmedian            : num 158</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="modpar-2">modPar<a class="anchor" aria-label="anchor" href="#modpar-2"></a>
+<h5 id="modpar-1">modPar<a class="anchor" aria-label="anchor" href="#modpar-1"></a>
 </h5>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modPar_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_modpar.html">get_example_modpar</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">modPar_example</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; List of 5</span></span>
@@ -662,15 +455,15 @@ scenario runs.</p>
 <span><span class="co">#&gt;  $ Nreplicates: num 1</span></span></code></pre></div>
 <p>Create the output folder , for example “output_seabORD_scenario” and
 assign it</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the ouput folder "output_seabORD_scenario" specifically for scenario outputs if it doesn't alreay exist</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="st">"./output_seabORD_scenario"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"./output_seabORD_scenario"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modPar_example</span><span class="op">$</span><span class="va">outputdir</span> <span class="op">&lt;-</span> <span class="st">"output_seabORD_scenario"</span></span></code></pre></div>
 <p>We intend to run 5 replicates so need to change this in modPar</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modPar_example</span><span class="op">$</span><span class="va">Nreplicates</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></code></pre></div>
 </div>
 <div class="section level5">
@@ -678,7 +471,7 @@ assign it</p>
 </h5>
 <p>NOTE: Run this test! here the replicates are specified - this must
 align with the number of prey values listed in “Par_example$Pmedian”</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/check_calibration_inputs.html">check_calibration_inputs</a></span><span class="op">(</span></span>
 <span>  Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
 <span>  modPar <span class="op">=</span> <span class="va">modPar_example</span></span>
@@ -688,7 +481,7 @@ align with the number of prey values listed in “Par_example$Pmedian”</p>
 <p>This is because we must include the right calibration values (5) if
 we want to run 5 replicates.</p>
 <p>Change the values:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># min prey value from range determined in calibration </span></span>
 <span><span class="va">Pmin</span> <span class="op">&lt;-</span> <span class="fl">173</span>  </span>
 <span><span class="co"># max prey value from range determined in calibration</span></span>
@@ -700,7 +493,7 @@ we want to run 5 replicates.</p>
 <span>  Pmin <span class="op">=</span> <span class="va">Pmin</span>,</span>
 <span>  Pmax <span class="op">=</span> <span class="va">Pmax</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Par_example</span><span class="op">$</span><span class="va">Pmedian</span><span class="op">)</span> <span class="co">#should be good to go!</span></span>
 <span><span class="co">#&gt;  num [1:5] 173 173 174 174 174</span></span>
 <span></span>
@@ -711,9 +504,9 @@ we want to run 5 replicates.</p>
 <span><span class="co">#&gt; Calibration inputs valid: 5 replicate(s) and 5 prey value(s).</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="ordpar-2">ordPar<a class="anchor" aria-label="anchor" href="#ordpar-2"></a>
+<h5 id="ordpar-1">ordPar<a class="anchor" aria-label="anchor" href="#ordpar-1"></a>
 </h5>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ordPar_example</span> <span class="op">&lt;-</span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ordPar.html">get_example_ordPar</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ordPar_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 4</span></span>
@@ -723,11 +516,11 @@ we want to run 5 replicates.</p>
 <span><span class="co">#&gt;  $ BufferZone     : num 5</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="switches-2">Switches<a class="anchor" aria-label="anchor" href="#switches-2"></a>
+<h5 id="switches-1">Switches<a class="anchor" aria-label="anchor" href="#switches-1"></a>
 </h5>
 <p>Turn on the switch “savebirdflightmap”, to see an example of the
 birdflightmap output. Turn on “saverds” to save the outputs as rds.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">switches_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_switches.html">get_example_switches</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">switches_example</span><span class="op">$</span><span class="va">savebirdflightmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span><span class="va">switches_example</span><span class="op">$</span><span class="va">saverds</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> </span></code></pre></div>
@@ -753,7 +546,7 @@ the article on the main functions</a>.</p>
 <p>To see how you can read in and plot the results you can read the
 article “Example kittiwake: step 4 - interpreting the outputs” where we
 have an example output for you to play with.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">SeabORDoutput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="va">Par_example</span>,</span>
 <span>                         ordPar <span class="op">=</span> <span class="va">ordPar_example</span>,</span>

@@ -1,8 +1,8 @@
 ---
-title: "Overview of seabORD"
+title: "seabORD Overview"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Overview of seabORD}
+  %\VignetteIndexEntry{seabORD Overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
