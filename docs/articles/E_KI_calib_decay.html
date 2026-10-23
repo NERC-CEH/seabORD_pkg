@@ -44,29 +44,34 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
+    <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
+    <a class="dropdown-item" href="../articles/B_seabord_overview.html">Model Overview</a>
+    <a class="dropdown-item" href="../articles/C_seabord_inputs.html">Model Inputs</a>
+    <a class="dropdown-item" href="../articles/J_main_functions.html">Main Functions</a>
+  </div>
 </li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>Getting Started</h6>
-    <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
-    <a class="dropdown-item" href="../articles/B_explanation_model.html">Overview of seabORD</a>
-    <a class="dropdown-item" href="../articles/C_KI_inputs.html">Example kittiwake:  step 1 - seabORD inputs</a>
-    <a class="dropdown-item" href="../articles/J_main_functions.html">Main functions behind seabORD</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Kittiwake example case</h6>
-    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Example: step 1.1 - creating a distance-decay map</a>
-    <a class="dropdown-item" href="../articles/E_KI_calib_decay.html">Example kittiwake:  step 2.1 - seabORD calibration - distance decay</a>
-    <a class="dropdown-item" href="../articles/F_exampleKI_calib.html">Example kittiwake:  step 2.2 - seabORD calibration - GPS maps</a>
-    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Example kittiwake:  step 3.1 - seabORD run - distance decay</a>
-    <a class="dropdown-item" href="../articles/H_exampleKI_run.html">Example kittiwake:  step 3.2 - seabORD run - GPS maps</a>
-    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Example kittiwake:  step 4 - interpreting the outputs</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Help</h6>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-example-cases">Example Cases</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-example-cases">
+    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Distance Decay Maps</a>
+    <a class="dropdown-item" href="../articles/E_KI_calib_decay.html">Calibration with Distance Decay</a>
+    <a class="dropdown-item" href="../articles/F_exampleKI_calib.html">Calibration Example</a>
+    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Running a Calibration</a>
+    <a class="dropdown-item" href="../articles/H_exampleKI_run.html">Full Kittiwake Example</a>
+    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Exploring Outputs</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-help">Help</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-help">
     <a class="dropdown-item" href="../articles/K_FAQs.html">FAQs</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -106,21 +111,6 @@ rates consistent with pre-defined values representing “moderate”
 conditions (Figure 1). This is to allow simulation of the range of
 outcomes expected under these conditions, as the model is highly
 sensitive to the prey density parameter.</p>
-<div class="float">
-<img src="images/Calibration_plot_schematic_extended_seabordpkg.png" alt="Figure 1 : Schematic plot of kittiwake adult mass loss (A) and chicks per nest (B) withdrawn from 300 baseline simulations (no ORD footprints) ranging from a prey value of 50 up to 250. The red lines are for smoothed model outputs, which are overlaid on grey points indicating the individual estimates. For calibration we have upper and lower bound for each output (A &amp; B) which are picked to reflect “moderate” conditions, i.e., what is observed in a typical year for kittiwakes at the Isle of May, and these are indicates by the dashed grey horizontal lines. The grey shaded blocks indicate where the respective outputs fall within these bound, and the light blue shaded block indicates the prey values where there is overlap between the estimates, which is the prey range used in subsequent simulations with ORDs included."><div class="figcaption"><em>Figure 1 : Schematic plot of kittiwake adult
-mass loss (A) and chicks per nest (B) withdrawn from 300 baseline
-simulations (no ORD footprints) ranging from a prey value of 50 up to
-250. The red lines are for smoothed model outputs, which are overlaid on
-grey points indicating the individual estimates. For calibration we have
-upper and lower bound for each output (A &amp; B) which are picked to
-reflect “moderate” conditions, i.e., what is observed in a typical year
-for kittiwakes at the Isle of May, and these are indicates by the dashed
-grey horizontal lines. The grey shaded blocks indicate where the
-respective outputs fall within these bound, and the light blue shaded
-block indicates the prey values where there is overlap between the
-estimates, which is the prey range used in subsequent simulations with
-ORDs included.</em></div>
-</div>
 </div>
 <div class="section level2">
 <h2 id="this-example">This example<a class="anchor" aria-label="anchor" href="#this-example"></a>
@@ -280,7 +270,6 @@ birdflightmap output</p>
 <div class="section level5">
 <h5 id="brddata">BrdData<a class="anchor" aria-label="anchor" href="#brddata"></a>
 </h5>
-<p>BrdData_example_dd &lt;- seabORD::get_example_brddata_dd()</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BrdData_example_dd</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_brddata.html">get_example_brddata</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span></code></pre></div>
 </div>

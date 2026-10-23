@@ -13,7 +13,13 @@
     <loc>/articles/B_explanation_model.html</loc>
   </url>
   <url>
+    <loc>/articles/B_seabord_overview.html</loc>
+  </url>
+  <url>
     <loc>/articles/C_KI_inputs.html</loc>
+  </url>
+  <url>
+    <loc>/articles/C_seabord_inputs.html</loc>
   </url>
   <url>
     <loc>/articles/D_DistanceDecayMap.html</loc>
@@ -29,6 +35,9 @@
   </url>
   <url>
     <loc>/articles/H_exampleKI_run.html</loc>
+  </url>
+  <url>
+    <loc>/articles/H_KI_run_gps.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>

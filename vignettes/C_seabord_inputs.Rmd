@@ -14,20 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-Load the seabORD package
+New to seabORD? This guide walks through all the inputs required for a simulation using the package's built-in example datasets.
 
-```{r setup,warning = FALSE, message = FALSE}
-library(seabORD)
-```
-
-This vignette demonstrates how to prepare all inputs required for a seabORD simulation using the built-in example datasets.
-
-# Preparing the inputs
+# Inputs
 
 To run seabORD several inputs are needed:
 
 | arguments | type | description |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Par | List | The main parameters controlling/defining this run e.g., species and colony |
 | modPar | List | Parameters relating to the model mode and computer environment |
 | ordPar | List | Input parameters relating to the ORDs |
@@ -42,25 +36,25 @@ To run seabORD several inputs are needed:
 | FlightGridcorrection | Raster | Flight distance transition layer (gdistance) corrected for distortions relating to the CRS |
 | ORDpoly | Multipolygon (simple features) | The ORD footprints |
 
-The package comes with some example input data to run the model with. Here's an example run of the model with detailed explanation for each input argument.
+The package includes example datasets that can be used to explore seabORD without preparing your own data. This guide provides a complete overview of each input argument along the way.
 
 ## Par
 
-List for biological parameters:
+The "Par" list contains the biological and behavioural parameters used by the model
 
-- **thisSpecies**: The species being used. You can select from "KI" (kittiwake), "GU" (guillemot), "RA" (razorbill), or "PU" (puffin)
+- **thisSpecies**: Species code to model. Available options are `"KI"` (kittiwake), `"GU"` (guillemot), `"RA"` (razorbill), and `"PU"` (puffin).
 
-- **colonies**: The code number for the colony/SPA being modelled
+- **colonies**: The code identifying the colony or SPA being modelled.
 
-- **Nscalefactor**: What proportion of the total population do you want to run the model for i.e., Nscalefactor = 1 is for 100% of the population, where 0.1 would represent 10% of the population which may be useful for test runs.
+- **Nscalefactor**: Proportion of the population to simulate. A value of 1 represents 100% of the population, while 0.1 represents 10%. Lower values can be useful for testing and reducing run times.
 
-- **Prob_Displacement**: The proportion of individual birds which will experience displacement effects *if* interacting with an ORD during a certain trip. E.g., if Prob_Displacement = 0.6, 60% of individuals will be displacement susceptible.
+- **Prob_Displacement**: Proportion of individuals that are susceptible to displacement effects when interacting with an offshore renewable development (ORD). For example, a value of 0.6 means that 60% of individuals are displacement susceptible.
 
-- **Prob_Barrier**: The proportion of individuals which experience displacement effects, which will also experience barrier effects. E.g., if Prob_Barrier = 1, 100% of individuals which are displacement susceptible will also be barrier effect susceptible (i.e., 60% of total population)
+- **Prob_Barrier**: Proportion of displacement-susceptible individuals that are also susceptible to barrier effects. For example, if Prob_Displacement = 0.6 and Prob_Barrier = 1, then 60% of the population will experience both displacement and barrier effects.
 
-- **PreyType**: This dictates the type of prey layer used in the simulation, which is typically set to "uniform", meaning all prey cells begin with the same prey value.
+- **PreyType**: Defines how prey is distributed across the modelled area. The default option is "uniform", where all cells begin with the same prey value.
 
-- **collision**: Not currently used
+- **collision**: Reserved for future use. This parameter is not currently used by the model.
 
 - **SiteSelectionMethod**: Set to "Map" currently, but options to add in a distance decay module.
 

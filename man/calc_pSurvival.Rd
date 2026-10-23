@@ -30,6 +30,21 @@ on the body mass of the individual relative to the population mean, species
 expected survival and parameters. Baseline survival values may apply to
 poor, moderate or good years.
 }
+\details{
+For kittiwakes (\code{"KI"}), survival probability is calculated directly from
+the difference between an individual's body mass and the population mean.
+
+For puffins, guillemots and razorbills, body mass is first standardised
+using the population standard deviation before applying the survival
+relationship.
+
+Individuals with body masses greater than the population mean therefore
+receive higher survival probabilities, whereas individuals in poorer
+condition receive lower probabilities.
+
+If the individual did not survive the breeding season (\code{bmi = 0} or
+\code{NA}), the function returns a survival probability of zero.
+}
 \examples{
   calc_pSurvival("KI", 345.9, 370.8, 0.8, 0.038, 0)
   calc_pSurvival("GU", 345.9, 370.8, 0.92, 1.03, 50)

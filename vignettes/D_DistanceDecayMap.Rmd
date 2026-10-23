@@ -1,8 +1,8 @@
 ---
-title: "Example: step 1.1 - creating a distance-decay map"
+title: "Create a distance-decay map"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example: step 1.1 - creating a distance-decay map}
+  %\VignetteIndexEntry{Create a distance-decay map}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib

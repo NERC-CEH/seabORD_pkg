@@ -4,7 +4,7 @@
 \alias{plot_brddata}
 \title{Plot a bird-distribution raster}
 \usage{
-plot_brddata(brddata, title = "Coastline and bird distribution")
+plot_brddata(brddata, title = "Coastline and bird distribution", zoom = FALSE)
 }
 \arguments{
 \item{brddata}{A \link[raster:Raster-classes]{raster::RasterLayer} object containing the relative
@@ -13,6 +13,9 @@ spatial distribution of birds, such as the object returned by
 
 \item{title}{Character string giving the plot title. Defaults to
 \code{"Coastline and bird distribution"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{brddata} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the bird-distribution raster and

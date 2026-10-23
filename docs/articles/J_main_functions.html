@@ -44,29 +44,32 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>Getting Started</h6>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
     <a class="dropdown-item" href="../articles/A_installing_seabord.html">Installing seabORD</a>
-    <a class="dropdown-item" href="../articles/B_explanation_model.html">Overview of seabORD</a>
-    <a class="dropdown-item" href="../articles/C_KI_inputs.html">Example kittiwake:  step 1 - seabORD inputs</a>
-    <a class="dropdown-item" href="../articles/J_main_functions.html">Main functions behind seabORD</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Kittiwake example case</h6>
-    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Example: step 1.1 - creating a distance-decay map</a>
-    <a class="dropdown-item" href="../articles/E_KI_calib_decay.html">Example kittiwake:  step 2.1 - seabORD calibration - distance decay</a>
-    <a class="dropdown-item" href="../articles/F_exampleKI_calib.html">Example kittiwake:  step 2.2 - seabORD calibration - GPS maps</a>
-    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Example kittiwake:  step 3.1 - seabORD run - distance decay</a>
-    <a class="dropdown-item" href="../articles/H_exampleKI_run.html">Example kittiwake:  step 3.2 - seabORD run - GPS maps</a>
-    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Example kittiwake:  step 4 - interpreting the outputs</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Help</h6>
+    <a class="dropdown-item" href="../articles/B_seabord_overview.html">Model Overview</a>
+    <a class="dropdown-item" href="../articles/C_seabord_inputs.html">Model Inputs</a>
+    <a class="dropdown-item" href="../articles/J_main_functions.html">Main Functions</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-example-cases">Example Cases</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-example-cases">
+    <a class="dropdown-item" href="../articles/G_KI_run_decay.html">Kittiwake Example - Distance decay</a>
+    <a class="dropdown-item" href="../articles/H_KI_run_gps.html">Kittiwake Example - GPS</a>
+    <a class="dropdown-item" href="../articles/I_exampleKI_output.html">Exploring Outputs</a>
+    <a class="dropdown-item" href="../articles/D_DistanceDecayMap.html">Distance Decay Maps</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-help">Help</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-help">
     <a class="dropdown-item" href="../articles/K_FAQs.html">FAQs</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -94,43 +97,339 @@
 
     
     
-<p>There are 9 main functions behind the seabORD model:</p>
-<p><a href="#body-mass-increase-for-adult-birds">1. Body mass increase
-for adult birds</a> (“calc_adultbmchage”)</p>
-<p><a href="#calculate-daily-energy-requirement">2. Calculate Daily
-Energy Requirement</a> (“calc_adultdee”)</p>
-<p><a href="#probability-of-winter-survival">3. Probability of winter
-survival</a> (“calc_pSurvival”)</p>
-<p><a href="#puffin-chick-mortality-from-predation-due-to-hunger">4.
-Puffin chick mortality from predation due to hunger</a>
-(“calc_puffinmortality”)</p>
-<p><a href="#chick-mortality-as-a-result-of-other-causes">5. Chick
-mortality as a result of other causes</a> (“calc_othermortality”)</p>
-<p><a href="#chick-mortality-as-a-result-of-adults-not-attending-the-nest">6.
-Chick mortality as a result of adults not attending the nest</a>
-(“calc_unattendmortality”)</p>
-<p><a href="#parenting-the-chicks">7. Parenting the chicks</a>
-(“calc_chickcare”)</p>
-<p><a href="#calculate-the-time-taken-to-forage-required-amount">8.
-Calculate the time taken to forage required amount</a>
-(“calc_foragecapture”)</p>
-<p><a href="%22calc_strategy">9. Calculate the foraging strategy for the
-timestep</a></p>
-<p>In the following chapters we describe with practical examples each of
-them.</p>
+<p>In this chpater the main functions that drive the seabORD core
+processes are explaied. Together, these functions determine how birds
+acquire food, provision chicks, update their energetic state and
+ultimately survive to the next breeding season. For a broader
+description of the overall model structure, see the <a href="https://nerc-ceh.github.io/seabORD_pkg/articles/B_seabord_overview.html" class="external-link">seabORD
+overview</a>. The functions are grouped according the stage of the
+simulation in which they are used:</p>
+<ol style="list-style-type: decimal">
+<li>
+<p><strong><em>Foraging and adult behaviour</em></strong></p>
+<p>Calculate the time taken to forage required amount
+(<code>calc_foragecapture</code>)</p>
+<p>Calculate the foraging strategy for the timestep
+(<code>calc_strategy</code>)</p>
+</li>
+<li>
+<p><strong><em>Chick provisioning and growth</em></strong></p>
+<p>Parenting the chicks (<code>calc_chickcare</code>)</p>
+<p>Chick mortality as a result of adults not attending the nest
+(<code>calc_unattendmortality</code>)</p>
+<p>Chick mortality as a result of other causes
+(<code>calc_othermortality</code>)</p>
+<p>Puffin chick mortality from predation due to hunger
+(<code>calc_puffinmortality</code>)</p>
+</li>
+<li>
+<p><strong><em>Adult state update</em></strong></p>
+<p>Body mass increase for adult birds
+(<code>calc_adultbmchange</code>)</p>
+<p>Calculate Daily Energy Requirement
+(<code>calc_adultdee</code>)</p>
+</li>
+<li>
+<p><strong><em>Adult survival</em></strong></p>
+<p>Probability of winter survival (<code>calc_pSurvival</code>)</p>
+</li>
+</ol>
 <hr>
 <div class="section level2">
-<h2 id="body-mass-increase-for-adult-birds">1. Body mass increase for adult birds<a class="anchor" aria-label="anchor" href="#body-mass-increase-for-adult-birds"></a>
+<h2 id="foraging-and-adult-behaviour">1. Foraging and adult behaviour<a class="anchor" aria-label="anchor" href="#foraging-and-adult-behaviour"></a>
 </h2>
-<p><em>(calc_adultbmchage)</em></p>
 <div class="section level3">
-<h3 id="function-description">Function description<a class="anchor" aria-label="anchor" href="#function-description"></a>
+<h3 id="calculate-the-time-taken-to-forage-required-amount-calc_foragecapture">1.1. Calculate the time taken to forage required amount
+(calc_foragecapture)<a class="anchor" aria-label="anchor" href="#calculate-the-time-taken-to-forage-required-amount-calc_foragecapture"></a>
 </h3>
+<p>A detailed description of <code><a href="../reference/calc_foragecapture.html">calc_foragecapture()</a></code>,
+including its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_foragecapture.html" class="external-link">function
+reference</a>.</p>
+<p>This function estimates how quickly a bird can acquire prey while
+foraging. Food intake depends on both prey availability and the bird’s
+maximum feeding rate <span class="citation">(Holling, 1959)</span>. The
+resulting capture curve is then used throughout the model to determine
+how long individuals must forage to meet their energetic demands.</p>
+<div class="section level5">
+<h5 id="example-1---pray-capture-captured_g-through-time-tmin">Example 1 - pray capture (<code>captured_g</code>) through time
+(<code>tmin</code>)<a class="anchor" aria-label="anchor" href="#example-1---pray-capture-captured_g-through-time-tmin"></a>
+</h5>
+<p>The function returns a lookup table describing how prey
+(<code>captured_g</code>) accumulates through time (<code>tmin</code>).
+Initially, prey is captured rapidly , but the rate gradually slows as
+available prey becomes depleted. The resulting curve can be used to
+estimate how long a bird must remain in a foraging area to obtain a
+given amount of food.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+</div>
+<div class="section level5">
+<h5 id="example-2---effect-of-change-in-prey-availability-x0">Example 2 - effect of change in prey availability
+(<code>x0</code>)<a class="anchor" aria-label="anchor" href="#example-2---effect-of-change-in-prey-availability-x0"></a>
+</h5>
+<p>Here we compare two foraging patches that differ only in prey
+availability (<code>x0</code>). Birds feeding in richer patches obtain
+food more rapidly and therefore require less time to meet their
+energetic requirements.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+</div>
+<div class="section level5">
+<h5 id="example-2---effect-of-change-in-maximum-intake-rate-a">Example 2 - effect of change in maximum intake rate (a)<a class="anchor" aria-label="anchor" href="#example-2---effect-of-change-in-maximum-intake-rate-a"></a>
+</h5>
+<p>Maximum intake rate (<code>a</code>) can vary among individuals or
+species. Higher values allow prey to be captured more quickly, leading
+to faster food accumulation over time.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="calculate-the-foraging-strategy-for-the-timestep-calc_strategy">
+<strong>1</strong>.2. Calculate the foraging strategy for the
+timestep (calc_strategy)<a class="anchor" aria-label="anchor" href="#calculate-the-foraging-strategy-for-the-timestep-calc_strategy"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_strategy.html">calc_strategy()</a></code>, including its
+arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_strategy.html" class="external-link">function
+reference</a>.</p>
+<p>This function determines how an adult bird allocates its time between
+self-maintenance and chick provisioning during a single model time step.
+The selected foraging strategy depends on energetic constraints,
+available foraging time, and the bird’s current body condition. As
+conditions deteriorate, adults may progressively reduce nest attendance
+and eventually abandon the breeding attempt in order to prioritise their
+own survival.</p>
+<p>The function can return on of 4 outcomes:</p>
+<p>“1” = Provisioning chick while maintaining attendance</p>
+<p>“2” = Chick left unattended for part of the time step</p>
+<p>“3” = Breeding attempt abandoned</p>
+<p>“4” = Adult already dead</p>
+<div class="section level5">
+<h5 id="example-1---effect-of-change-in-food-requirement-fg">Example 1 - effect of change in food requirement
+(<code>Fg</code>)<a class="anchor" aria-label="anchor" href="#example-1---effect-of-change-in-food-requirement-fg"></a>
+</h5>
+<p>As food requirements (<code>Fg</code>) increase, birds must undertake
+additional foraging trips to meet demand (<code>n_trips</code>).
+Eventually, time constraints may limit how much food can be collected,
+forcing changes in behaviour.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+</div>
+<div class="section level5">
+<h5 id="example-2---effect-of-change-in-body-condition-bm_condition">Example 2 - effect of change in body condition
+(<code>BM_condition</code>)<a class="anchor" aria-label="anchor" href="#example-2---effect-of-change-in-body-condition-bm_condition"></a>
+</h5>
+<p>Adult body condition (<code>BM_condition</code>) influences the birds
+foraging startegy (<code>feeding_mode</code>). Birds in poor condition
+are less able to prioritise chick provisioning and may switch to reduced
+attendance or nest abandonment at lower food requirements than birds in
+good condition. As condition approaches the abandonment threshold
+(<code>BM_adult_abdn</code>), the bird may switch from to
+nest-unattended or nest-abandoned strategies (“1” = Provisioning chick
+while maintaining attendance, “2” = Chick left unattended for part of
+the time step, “3” = Breeding attempt abandoned).</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<hr>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="chick-provisioning-and-growth">2. Chick provisioning and growth<a class="anchor" aria-label="anchor" href="#chick-provisioning-and-growth"></a>
+</h2>
+<div class="section level3">
+<h3 id="parenting-the-chicks-calc_chickcare">2.1. Parenting the chicks (calc_chickcare)<a class="anchor" aria-label="anchor" href="#parenting-the-chicks-calc_chickcare"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_chickcare.html">calc_chickcare()</a></code>, including
+its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_chickcare.html" class="external-link">function
+reference</a>.</p>
+<p>This function updates chick growth, body condition, attendance
+status, and survival during each model time step. Food delivered by
+<strong>both parents</strong> contributes to chick growth, while reduced
+parental attendance increases the amount of time chicks are left
+unattended. Together, these processes determine whether chicks survive
+and continue developing.</p>
+<div class="section level5">
+<h5 id="example-1---reduced-parental-provisioning-ereq_intake-lowers-chick-condition-bm_condition">Example 1 - reduced parental provisioning (<code>Ereq_intake</code>)
+lowers chick condition (<code>BM_condition</code>)<a class="anchor" aria-label="anchor" href="#example-1---reduced-parental-provisioning-ereq_intake-lowers-chick-condition-bm_condition"></a>
+</h5>
+<p>When parents deliver less food (<code>Ereq_intake</code>), chicks
+gain less mass and their body condition (<code>BM_condition</code>)
+declines. This can increase vulnerability to mortality processes later
+in the simulation.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="chick-mortality-as-a-result-of-adults-not-attending-the-nest-calc_unattendmortality">2.2. Chick mortality as a result of adults not attending the nest
+(calc_unattendmortality)<a class="anchor" aria-label="anchor" href="#chick-mortality-as-a-result-of-adults-not-attending-the-nest-calc_unattendmortality"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_unattendmortality.html">calc_unattendmortality()</a></code>,
+including its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_strategy.html" class="external-link">function
+reference</a>.</p>
+<p>This function evaluates whether a chick dies because it has been left
+unattended for too long. Mortality risk increases as unattended time
+approaches the species-specific maximum duration that chicks can safely
+remain alone.</p>
+<div class="section level5">
+<h5 id="example-1---death-by-unattendance-cod-vs-unattended-hours-hrs">Example 1 - Death by unattendance (<code>CoD</code>) vs unattended
+hours (<code>hrs</code>)<a class="anchor" aria-label="anchor" href="#example-1---death-by-unattendance-cod-vs-unattended-hours-hrs"></a>
+</h5>
+<p>Here we simulate 1000 chicks across a range of unattended durations.
+The more hours the chicks are left unattended (<code>hrs</code>) the
+higher the proportion of chicks that dies because unattended
+(<code>CoD = unattended)</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">9</span>, <span class="fl">12</span>, <span class="fl">15</span>, <span class="fl">18</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">hrs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">h</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span></span>
+<span>    <span class="fl">1000</span>,</span>
+<span>    <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span></span>
+<span>      CoD <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>      alive <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      unattend_hrs <span class="op">=</span> <span class="va">h</span>,</span>
+<span>      max_hrs <span class="op">=</span> <span class="fl">18</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    hrs <span class="op">=</span> <span class="va">h</span>,</span>
+<span>    mortality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">results</span> <span class="op">==</span> <span class="st">"unattended"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">out</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">out</span><span class="op">$</span><span class="va">hrs</span>,</span>
+<span>  <span class="va">out</span><span class="op">$</span><span class="va">mortality</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"b"</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"#477AE2"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"hours unattended"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"proportion of chicks dying (1000 chicks)"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"hours unattended vs. proportion of unattended mortality (1000 chicks)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="chick-mortality-as-a-result-of-other-causes-calc_othermortality">Chick mortality as a result of other causes
+<em>(calc_othermortality)</em><a class="anchor" aria-label="anchor" href="#chick-mortality-as-a-result-of-other-causes-calc_othermortality"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_othermortality.html">calc_othermortality()</a></code>,
+including its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_othermortality.html" class="external-link">function
+reference</a>.</p>
+<p>This function applies a background mortality risk that represents
+causes of death not explicitly modelled elsewhere, such as adverse
+weather events unrelated to chick condition.</p>
+<div class="section level5">
+<h5 id="example-1---proportion-of-chicks-dying-of-other-causes-cod-other">Example 1 - Proportion of chicks dying of “other” causes
+(<code>CoD = other</code>)<a class="anchor" aria-label="anchor" href="#example-1---proportion-of-chicks-dying-of-other-causes-cod-other"></a>
+</h5>
+<p>In each simulation there is a small probability that mortality occurs
+due to background causes. By repeating the calculation 1,000 times over
+a 30-day period (<code>seasonlength</code>) we can visualise the
+proportion of individuals that survive (<code>CoD = none</code>) versus
+those that die from other causes (<code>CoD = other</code>).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#ensure reproducibility</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">789</span><span class="op">)</span></span>
+<span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="co">#repeat the function to get a few cases where it dies</span></span>
+<span>                     <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_othermortality.html">calc_othermortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
+<span>                                         alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
+<span>                                         seasonlength <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">tab</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#477AE2"</span>, <span class="st">"#90A968"</span><span class="op">)</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"number of simulations"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"cause of death"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"proportion of death by other-cause (1000 chicks)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+</div>
+</div>
+<div class="section level3" data-link="4. Puffin chick mortality from predation due to hunger">
+<h3 id="puffin-chick-mortality-from-predation-due-to-hunger-calc_puffinmortality">Puffin chick mortality from predation due to hunger
+<em>(calc_puffinmortality)</em><a class="anchor" aria-label="anchor" href="#puffin-chick-mortality-from-predation-due-to-hunger-calc_puffinmortality"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_othermortality.html">calc_othermortality()</a></code>,
+including its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_puffinmortality.html" class="external-link">function
+reference</a>.</p>
+<p>This function applies an additional mortality risk to puffin chicks
+that are in poor body condition. Chicks whose condition falls below a
+species-specific threshold are considered vulnerable to predation.
+Whether mortality occurs is determined stochastically, so identical
+individuals may survive or die in different simulation runs. The
+function therefore captures both the effect of chick condition on
+predation risk and the inherent randomness of mortality events.</p>
+<div class="section level5">
+<h5 id="example-1---proportion-of-chicks-in-poor-conditions-bm_condition-dying-of-other-causes-cod-killed">Example 1 - Proportion of chicks in poor conditions
+(<code>BM_condition</code>) dying of “other” causes
+(<code>CoD = killed</code>)<a class="anchor" aria-label="anchor" href="#example-1---proportion-of-chicks-in-poor-conditions-bm_condition-dying-of-other-causes-cod-killed"></a>
+</h5>
+<p>Puffin chicks in poor body condition (<code>BM_condition</code>) are
+assumed to be more vulnerable to predation (<code>CoD = killed</code>).
+Mortality is stochastic, meaning that two identical chicks may
+experience different outcomes due to the random draw used by the
+model.</p>
+<p>The example below simulates 1,000 chicks with the same body condition
+and shows the frequency of survival (<code>CoD = none</code>) and
+predation events.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mortality</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span></span>
+<span>  <span class="fl">1000</span>,</span>
+<span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_puffinmortality.html">calc_puffinmortality</a></span><span class="op">(</span></span>
+<span>    CoD <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>    alive <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    BM_condition <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>    BM_Chick_mortf <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mortality</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">tab</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#90A968"</span>, <span class="st">"#D7B7AA"</span><span class="op">)</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"number of chicks"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"proportion of death by predation (1000 hungry chicks)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+</div>
+<div class="section level5">
+<h5 id="example-2---predation-death-declines-cod-killed-as-chick-condition-improves-bm_condition">Example 2 - Predation death declines (<code>CoD = killed</code>) as
+chick condition improves (<code>BM_condition</code>)<a class="anchor" aria-label="anchor" href="#example-2---predation-death-declines-cod-killed-as-chick-condition-improves-bm_condition"></a>
+</h5>
+<p>Chicks in poor condition are assumed to be more susceptible to
+predation than chicks in good condition. Repeating the simulation 1,000
+times across a range of body conditions (<code>BM_condition</code>)
+reveals the underlying relationship between condition and predation
+mortality risk (<code>CoD = killed</code>).</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<hr>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="adult-state-update">3. Adult state update<a class="anchor" aria-label="anchor" href="#adult-state-update"></a>
+</h2>
+<div class="section level3">
+<h3 id="body-mass-increase-for-adult-birds-calc_adultbmchage">Body mass increase for adult birds (calc_adultbmchage)<a class="anchor" aria-label="anchor" href="#body-mass-increase-for-adult-birds-calc_adultbmchage"></a>
+</h3>
+<p>A detailed description of <code><a href="../reference/calc_adultbmchange.html">calc_adultbmchange()</a></code>,
+including its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_adultbmchange.html" class="external-link">function
+reference</a>.</p>
 <p>All adult birds update their body mass at the end of each day based
 on the energy they gain and expend foraging and in other activities. The
-model we use is an expanded version of that used in Daunt &amp; Wanless
-(2008) and Wanless et al. (1997) <span class="citation">(Daunt et al.,
-2008)</span>; <span class="citation">Wanless et al. (1997)</span>],
+model we use is an expanded version of that used in <span class="citation">(Daunt et al., 2008; Wanless et al., 1997)</span>,
 which separates flight cost and foraging cost for each adult to derive
 total energy expenditure.</p>
 <p><span class="math display">\[ M_{d+1} = M_{d} +  [(Egain_{d} -
@@ -139,153 +438,43 @@ DEE_{d} / KG] \]</span> where <span class="math inline">\(M_{d+1}\)</span> is th
 from food (in kJ), <span class="math inline">\(DEE_{d}\)</span> is the
 energy requirement (in kJ) and <span class="math inline">\(KG\)</span>
 is the energy density of the adult bird tissue (kJ per gram).</p>
+<div class="section level5">
+<h5 id="example-1---body-mass-bm_adult-changes-with-energy-intake-egain_adult">Example 1 - Body mass (<code>BM_adult</code>) changes with energy
+intake (<code>Egain_adult</code>)<a class="anchor" aria-label="anchor" href="#example-1---body-mass-bm_adult-changes-with-energy-intake-egain_adult"></a>
+</h5>
+<p>Within seabORD, adults stop foraging once their energetic requirement
+has been met. Consequently, energy intake (<code>Egain_adult</code>)
+never exceeds the daily energy requirement (<code>Ereq_adult</code>).
+Adult body mass can therefore either remain stable or decline, depending
+on whether sufficient food was acquired during the time step.</p>
+<p>The figure shows how <strong>body mass loss</strong> decreases as
+food intake increases. Under these example parameters, a bird that
+obtains no food would lose approximately 40 g of body mass during the
+day.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+</div>
 </div>
 <div class="section level3">
-<h3 id="input-parameters">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters"></a>
+<h3 id="calculate-daily-energy-requirement-calc_adultdee">Calculate Daily Energy Requirement (calc_adultdee)<a class="anchor" aria-label="anchor" href="#calculate-daily-energy-requirement-calc_adultdee"></a>
 </h3>
-<ul>
-<li>
-<em>alive</em> A flag, 0 or 1, indicating if the bird is alive
-during the timestep</li>
-<li>
-<em>BM_adult</em> The current body mass</li>
-<li>
-<em>Egain_adult</em> The energy acquired from food for this adult
-(chick food has been subtracted) for this timestep</li>
-<li>
-<em>Ereq_adult</em> The energy that was required for this timestep
-(based on previous timestep activity)</li>
-<li>
-<em>adult_edensity</em> Energy density of the adult bird tissue, kJ
-per gram</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
-</h3>
-<p>A revised adult body mass</p>
-</div>
-<div class="section level3">
-<h3 id="the-function">The function<a class="anchor" aria-label="anchor" href="#the-function"></a>
-</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">calc_adultbmchange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">alive</span>, <span class="va">BM_adult</span>, <span class="va">Egain_adult</span>, <span class="va">Ereq_adult</span>,</span>
-<span>                               <span class="va">adult_mass_KG</span><span class="op">)</span><span class="op">{</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">alive</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="va">BM_adult</span> <span class="op">&lt;-</span> <span class="va">BM_adult</span> <span class="op">+</span> <span class="op">(</span><span class="op">(</span><span class="va">Egain_adult</span> <span class="op">-</span> <span class="va">Ereq_adult</span><span class="op">)</span><span class="op">/</span><span class="va">adult_mass_KG</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">BM_adult</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---the-bird-is-alive">Example 1 - <strong>the bird is alive</strong><a class="anchor" aria-label="anchor" href="#example-1---the-bird-is-alive"></a>
-</h4>
-<p>In the model, the energy from food, <code>Egain_adult</code>, will
-never exceed the daily requirement, <code>Ereq_adult</code>, as they
-stop foraging as soon as the goal is reached. This means that the adults
-birds can only lose body mass, not gain.</p>
-<p>In this example, a single bird with a body mass of 380g and a Energy
-density of the adult bird tissue of 38 kJ/g. Calculation of the change
-in body mass if it has an intake between 0 and its full requirement of
-1248 kJ.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">BM_adult</span> <span class="op">&lt;-</span> <span class="fl">354.51</span></span>
-<span><span class="va">Ereq_adult</span> <span class="op">&lt;-</span> <span class="fl">1569.75</span> <span class="co">#kJ</span></span>
-<span><span class="va">adult_mass_KG</span> <span class="op">&lt;-</span> <span class="fl">38.5</span></span>
-<span><span class="va">Egain_adult</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">Ereq_adult</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="va">bodymass</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="../reference/calc_adultbmchange.html">calc_adultbmchange</a></span><span class="op">(</span>alive <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#it's alive</span></span>
-<span>                     BM_adult <span class="op">=</span> <span class="va">BM_adult</span>, <span class="co">#g </span></span>
-<span>                     Egain_adult <span class="op">=</span> <span class="va">Egain_adult</span>, <span class="co">#kJ</span></span>
-<span>                     Ereq_adult <span class="op">=</span> <span class="va">Ereq_adult</span>, <span class="co">#kJ</span></span>
-<span>                     adult_mass_KG <span class="op">=</span> <span class="va">adult_mass_KG</span><span class="op">)</span> <span class="co">#kJ per g</span></span></code></pre></div>
-<p>The plot shows the change in body mass with an intake. The bird would
-lose 30g if it had no food.</p>
-<p><img src="J_main_functions_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
-</div>
-<div class="section level4">
-<h4 id="example-2---the-bird-is-not-alive">Example 2 - <strong>the bird is not alive</strong><a class="anchor" aria-label="anchor" href="#example-2---the-bird-is-not-alive"></a>
-</h4>
-<p>If the bird is not alive, , the body mass will remain unchanged.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bodymass_2</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="../reference/calc_adultbmchange.html">calc_adultbmchange</a></span><span class="op">(</span>alive <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co">#it's alive</span></span>
-<span>                     BM_adult <span class="op">=</span> <span class="va">BM_adult</span>, <span class="co">#g </span></span>
-<span>                     Egain_adult <span class="op">=</span> <span class="va">Egain_adult</span>, <span class="co">#kJ</span></span>
-<span>                     Ereq_adult <span class="op">=</span> <span class="va">Ereq_adult</span>, <span class="co">#kJ</span></span>
-<span>                     adult_mass_KG <span class="op">=</span> <span class="va">adult_mass_KG</span><span class="op">)</span> <span class="co">#kJ per g</span></span></code></pre></div>
-<p>The plot shows there is no change in body mass.</p>
-<p><img src="J_main_functions_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="calculate-daily-energy-requirement">2. Calculate Daily Energy Requirement<a class="anchor" aria-label="anchor" href="#calculate-daily-energy-requirement"></a>
-</h2>
-<p><em>(calc_adultdee)</em></p>
-<div class="section level3">
-<h3 id="function-description-1">Function description<a class="anchor" aria-label="anchor" href="#function-description-1"></a>
-</h3>
-<p>This function calculates the energy expenditure timestep t for adult
-birds, based on the activities carried out. This value is assumed to be
-the energy requirement for the following time step, t+1. DEE is the sum
-of proportion of total deployment time spent on each of these activities
-multiplied by activity-specific energetic costs available from the
-literature (<span class="citation">(Pennycuick, 1989)</span>; <span class="citation">Croll &amp; McLaren (1993)</span>; <span class="citation">Hilton et al. (2000)</span>; <span class="citation">Enstipp et al. (2006)</span>; respective costs: 1168.91
-kJ day-1; 7361.72kJ day-1; 810.28 kJ day-1; 1894.90 kJ day-1) and the
-cost of warming food <span class="citation">(Grémillet et al.,
-2003)</span>.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-1">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-1"></a>
-</h3>
-<ul>
-<li>
-<em>alive</em> Is the bird dead or alive? 0,1</li>
-<li>
-<em>colony_h</em> Time spent at the colony, hours</li>
-<li>
-<em>flying_h</em> Time spent flying, hours</li>
-<li>
-<em>foraging_h</em> Time spent foraging, hours</li>
-<li>
-<em>at_sea_h</em> Time spent resting at sea, hours</li>
-<li>
-<em>energy_nest</em> Energy cost of nesting at colony, kJ per
-day</li>
-<li>
-<em>energy_flight</em> Energy cost of flight, kJ per day</li>
-<li>
-<em>energy_forage</em> Energy cost of foraging, kJ per day</li>
-<li>
-<em>energy_searest</em> Energy cost of resting at sea, kJ per
-day</li>
-<li>
-<em>energy_warming</em> Energy cost of warming food, kJ per day</li>
-<li>
-<em>assim_eff</em> Assimilation efficiency</li>
-<li>
-<em>daylength</em> Length of this species’ time step, hours</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-1">Output<a class="anchor" aria-label="anchor" href="#output-1"></a>
-</h3>
-<p>A revised adult DEE for time step</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-1">The function<a class="anchor" aria-label="anchor" href="#the-function-1"></a>
-</h3>
-<p>the function will calculate the <strong>adult DEE</strong> as
+<p>A detailed description of <code><a href="../reference/calc_adultdee.html">calc_adultdee()</a></code>, including its
+arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_adultdee.html" class="external-link">function
+reference</a>.</p>
+<p>This function calculates the daily energy expenditure (DEE) of an
+adult bird from its behaviour during the current time step. Time spent
+nesting, flying, foraging, and resting at sea each contribute to overall
+energetic costs. The resulting DEE becomes the bird’s energy requirement
+(<code>Ereq_adult</code>) in the following time step.</p>
+<p>Energy expenditure is calculated by combining the duration of each
+activity with activity-specific energetic costs derived from published
+studies <span class="citation">(Croll &amp; McLaren, 1993; Enstipp et
+al., 2006; Hilton et al., 2000; Pennycuick, 1989)</span>. Additional
+energetic costs associated with warming ingested prey are also included
+<span class="citation">(Gremillet et al., 2003)</span>.</p>
+<p>As a result, changes in behaviour, such as longer foraging trips or
+increased flight time, directly influence the energetic requirements of
+the bird in subsequent time steps.</p>
+<p>the function calculates the <strong>adult DEE</strong> as
 follows:</p>
 <ul>
 <li><p>Energy spent on <strong>nesting</strong>: <span class="math inline">\(\frac{energynest \times
@@ -299,821 +488,92 @@ atseah}{daylength}\)</span></p></li>
 <li><p>Energy spent on <strong>warming</strong>: <span class="math inline">\(\frac{energywarming \times
 daylength}{24}\)</span></p></li>
 </ul>
-<p><span class="math inline">\(Ereqadult = \frac{energy nesting  +
-energy flying + energy foraging + energy at sea + energy warming
-}{assim_eff}\)</span></p>
+<p>And the final requirement as:</p>
+<ul>
+<li>Energy requirement (<code>Ereq_adult</code>): <span class="math inline">\(\frac{energy nesting  + energy flying + energy
+foraging + energy at sea + energy warming }{assim_eff}\)</span>
+</li>
+</ul>
+<div class="section level5">
+<h5 id="example-1---longer-flying-times-flying_h-increase-food-requirements-ereq_adult">Example 1 - Longer flying times (<code>flying_h</code>) increase
+food requirements (<code>Ereq_adult</code>)<a class="anchor" aria-label="anchor" href="#example-1---longer-flying-times-flying_h-increase-food-requirements-ereq_adult"></a>
+</h5>
+<p>Longer flights increase energetic expenditure, leading to higher food
+requirements (<code>Ereq_adult</code>) in subsequent time steps.
+Offshore renewable developments may increase commuting distances between
+colonies and foraging grounds (barrier and displacement effect),
+therefore increasing the food requirements of the birds.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">calc_adultdee</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">alive</span>, <span class="va">colony_h</span>, <span class="va">flying_h</span>, <span class="va">foraging_h</span>, <span class="va">at_sea_h</span>,</span>
-<span>                          <span class="va">energy_nest</span>, <span class="va">energy_flight</span>, <span class="va">energy_forage</span>,</span>
-<span>                          <span class="va">energy_searest</span>, <span class="va">energy_warming</span>, <span class="va">assim_eff</span>,</span>
-<span>                          <span class="va">daylength</span><span class="op">)</span><span class="op">{</span></span>
-<span>  </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">alive</span><span class="op">)</span><span class="op">{</span></span>
-<span>    </span>
-<span>    <span class="va">adult_DEE</span> <span class="op">&lt;-</span></span>
-<span>      <span class="op">(</span><span class="va">energy_nest</span> <span class="op">*</span> <span class="va">colony_h</span><span class="op">/</span><span class="va">daylength</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="op">(</span><span class="va">energy_flight</span> <span class="op">*</span> <span class="va">flying_h</span><span class="op">/</span><span class="va">daylength</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="op">(</span><span class="va">energy_forage</span> <span class="op">*</span> <span class="va">foraging_h</span><span class="op">/</span><span class="va">daylength</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="op">(</span><span class="va">energy_searest</span> <span class="op">*</span> <span class="va">at_sea_h</span><span class="op">/</span><span class="va">daylength</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="op">(</span><span class="va">energy_warming</span> <span class="op">*</span> <span class="va">daylength</span><span class="op">/</span><span class="fl">24.0</span><span class="op">)</span></span>
-<span>    </span>
-<span>    <span class="va">Ereq_adult</span> <span class="op">&lt;-</span> <span class="va">adult_DEE</span> <span class="op">/</span> <span class="va">assim_eff</span></span>
-<span>    </span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    </span>
-<span>    <span class="va">Ereq_adult</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span>    </span>
-<span>  <span class="op">}</span></span>
-<span>  </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">Ereq_adult</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-1">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-1"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---the-bird-is-alive-1">
-<strong>Example 1 - the bird is alive</strong><a class="anchor" aria-label="anchor" href="#example-1---the-bird-is-alive-1"></a>
-</h4>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">Ereq_adult</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_adultdee.html">calc_adultdee</a></span><span class="op">(</span></span>
-<span>  </span>
-<span>  alive <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#bird alive</span></span>
-<span>  </span>
-<span>  colony_h <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>  flying_h <span class="op">=</span> <span class="fl">5.26</span>,</span>
-<span>  foraging_h <span class="op">=</span> <span class="fl">11.23</span>,</span>
-<span>  at_sea_h <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>  </span>
-<span>  energy_nest <span class="op">=</span> <span class="fl">427.8</span>,</span>
-<span>  energy_flight <span class="op">=</span> <span class="fl">1400.7</span>,</span>
-<span>  energy_forage <span class="op">=</span> <span class="fl">1400.7</span>,</span>
-<span>  energy_searest <span class="op">=</span> <span class="fl">400.6</span>,</span>
-<span>  energy_warming <span class="op">=</span> <span class="fl">26</span>,</span>
-<span>  </span>
-<span>  assim_eff <span class="op">=</span> <span class="fl">0.74</span>,</span>
-<span>  daylength <span class="op">=</span> <span class="fl">36</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">flight_hours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span>, by <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Ereq_adult</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1231.338</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-2---the-bird-is-not-alive-1">
-<strong>Example 2 - the bird is not alive</strong><a class="anchor" aria-label="anchor" href="#example-2---the-bird-is-not-alive-1"></a>
-</h4>
-<p>The output is <strong>0 kcal</strong>, as the bird is dead.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Ereq_adult</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_adultdee.html">calc_adultdee</a></span><span class="op">(</span></span>
+<span><span class="va">DEE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">flight_hours</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
-<span>  alive <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co">#bird not alive</span></span>
+<span>  <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_adultdee.html">calc_adultdee</a></span><span class="op">(</span></span>
+<span>    alive <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    colony_h <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>    flying_h <span class="op">=</span> <span class="va">x</span>,</span>
+<span>    foraging_h <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    at_sea_h <span class="op">=</span> <span class="fl">12</span> <span class="op">-</span> <span class="va">x</span>,</span>
+<span>    energy_nest <span class="op">=</span> <span class="fl">1168.91</span>,</span>
+<span>    energy_flight <span class="op">=</span> <span class="fl">7361.72</span>,</span>
+<span>    energy_forage <span class="op">=</span> <span class="fl">1894.90</span>,</span>
+<span>    energy_searest <span class="op">=</span> <span class="fl">810.28</span>,</span>
+<span>    energy_warming <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>    assim_eff <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>    daylength <span class="op">=</span> <span class="fl">24</span></span>
+<span>  <span class="op">)</span></span>
 <span>  </span>
-<span>  colony_h <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>  flying_h <span class="op">=</span> <span class="fl">5.26</span>,</span>
-<span>  foraging_h <span class="op">=</span> <span class="fl">11.23</span>,</span>
-<span>  at_sea_h <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>  </span>
-<span>  energy_nest <span class="op">=</span> <span class="fl">427.8</span>,</span>
-<span>  energy_flight <span class="op">=</span> <span class="fl">1400.7</span>,</span>
-<span>  energy_forage <span class="op">=</span> <span class="fl">1400.7</span>,</span>
-<span>  energy_searest <span class="op">=</span> <span class="fl">400.6</span>,</span>
-<span>  energy_warming <span class="op">=</span> <span class="fl">26</span>,</span>
-<span>  </span>
-<span>  assim_eff <span class="op">=</span> <span class="fl">0.74</span>,</span>
-<span>  daylength <span class="op">=</span> <span class="fl">36</span></span>
-<span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Ereq_adult</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">flight_hours</span>,</span>
+<span>  <span class="va">DEE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"b"</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"#0483A4"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"flight time (hours)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"daily energy requirement (kJ)"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"flight time vs. energy requirements"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <hr>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="probability-of-winter-survival">3. Probability of winter survival<a class="anchor" aria-label="anchor" href="#probability-of-winter-survival"></a>
+<h2 id="adult-survival">Adult survival<a class="anchor" aria-label="anchor" href="#adult-survival"></a>
 </h2>
-<p><em>(calc_pSurvival)</em></p>
 <div class="section level3">
-<h3 id="function-description-2">Function description<a class="anchor" aria-label="anchor" href="#function-description-2"></a>
+<h3 id="probability-of-winter-survival-calc_psurvival">Probability of winter survival <em>(calc_pSurvival)</em><a class="anchor" aria-label="anchor" href="#probability-of-winter-survival-calc_psurvival"></a>
 </h3>
-<p>Calculate the probability of survival over the whole year based on
-the body mass of the individual relative to the population mean, species
-expected survival and parameters. Baseline survival values may apply to
-poor, moderate or good years.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-2">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-2"></a>
-</h3>
-<ul>
-<li>
-<em>sp</em> The species two-letter code</li>
-<li>
-<em>bmi</em> Body mass for the individual adult bird (g)</li>
-<li>
-<em>bm</em> Body mass of the adult birds alive at the end of the
-breeding season, mean (g)</li>
-<li>
-<em>sd</em> Body mass of the adult birds alive at the end of the
-breeding season, standard deviation</li>
-<li>
-<em>basesurv</em> Baseline survival</li>
-<li>
-<em>beta</em> Mass-survival slope</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-2">Output<a class="anchor" aria-label="anchor" href="#output-2"></a>
-</h3>
-<p>A probability of survival</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-2">The function<a class="anchor" aria-label="anchor" href="#the-function-2"></a>
-</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">logit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">xx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
-<span><span class="va">ilogit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span><span class="va">yy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
-<span></span>
-<span><span class="va">calc_pSurvival</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">sp</span>, <span class="va">bmi</span>, <span class="va">bm</span>, <span class="va">basesurv</span>, <span class="va">beta</span>, <span class="va">sd</span> <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">bmi</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">bmi</span><span class="op">)</span><span class="op">)</span><span class="op">{</span> <span class="co"># The bird didn't survive breeding season</span></span>
-<span>    <span class="va">out</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span> <span class="co"># Calculate survival over winter</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">sp</span> <span class="op">==</span> <span class="st">"KI"</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">ilogit</span><span class="op">(</span><span class="fu">logit</span><span class="op">(</span><span class="va">basesurv</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="op">(</span><span class="va">bmi</span> <span class="op">-</span> <span class="va">bm</span><span class="op">)</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">ilogit</span><span class="op">(</span><span class="fu">logit</span><span class="op">(</span><span class="va">basesurv</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="op">(</span><span class="va">bmi</span> <span class="op">-</span> <span class="va">bm</span><span class="op">)</span><span class="op">/</span><span class="va">sd</span><span class="op">)</span><span class="op">*</span><span class="va">beta</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-2">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-2"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---kittiwake">
-<strong>Example 1 -</strong> kittiwake<a class="anchor" aria-label="anchor" href="#example-1---kittiwake"></a>
-</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_pSurvival.html">calc_pSurvival</a></span><span class="op">(</span>sp <span class="op">=</span> <span class="st">"KI"</span>,</span>
-<span>                    bmi <span class="op">=</span> <span class="fl">329.59</span>,</span>
-<span>                    bm<span class="op">=</span> <span class="fl">342.15</span>,</span>
-<span>                    basesurv<span class="op">=</span> <span class="fl">0.65</span>,</span>
-<span>                    beta <span class="op">=</span> <span class="fl">0.038</span></span>
-<span>                    <span class="op">)</span> <span class="co">#sd non-specified, so 0</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.5353806</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-2---guillemot">
-<strong>Example 2 -</strong> guillemot<a class="anchor" aria-label="anchor" href="#example-2---guillemot"></a>
-</h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_pSurvival.html">calc_pSurvival</a></span><span class="op">(</span>sp <span class="op">=</span> <span class="st">"GU"</span>, </span>
-<span>                     bmi <span class="op">=</span> <span class="fl">340.37</span>,</span>
-<span>                     bm <span class="op">=</span> <span class="fl">344.49</span>,</span>
-<span>                     basesurv <span class="op">=</span> <span class="fl">0.80</span>,</span>
-<span>                     beta <span class="op">=</span> <span class="fl">0.038</span>,</span>
-<span>                     sd <span class="op">=</span> <span class="fl">34.41</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.799271</span></span></code></pre></div>
+<p>A detailed description of <code><a href="../reference/calc_pSurvival.html">calc_pSurvival()</a></code>, including
+its arguments and returned values, can be found in the <a href="https://nerc-ceh.github.io/seabORD_pkg/reference/calc_pSurvival.html" class="external-link">function
+reference</a>.</p>
+<p>This function converts the final body mass of an adult bird into a
+probability of surviving the season. Individuals ending the breeding
+season in better condition are expected to have a higher probability of
+surviving until the following year.</p>
+<div class="section level5">
+<h5 id="example-1---survival-probability-increases-with-adult-body-mass">
+<strong>Example 1 -</strong> survival probability increases with
+adult body mass<a class="anchor" aria-label="anchor" href="#example-1---survival-probability-increases-with-adult-body-mass"></a>
+</h5>
+<p>The figure shows that survival probability generally increases with
+adult body mass. However, the rate of increase differs among species
+because each species has different mass-survival parameters. Around the
+reference body mass (<code>bm</code>), survival is close to the
+species-specific baseline survival (<code>basesurv</code>). As body mass
+increases above this value, survival approaches one, whereas
+increasingly underweight individuals experience progressively lower
+survival probabilities. Consequently, poor foraging conditions during
+the breeding season can reduce winter survival indirectly by lowering
+adult body mass. The parameter values used below are illustrative and
+are not intended to represent any specific seabORD species
+parameterisation.</p>
+<p><img src="J_main_functions_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <hr>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="puffin-chick-mortality-from-predation-due-to-hunger">4. Puffin chick mortality from predation due to hunger<a class="anchor" aria-label="anchor" href="#puffin-chick-mortality-from-predation-due-to-hunger"></a>
-</h2>
-<p><em>(calc_puffinmortality)</em></p>
-<div class="section level3">
-<h3 id="function-description-3">Function description<a class="anchor" aria-label="anchor" href="#function-description-3"></a>
-</h3>
-<p>If a puffin chick is hungry, there is an increased risk of predation.
-This function takes the ‘hungry’ chicks (based on relative body
-condition), calculates the probability of death by predation and then
-uses rbinom to remove some of those chicks.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-3">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-3"></a>
-</h3>
-<ul>
-<li>
-<em>CoD</em> Cause of death</li>
-<li>
-<em>alive</em> Flag to indicate if the chick is currently alive (1)
-or dead (0)</li>
-<li>
-<em>BM_condition</em> Body mass relative condition, 0-1</li>
-<li>
-<em>BM_Chick_mortf</em> Critical mass below which chick is dead,
-0-1</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-3">Output<a class="anchor" aria-label="anchor" href="#output-3"></a>
-</h3>
-<p>A revised cause of death</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-3">The function<a class="anchor" aria-label="anchor" href="#the-function-3"></a>
-</h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">calc_puffinmortality</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">CoD</span>, <span class="va">alive</span>, <span class="va">BM_condition</span>, <span class="va">BM_Chick_mortf</span><span class="op">)</span><span class="op">{</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">alive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">BM_Chick_hungry</span>  <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
-<span>    <span class="va">hungry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">BM_condition</span> <span class="op">&lt;</span> <span class="fl">0.7</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="va">Prob_death</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="op">(</span><span class="va">BM_Chick_hungry</span> <span class="op">-</span> <span class="va">BM_condition</span><span class="op">)</span><span class="op">/</span></span>
-<span>                        <span class="op">(</span><span class="va">BM_Chick_hungry</span> <span class="op">-</span> <span class="va">BM_Chick_mortf</span><span class="op">)</span>, <span class="fl">1.0</span><span class="op">)</span></span>
-<span>    <span class="va">Prob_death</span> <span class="op">&lt;-</span> <span class="va">hungry</span> <span class="op">*</span> <span class="va">Prob_death</span></span>
-<span>    <span class="va">unlucky</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, <span class="va">Prob_death</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">unlucky</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op">{</span><span class="va">CoD</span> <span class="op">&lt;-</span> <span class="st">"killed"</span><span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">CoD</span><span class="op">)</span></span>
-<span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-3">
-<strong>Practical examples</strong><a class="anchor" aria-label="anchor" href="#practical-examples-3"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---puffin-is-alive-and-is-not-hungry">
-<strong>Example 1 -</strong> puffin is alive and is not hungry<a class="anchor" aria-label="anchor" href="#example-1---puffin-is-alive-and-is-not-hungry"></a>
-</h4>
-<p>If the puffin is alive (CoD = “none”) and not hungry (BM_condition
-&gt;= 0.7); then it stays alive and there is no change in the CoD.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_puffinmortality.html">calc_puffinmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                BM_condition <span class="op">=</span> <span class="fl">0.8</span>, <span class="co">#not hungry</span></span>
-<span>                                BM_Chick_mortf <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "none"</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-2---puffin-is-alive-and-hungry">
-<strong>Example 2 -</strong> puffin is alive and hungry<a class="anchor" aria-label="anchor" href="#example-2---puffin-is-alive-and-hungry"></a>
-</h4>
-<p>There are 2 possibilities either it stays alive (no change in cause
-of death) or it does (cod changes to “killed”.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#ensure reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#it doesn't die (unvaried cod)</span></span>
-<span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_puffinmortality.html">calc_puffinmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                BM_condition <span class="op">=</span> <span class="fl">0.82</span>, <span class="co">#hungry</span></span>
-<span>                                BM_Chick_mortf <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "none"</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#ensure reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">456</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#it dies (unvaried cod)</span></span>
-<span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_puffinmortality.html">calc_puffinmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                BM_condition <span class="op">=</span> <span class="fl">0.4</span>, <span class="co">#hungry</span></span>
-<span>                                BM_Chick_mortf <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "killed"</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-3---puffin-is-not-alive">
-<strong>Example 3 -</strong> puffin is not alive<a class="anchor" aria-label="anchor" href="#example-3---puffin-is-not-alive"></a>
-</h4>
-<p>If the puffin is not alive to begin with; the cause of death remains
-unvaried.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_puffinmortality.html">calc_puffinmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"starved"</span>, <span class="co">#already dead</span></span>
-<span>                                alive <span class="op">=</span> <span class="fl">0</span>, <span class="co">#dead</span></span>
-<span>                                BM_condition <span class="op">=</span> <span class="fl">0.99</span>,</span>
-<span>                                BM_Chick_mortf <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "starved"</span></span></code></pre></div>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="chick-mortality-as-a-result-of-other-causes">5. Chick mortality as a result of other causes<a class="anchor" aria-label="anchor" href="#chick-mortality-as-a-result-of-other-causes"></a>
-</h2>
-<p><em>(calc_othermortality)</em></p>
-<div class="section level3">
-<h3 id="function-description-4">Function description<a class="anchor" aria-label="anchor" href="#function-description-4"></a>
-</h3>
-<p>Chicks can be lost from other causes such as flooding, storms etc.
-This function calculates the probability of death and then uses rbinom
-to remove some chicks according to that probability.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-4">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-4"></a>
-</h3>
-<ul>
-<li>
-<em>CoD</em> Cause of death</li>
-<li>
-<em>alive</em> Flag to indicate if the chick is currently alive (1)
-or dead (0)</li>
-<li>
-<em>seasonlength</em> Species parameter, number of timesteps in the
-breeding season</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-4">Output<a class="anchor" aria-label="anchor" href="#output-4"></a>
-</h3>
-<p>A revised chick state list.</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-4">The function<a class="anchor" aria-label="anchor" href="#the-function-4"></a>
-</h3>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">calc_othermortality</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">CoD</span>, <span class="va">alive</span>, <span class="va">seasonlength</span><span class="op">)</span><span class="op">{</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">alive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">Prob_death</span> <span class="op">&lt;-</span> <span class="fl">1.0</span> <span class="op">-</span> <span class="op">(</span><span class="op">(</span><span class="fl">1.0</span><span class="op">-</span><span class="fl">0.05</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">seasonlength</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="va">unlucky</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, <span class="va">Prob_death</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">unlucky</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op">{</span><span class="va">CoD</span> <span class="op">&lt;-</span> <span class="st">"other"</span><span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">CoD</span><span class="op">)</span></span>
-<span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-4">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-4"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---chick-is-alive">
-<strong>Example 1 - chick is</strong> alive<a class="anchor" aria-label="anchor" href="#example-1---chick-is-alive"></a>
-</h4>
-<p>On 1000 repetatitions, sometimes it causes death (cod becomes
-“other”); sometimes it doesn’t.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#ensure reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">789</span><span class="op">)</span></span>
-<span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="co">#repeat the function to get a few cases where it dies</span></span>
-<span>                     <span class="fu"><a href="../reference/calc_othermortality.html">calc_othermortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                         alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                         seasonlength <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span>                     <span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; new_CoD</span></span>
-<span><span class="co">#&gt;  none other </span></span>
-<span><span class="co">#&gt;   999     1</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-2---chick-is-not-alive">
-<strong>Example 2 -</strong> chick is not alive<a class="anchor" aria-label="anchor" href="#example-2---chick-is-not-alive"></a>
-</h4>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_othermortality.html">calc_othermortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"starved"</span>, <span class="co">#dead</span></span>
-<span>                               alive <span class="op">=</span> <span class="fl">0</span>, <span class="co">#dead</span></span>
-<span>                               seasonlength <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "starved"</span></span></code></pre></div>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="chick-mortality-as-a-result-of-adults-not-attending-the-nest">6. Chick mortality as a result of adults not attending the nest<a class="anchor" aria-label="anchor" href="#chick-mortality-as-a-result-of-adults-not-attending-the-nest"></a>
-</h2>
-<p><em>(calc_unattendmortality)</em></p>
-<div class="section level3">
-<h3 id="function-description-5">Function description<a class="anchor" aria-label="anchor" href="#function-description-5"></a>
-</h3>
-<p>If a chick is left alone at the nest, there is an increased risk of
-death from predation etc. This function takes the chicks who are not
-fully attended by the adults, calculates the probability of death and
-then uses rbinom to remove some of those chicks.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-5">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-5"></a>
-</h3>
-<ul>
-<li>
-<em>CoD</em> Cause of death</li>
-<li>
-<em>alive</em> Flag to indicate if the chick is currently alive (1)
-or dead (0)</li>
-<li>
-<em>unattend_hrs</em> Number of hrs the chick was left
-unattended</li>
-<li>
-<em>max_hrs</em> Species parameter: Critical time threshold for
-unattendance at nest above which a chick is assumed to die through
-exposure or predation</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-5">Output<a class="anchor" aria-label="anchor" href="#output-5"></a>
-</h3>
-<p>A revised cause of death</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-5">The function<a class="anchor" aria-label="anchor" href="#the-function-5"></a>
-</h3>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">calc_unattendmortality</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">CoD</span>, <span class="va">alive</span>, <span class="va">unattend_hrs</span>, <span class="va">max_hrs</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">alive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">lonely</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">unattend_hrs</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="va">Prob_death</span> <span class="op">&lt;-</span> <span class="va">lonely</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">unattend_hrs</span><span class="op">/</span><span class="va">max_hrs</span>, <span class="fl">1.0</span><span class="op">)</span></span>
-<span>    <span class="va">unlucky</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, <span class="va">Prob_death</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">unlucky</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op">{</span><span class="va">CoD</span> <span class="op">&lt;-</span> <span class="st">"unattended"</span><span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">CoD</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-5">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-5"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1---chick-is-alive-with-no-unattended-hours">
-<strong>Example 1 - chick is</strong> alive, with no unattended
-hours<a class="anchor" aria-label="anchor" href="#example-1---chick-is-alive-with-no-unattended-hours"></a>
-</h4>
-<p>The chick remains alive.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                  alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                  unattend_hrs <span class="op">=</span> <span class="fl">0</span>, <span class="co">#no attended hours</span></span>
-<span>                                  max_hrs <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "none"</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-2---chick-is-alive-some-unattended-hours">
-<strong>Example 2 - chick is</strong> alive, some unattended
-hours<a class="anchor" aria-label="anchor" href="#example-2---chick-is-alive-some-unattended-hours"></a>
-</h4>
-<p>Low probability, unlikely to die. On 1000 runs. Depends on random
-draw</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="co">#repeat the function to get a few cases where it causes death</span></span>
-<span>                      <span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                   alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                   unattend_hrs <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>                                   max_hrs <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span>
-<span>                      <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; new_CoD</span></span>
-<span><span class="co">#&gt;       none unattended </span></span>
-<span><span class="co">#&gt;        658        342</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-3---chick-is-alive-unattended-hours-to-critical-threshold">
-<strong>Example 3 - chick is</strong> alive, unattended hours == to
-critical threshold<a class="anchor" aria-label="anchor" href="#example-3---chick-is-alive-unattended-hours-to-critical-threshold"></a>
-</h4>
-<p>chick dies unattended.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>, <span class="co">#alive</span></span>
-<span>                                   alive <span class="op">=</span> <span class="fl">1</span>, <span class="co">#alive</span></span>
-<span>                                   unattend_hrs <span class="op">=</span> <span class="fl">12</span>,</span>
-<span>                                   max_hrs <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> </span>
-<span>                      </span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "unattended"</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-4---chick-is-alive-unattended-hours-critical-threshold">
-<strong>Example 4 - chick is</strong> alive, unattended hours &gt;
-critical threshold<a class="anchor" aria-label="anchor" href="#example-4---chick-is-alive-unattended-hours-critical-threshold"></a>
-</h4>
-<p>chick dies unattended.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_CoD</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>                                  alive <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>                                  unattend_hrs <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>                                  max_hrs <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "unattended"</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="example-5---chick-is-dead">
-<strong>Example 5 - chick is</strong> dead<a class="anchor" aria-label="anchor" href="#example-5---chick-is-dead"></a>
-</h4>
-<p>remains dead of the same causes.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">new_CoD</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_unattendmortality.html">calc_unattendmortality</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="st">"starved"</span>, <span class="co">#dead</span></span>
-<span>                                   alive <span class="op">=</span> <span class="fl">0</span>, <span class="co">#dead</span></span>
-<span>                                   unattend_hrs <span class="op">=</span> <span class="fl">18</span>, <span class="co">#irrelevant</span></span>
-<span>                                   max_hrs <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="co">#irrelevant</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_CoD</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "starved"</span></span></code></pre></div>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="parenting-the-chicks">7. Parenting the chicks<a class="anchor" aria-label="anchor" href="#parenting-the-chicks"></a>
-</h2>
-<p><em>(calc_chickcare)</em></p>
-<div class="section level3">
-<h3 id="function-description-6">Function description<a class="anchor" aria-label="anchor" href="#function-description-6"></a>
-</h3>
-<p>For each chick, get the food provided by each of the parent birds and
-increase the chick body mass. Compare with the ‘optimum chick’ to
-estimate relative body condition and update the chick state. Add up the
-total hours of attendance for the timestep.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-6">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-6"></a>
-</h3>
-<ul>
-<li>
-<em>parent</em> A tibble containing the required variables from the
-adult birds (BirdID, PairID, feeding_mode, Ereq_intakef_c, colony_h,
-MF).</li>
-<li>
-<em>ChickState</em> List holding the current state of all the chicks
-and metadata.</li>
-<li>
-<em>Opt_BM_chick</em> The optimum body mass for the chick at this
-stage of the season (a chick that has received full requirements every
-day).</li>
-<li>
-<em>Species</em> List holding the species-specific variables (uses
-daylength, BM_Chick_mortf and chick_mass_a)</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-6">Output<a class="anchor" aria-label="anchor" href="#output-6"></a>
-</h3>
-<p>The updated list holding the tibbles for the chick current state.</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-6">The function<a class="anchor" aria-label="anchor" href="#the-function-6"></a>
-</h3>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">calc_chickcare</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">parent</span>, <span class="va">ChickState</span>, <span class="va">Opt_BM_chick</span>, <span class="va">Species</span><span class="op">)</span><span class="op">{</span></span>
-<span></span>
-<span>  <span class="co"># Feed only live chicks!</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fl">1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">is_chick_alive</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">is_chick_alive</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Join the male parent contribution</span></span>
-<span>    <span class="va">parentM</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">parent</span>, <span class="va">MF</span> <span class="op">==</span> <span class="st">"M"</span><span class="op">)</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">parentM</span>, by <span class="op">=</span> <span class="st">"PairID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>feeding_mode_M <span class="op">=</span> <span class="va">feeding_mode</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>Ereq_intakef_c_M <span class="op">=</span> <span class="va">Ereq_intakef_c</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>colony_h_M <span class="op">=</span> <span class="va">colony_h</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">MF</span>, <span class="va">BirdID</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Join the female parent contribution</span></span>
-<span>    <span class="va">parentF</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">parent</span>, <span class="va">MF</span> <span class="op">==</span> <span class="st">"F"</span><span class="op">)</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">parentF</span>, by <span class="op">=</span> <span class="st">"PairID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>feeding_mode_F <span class="op">=</span> <span class="va">feeding_mode</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>Ereq_intakef_c_F <span class="op">=</span> <span class="va">Ereq_intakef_c</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>colony_h_F <span class="op">=</span> <span class="va">colony_h</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">MF</span>, <span class="va">BirdID</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Tot up the attendance</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>parenting_hrs <span class="op">=</span> <span class="va">colony_h_M</span> <span class="op">+</span> <span class="va">colony_h_F</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>unattend_hrs <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap_dbl</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">parenting_hrs</span>, <span class="va">Species</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">daylength</span>, <span class="fl">0.0</span><span class="op">)</span>,</span>
-<span>        <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">{</span><span class="va">..1</span><span class="op">}</span> <span class="op">&lt;</span> <span class="op">{</span><span class="va">..2</span><span class="op">}</span>, <span class="op">{</span><span class="va">..2</span><span class="op">}</span> <span class="op">-</span> <span class="op">{</span><span class="va">..1</span><span class="op">}</span>, <span class="op">{</span><span class="va">..3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"parenting_hrs"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colony"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Total food received and increase in body mass</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">Ereq_intakef_c_M</span> <span class="op">+</span> <span class="va">Ereq_intakef_c_F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BM_increase <span class="op">=</span> <span class="op">(</span><span class="va">Species</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">chick_mass_a</span><span class="op">*</span><span class="op">(</span><span class="va">X</span><span class="op">-</span><span class="fl">0.6</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BM_chick <span class="op">=</span> <span class="va">BM_chick</span> <span class="op">+</span> <span class="va">BM_increase</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BM_condition <span class="op">=</span> <span class="va">BM_chick</span><span class="op">/</span><span class="va">Opt_BM_chick</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c_F"</span>,<span class="st">"c_M"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"BM_increase"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Update the chick modes</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>f <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>f <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap_chr</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">BM_condition</span>, <span class="va">Species</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">BM_Chick_mortf</span>, <span class="va">f</span><span class="op">)</span>,</span>
-<span>        <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">{</span><span class="va">..1</span><span class="op">}</span><span class="op">&lt;</span><span class="op">{</span><span class="va">..2</span><span class="op">}</span>, <span class="st">"starved"</span>, <span class="op">{</span><span class="va">..3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>f <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap_chr</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">feeding_mode_M</span>, <span class="va">feeding_mode_F</span>, <span class="va">f</span><span class="op">)</span>,</span>
-<span>        <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">(</span><span class="op">{</span><span class="va">..1</span><span class="op">}</span><span class="op">==</span><span class="fl">3</span> <span class="op">|</span> <span class="op">{</span><span class="va">..2</span><span class="op">}</span><span class="op">==</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"abandoned"</span>, <span class="op">{</span><span class="va">..3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>f <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap_chr</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">feeding_mode_M</span>, <span class="va">feeding_mode_F</span>, <span class="va">f</span><span class="op">)</span>,</span>
-<span>        <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">(</span><span class="op">{</span><span class="va">..1</span><span class="op">}</span><span class="op">==</span><span class="fl">4</span> <span class="op">|</span> <span class="op">{</span><span class="va">..2</span><span class="op">}</span><span class="op">==</span><span class="fl">4</span><span class="op">)</span>, <span class="st">"parentdead"</span>, <span class="op">{</span><span class="va">..3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span><span class="op">$</span><span class="va">f</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">f</span><span class="op">==</span><span class="st">"none"</span><span class="op">)</span></span>
-<span>      <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span><span class="op">$</span><span class="va">`FALSE`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span><span class="op">$</span><span class="va">`FALSE`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>CoD <span class="op">=</span> <span class="va">f</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>is_chick_alive <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BM_chick <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BM_condition <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Ereq_chick <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>unattend_hrs <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span>      <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span><span class="op">$</span><span class="va">`TRUE`</span>, <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span><span class="op">$</span><span class="va">`FALSE`</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op">&lt;-</span> <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feeding_mode"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"f"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Reconstruct full tibble</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`1`</span>, <span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">`0`</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># &gt; Update the metadata to reflect newly added variables to the ChickState tibble</span></span>
-<span>    <span class="va">newmeta</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>      <span class="op">~</span><span class="va">VarName</span>, <span class="op">~</span><span class="va">VarDescription</span>, <span class="op">~</span><span class="va">VarUnits</span>,</span>
-<span>      <span class="st">"unattend_hrs"</span>, <span class="st">"Maximum length of time that the chick is not attended by either parent"</span>, <span class="st">"hours"</span><span class="op">)</span></span>
-<span>    <span class="va">ChickState</span><span class="op">$</span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">$</span><span class="va">metadata</span>, <span class="va">newmeta</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">VarName</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ChickState</span><span class="op">)</span></span>
-<span></span>
-<span><span class="op">}</span> <span class="co"># END calc_chickcare</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-6">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-6"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1">
-<strong>Example 1</strong><a class="anchor" aria-label="anchor" href="#example-1"></a>
-</h4>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">parent</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>BirdID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span>
-<span>                                 PairID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>                                 feeding_mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>                                 Ereq_intakef_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.77</span>, <span class="fl">0.73</span>, <span class="fl">0.87</span>,  <span class="fl">0.62</span><span class="op">)</span>,</span>
-<span>                                 colony_h <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">18</span>, <span class="fl">19</span>, <span class="fl">18</span><span class="op">)</span>,</span>
-<span>                                 MF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span>
-<span>                                 <span class="op">)</span></span>
-<span></span>
-<span><span class="va">Opt_BM_chick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>timestep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span>,</span>
-<span>                           Opt_BM_chick <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">36</span>, <span class="fl">47</span>, <span class="fl">58</span>, <span class="fl">69</span>, <span class="fl">80</span>, <span class="fl">91</span>, <span class="fl">102</span>, <span class="fl">113</span>, <span class="fl">124</span>, <span class="fl">135</span>, <span class="fl">146</span>, <span class="fl">157</span>, <span class="fl">168</span>, <span class="fl">179</span>, <span class="fl">190</span>, <span class="fl">201</span>, <span class="fl">212</span>, <span class="fl">223</span>, <span class="fl">234</span>, <span class="fl">245</span>, <span class="fl">256</span>, <span class="fl">267</span>, <span class="fl">278</span>, <span class="fl">289</span>, <span class="fl">300</span>, <span class="fl">311</span>, <span class="fl">322</span>, <span class="fl">333</span>, <span class="fl">344</span>, <span class="fl">355</span>, <span class="fl">366</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="../reference/calc_chickcare.html">calc_chickcare</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">parent</span>,</span>
-<span>                 ChickState <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                 Opt_BM_chick <span class="op">=</span> ,</span>
-<span>                 <span class="va">Species</span><span class="op">)</span></span></code></pre></div>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="calculate-the-time-taken-to-forage-required-amount">8. Calculate the time taken to forage required amount<a class="anchor" aria-label="anchor" href="#calculate-the-time-taken-to-forage-required-amount"></a>
-</h2>
-<p><em>calc_foragecapture</em></p>
-<div class="section level3">
-<h3 id="function-description-7">Function description<a class="anchor" aria-label="anchor" href="#function-description-7"></a>
-</h3>
-<p>Given the starting prey density and the competition for food, we need
-to estimate how long it would take a bird to gather the food it
-needs.</p>
-<p>We assume that the relationship between prey quantity <code>x</code>
-and intake rate <code>(-dx/dt)</code> is of the form
-<code>dx/dt = -ax/(h+x)</code> for parameters <code>a</code> and
-<code>h</code>, the widely-used Michaelis-Menten model. This implies
-that the prey quantity at time <code>t</code> is equal to</p>
-<p><code>x(t,x_0) = {x:(x-x_0+at+hlog(x)-h log(x_0)) = 0}</code></p>
-<p>where <code>x_0</code> denotes the prey quantity at time 0. This in
-turn implies that the total prey consumed by foraging up to time t is
-equal to</p>
-<p><code>y(t,x_0) = x_0 - x(t,x_0)</code></p>
-<p>The solution to this cannot be written down analytically, but it can
-be calculated numerically <em>e.g.</em> using a non-linear solver. This
-function uses the solver, <em><code>nleqslv</code></em>, to create a
-look-up table for a given <code>x_0</code>, <code>a</code> and
-<code>h</code> for a range of values of <code>t</code>.</p>
-</div>
-<div class="section level3">
-<h3 id="input-parameters-7">Input parameters<a class="anchor" aria-label="anchor" href="#input-parameters-7"></a>
-</h3>
-<ul>
-<li>
-<em>x0</em> Prey quantity at time 0, g</li>
-<li>
-<em>a</em> Species maximum intake rate, kg/min</li>
-<li>
-<em>h</em> Species IR_half (modified to account for neighbours),
-kg/km2</li>
-<li>
-<em>maxt</em> The maximum number of minutes available</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output-7">Output<a class="anchor" aria-label="anchor" href="#output-7"></a>
-</h3>
-<p>A tibble with two variables, <code>tmin</code> and
-<code>captured_g</code>, with <code>maxt</code> rows.</p>
-</div>
-<div class="section level3">
-<h3 id="the-function-7">The function<a class="anchor" aria-label="anchor" href="#the-function-7"></a>
-</h3>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">calc_foragecapture</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x0</span>, <span class="va">h</span>, <span class="va">a</span>, <span class="va">maxt</span><span class="op">)</span><span class="op">{</span></span>
-<span></span>
-<span>  <span class="co"># The function to solve</span></span>
-<span>  <span class="va">fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">x0</span>, <span class="va">a</span>, <span class="va">t</span>, <span class="va">h</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">x</span> <span class="op">-</span> <span class="va">x0</span> <span class="op">+</span> <span class="va">a</span><span class="op">*</span><span class="va">t</span> <span class="op">+</span> <span class="va">h</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="va">h</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x0</span><span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="fl">10</span><span class="op">^</span><span class="fl">10</span></span>
-<span>    <span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="co"># Make a blank look-up 'table' (vector)</span></span>
-<span>  <span class="va">captured</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">maxt</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="co"># From 1 minute, calculate the food captured until it is all gone or we run</span></span>
-<span>  <span class="co"># out of time for the full timestep,</span></span>
-<span>  <span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span>  <span class="kw">while</span> <span class="op">(</span><span class="va">captured</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;</span> <span class="va">x0</span> <span class="op">&amp;</span> <span class="va">t</span> <span class="op">&lt;=</span> <span class="va">maxt</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>    <span class="co"># Find a solution</span></span>
-<span>    <span class="va">sol</span> <span class="op">&lt;-</span> <span class="fu">nleqslv</span><span class="fu">::</span><span class="fu"><a href="https://bertcarnell.github.io/nleqslv/reference/nleqslv.html" class="external-link">nleqslv</a></span><span class="op">(</span><span class="va">x0</span>, fn<span class="op">=</span><span class="va">fn</span>, jac<span class="op">=</span><span class="cn">NULL</span>, x0 <span class="op">=</span> <span class="va">x0</span>, a <span class="op">=</span> <span class="va">a</span>, t <span class="op">=</span> <span class="va">t</span>, h <span class="op">=</span> <span class="va">h</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># Action depending on the returned code</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">sol</span><span class="op">$</span><span class="va">termcd</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">captured</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x0</span> <span class="op">-</span> <span class="va">sol</span><span class="op">$</span><span class="va">x</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="va">captured</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x0</span></span>
-<span>    <span class="op">}</span></span>
-<span>    <span class="va">t</span> <span class="op">&lt;-</span> <span class="va">t</span> <span class="op">+</span> <span class="fl">1</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="co"># If all the prey has been captured before maxt, just fill in the rest</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">t</span> <span class="op">&lt;</span> <span class="va">maxt</span><span class="op">)</span> <span class="va">captured</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x0</span></span>
-<span></span>
-<span>  <span class="co"># Return the look-up</span></span>
-<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>tmin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">maxt</span><span class="op">)</span>, captured_g <span class="op">=</span> <span class="va">captured</span><span class="op">)</span></span>
-<span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="practical-examples-7">Practical examples<a class="anchor" aria-label="anchor" href="#practical-examples-7"></a>
-</h3>
-<div class="section level4">
-<h4 id="example-1-1">
-<strong>Example 1</strong><a class="anchor" aria-label="anchor" href="#example-1-1"></a>
-</h4>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x0</span> <span class="op">&lt;-</span> <span class="fl">260</span></span>
-<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fl">973</span></span>
-<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">4.369</span></span>
-<span><span class="va">maxt</span> <span class="op">&lt;-</span> <span class="fl">2160</span></span>
-<span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_foragecapture.html">calc_foragecapture</a></span><span class="op">(</span><span class="va">x0</span>, <span class="va">h</span>, <span class="va">a</span>, <span class="va">maxt</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tmin</span>, <span class="va">out</span><span class="op">$</span><span class="va">captured_g</span><span class="op">)</span></span></code></pre></div>
-<p><img src="J_main_functions_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="example-2">
-<strong>Example 2</strong><a class="anchor" aria-label="anchor" href="#example-2"></a>
-</h4>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x0</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
-<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fl">939</span></span>
-<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">4.1</span></span>
-<span><span class="va">maxt</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span>
-<span></span>
-<span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_foragecapture.html">calc_foragecapture</a></span><span class="op">(</span><span class="va">x0</span>, <span class="va">h</span>, <span class="va">a</span>, <span class="va">maxt</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tmin</span>, <span class="va">out</span><span class="op">$</span><span class="va">captured_g</span><span class="op">)</span></span></code></pre></div>
-<p><img src="J_main_functions_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
-<hr>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="calculate-the-foraging-strategy-for-the-timestep">
-<strong>9. Calculate the foraging strategy for the
-timestep</strong><a class="anchor" aria-label="anchor" href="#calculate-the-foraging-strategy-for-the-timestep"></a>
-</h2>
-<p>(<em>calc_strategy</em>)</p>
-<hr>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -1140,7 +600,7 @@ ecosystems: Their role in monitoring and management</em> (pp. 191–210).
 Cambridge University Press.
 </div>
 <div id="ref-gremillet2003cormorants" class="csl-entry">
-Grémillet, D., Wright, G., Lauder, A., Carss, D. N., &amp; Wanless, S.
+Gremillet, D., Wright, G., Lauder, A., Carss, D. N., &amp; Wanless, S.
 (2003). Modelling the daily food requirements of wintering great
 cormorants: A bioenergetics tool for wildlife management. <em>Journal of
 Applied Ecology</em>, <em>40</em>, 266–277. <a href="https://doi.org/10.1046/j.1365-2664.2003.00793.x" class="external-link">https://doi.org/10.1046/j.1365-2664.2003.00793.x</a>
@@ -1149,6 +609,11 @@ Applied Ecology</em>, <em>40</em>, 266–277. <a href="https://doi.org/10.1046/j
 Hilton, G. M., Ruxton, G. D., Furness, R. W., &amp; Houston, D. C.
 (2000). Optimal digestion strategies in seabirds: A modeling approach.
 <em>Evolutionary Ecology Research</em>, <em>2</em>, 207–230.
+</div>
+<div id="ref-holling1959" class="csl-entry">
+Holling, C. S. (1959). Some characteristics of simple types of predation
+and parasitism. <em>The Canadian Entomologist</em>, <em>91</em>(7),
+385–398. <a href="https://doi.org/10.4039/Ent91385-7" class="external-link">https://doi.org/10.4039/Ent91385-7</a>
 </div>
 <div id="ref-pennycuick1989bird" class="csl-entry">
 Pennycuick, C. J. (1989). <em>Bird flight performance: A practical

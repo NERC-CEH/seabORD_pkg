@@ -6,7 +6,8 @@
 \usage{
 plot_frgcompdata(
   frgcompdata,
-  title = "Coastline and foraging-competition distribution"
+  title = "Coastline and foraging-competition distribution",
+  zoom = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,9 @@ foraging-competition distribution, such as the object returned by
 
 \item{title}{Character string giving the plot title. Defaults to
 \code{"Coastline and foraging-competition distribution"}.}
+
+\item{zoom}{Logical. If \code{TRUE}, zooms the map to the extent of
+\code{frgcompdata} plus a 10 km buffer. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object showing the foraging-competition raster and

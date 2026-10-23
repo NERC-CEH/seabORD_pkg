@@ -59,3 +59,35 @@ al.2000a; Enstipp et al. 2006; respective costs: 1168.91 kJ day-1; 7361.72kJ
 day-1; 810.28 kJ day-1; 1894.90 kJ day-1) and the cost of warming food
 (Gremillet et al. 2003).
 }
+\examples{
+# Daily energy requirement for a living bird
+Ereq_adult <- calc_adultdee(
+  alive = TRUE,
+  colony_h = 18,
+  flying_h = 5.26,
+  foraging_h = 11.23,
+  at_sea_h = 1.5,
+  energy_nest = 427.8,
+  energy_flight = 1400.7,
+  energy_forage = 1400.7,
+  energy_searest = 400.6,
+  energy_warming = 26,
+  assim_eff = 0.74,
+  daylength = 36
+)
+
+Ereq_adult
+
+# A dead bird has no energetic requirements
+Ereq_adult <- calc_adultdee(
+  alive = FALSE,
+  colony_h = 18,
+  flying_h = 5.26,
+  foraging_h = 11.23,
+
+}
+\references{
+Pennycuick, C. J. (1987, 1989); Croll and McLaren (1993);
+Hilton et al. (2000); Enstipp et al. (2006); and
+Grémillet et al. (2003).
+}

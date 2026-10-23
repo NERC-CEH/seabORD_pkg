@@ -28,3 +28,18 @@ birds and increase the chick body mass. Compare with the 'optimum chick' to
 estimate relative body condition and update the chick state. Add up
 the total hours of attendance for the timestep.
 }
+\details{
+For each chick, food delivered by the male and female parent is summed and
+converted into growth. The resulting body mass is compared with the expected
+body mass for a chick of the same age to calculate relative body condition.
+
+Chicks may die through one of three pathways:
+\itemize{
+\item \code{"starved"}: body condition falls below the mortality threshold.
+\item \code{"abandoned"}: one or both parents abandon the breeding attempt.
+\item \code{"parentdead"}: one or both parents die.
+}
+
+In addition, the maximum period for which a chick is left unattended is
+calculated from the combined colony attendance of both parents.
+}

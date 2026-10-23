@@ -16,9 +16,7 @@ knitr::opts_chunk$set(
 
 # Installing seabORD
 
-This vignette explains how to install the development version of **seabORD** directly from GitHub.
-
-*must have: RStudio with up to date R*
+This guide explains how to install **seabORD** directly from GitHub. Before getting started, ensure that you have **R** and **RStudio** installed and up to date.
 
 ## Prerequisites
 
@@ -38,7 +36,7 @@ remotes::install_github("NERC-CEH/seabORD_pkg")
 
 ## Load the package
 
-Once installation is complete, load the package:
+Once installation is complete, load the package in your R session:
 
 ```{r, ,warning = FALSE, message = FALSE}
 library(seabORD)
@@ -54,4 +52,4 @@ remotes::install_github("NERC-CEH/seabORD_pkg")
 
 ## Next steps
 
-Follow the tutorial and examples and start playing with seabORD!
+Read[more about the seabORD model](https://nerc-ceh.github.io/seabORD_pkg/articles/B_explanation_model.html), [read about its inputs](https://nerc-ceh.github.io/seabORD_pkg/articles/C_KI_inputs.html), or [its main functions](https://nerc-ceh.github.io/seabORD_pkg/articles/J_main_functions.html), or start following the examples!

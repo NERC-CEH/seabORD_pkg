@@ -28,3 +28,40 @@ of that used in Daunt & Wanless (2008) and Wanless et al. (1997), which
 separates flight cost and foraging cost for each adult to derive total
 energy expenditure
 }
+\details{
+Adult body mass is updated according to:
+
+\deqn{
+M_{t+1} = M_t + \frac{(E_{gain} - E_{req})}{KG}
+}
+
+where \eqn{M_t} is the current body mass, \eqn{E_{gain}} is the energy
+acquired during the time step, \eqn{E_{req}} is the energetic requirement,
+and \eqn{KG} is the energy density of adult tissue.
+
+Positive energy balance results in mass gain, while negative energy balance
+results in mass loss.
+}
+\examples{
+# Adult gains more energy than it expends
+calc_adultbmchange(
+  alive = TRUE,
+  BM_adult = 400,
+  Egain_adult = 1200,
+  Ereq_adult = 1000,
+  adult_mass_KG = 25
+)
+
+# Adult expends more energy than it gains
+calc_adultbmchange(
+  alive = TRUE,
+  BM_adult = 400,
+  Egain_adult = 800,
+  Ereq_adult = 1000,
+  adult_mass_KG = 25
+)
+
+}
+\references{
+Daunt & Wanless (2008); Wanless et al. (1997).
+}

@@ -201,6 +201,8 @@ plot_seamask <- function(
 #'   [get_example_brddata()].
 #' @param title Character string giving the plot title. Defaults to
 #'   `"Coastline and bird distribution"`.
+#' @param zoom Logical. If `TRUE`, zooms the map to the extent of
+#'   `brddata` plus a 10 km buffer. Defaults to `FALSE`.
 #'
 #' @return
 #' A [ggplot2::ggplot()] object showing the bird-distribution raster and
@@ -237,7 +239,8 @@ plot_seamask <- function(
 #' @export
 plot_brddata <- function(
     brddata,
-    title = "Coastline and bird distribution"
+    title = "Coastline and bird distribution",
+    zoom = FALSE
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -259,7 +262,7 @@ plot_brddata <- function(
       0
     )
 
-  ggplot2::ggplot() +
+  p <- ggplot2::ggplot() +
     # Plot the raster
     ggplot2:: geom_raster(data = BrdData_df,
                           ggplot2::aes_string(
@@ -275,6 +278,32 @@ plot_brddata <- function(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title =  title)
+
+
+  if (zoom) {
+
+    BrdData_zoom <- BrdData_df |>
+      dplyr::filter(!is.na(.data[[layer_name]]))
+
+    buffer <- 10000 # 10 km
+
+    p <- p +
+      ggplot2::coord_sf(
+        xlim = c(
+          min(BrdData_zoom$x) - buffer,
+          max(BrdData_zoom$x) + buffer
+        ),
+        ylim = c(
+          min(BrdData_zoom$y) - buffer,
+          max(BrdData_zoom$y) + buffer
+        ),
+        expand = FALSE
+      )
+
+  }
+
+  p
+
 }
 
 #' Plot a foraging-competition raster
@@ -289,7 +318,8 @@ plot_brddata <- function(
 #'   [get_example_frgcompdata()].
 #' @param title Character string giving the plot title. Defaults to
 #'   `"Coastline and foraging-competition distribution"`.
-#'
+#' @param zoom Logical. If `TRUE`, zooms the map to the extent of
+#'   `frgcompdata` plus a 10 km buffer. Defaults to `FALSE`.
 #' @return
 #' A [ggplot2::ggplot()] object showing the foraging-competition raster and
 #' coastline.
@@ -324,7 +354,8 @@ plot_brddata <- function(
 #' @export
 plot_frgcompdata <- function(
     frgcompdata,
-    title = "Coastline and foraging-competition distribution"
+    title = "Coastline and foraging-competition distribution",
+    zoom = FALSE
 ) {
 
   ### UK outline (use coastline - available in the package)
@@ -346,7 +377,7 @@ plot_frgcompdata <- function(
       0
     )
 
-  ggplot2::ggplot() +
+  p <- ggplot2::ggplot() +
     # Plot the raster
     ggplot2:: geom_raster(data = FrgCompData_df,  ggplot2::aes_string(
       x = "x",
@@ -361,6 +392,32 @@ plot_frgcompdata <- function(
       na.value = "gray",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title = title)
+
+
+  if (zoom) {
+
+    FrgCompData_zoom <- FrgCompData_df |>
+      dplyr::filter(!is.na(.data[[layer_name]]))
+
+    buffer <- 10000 # 10 km
+
+    p <- p +
+      ggplot2::coord_sf(
+        xlim = c(
+          min(FrgCompData_zoom$x) - buffer,
+          max(FrgCompData_zoom$x) + buffer
+        ),
+        ylim = c(
+          min(FrgCompData_zoom$y) - buffer,
+          max(FrgCompData_zoom$y) + buffer
+        ),
+        expand = FALSE
+      )
+
+  }
+
+  p
+
 }
 
 #' Plot a baseline flight-distance raster

@@ -1,17 +1,57 @@
 url: ~
+
 template:
   bootstrap: 5
   bslib:
     bg: "#fff"
     fg: "#292C2F"
     primary: "#0483A4"
-    base_font:  {google: "Montserrat"}
+    base_font: {google: "Montserrat"}
     heading_font: {google: "Montserrat"}
     code_font: {google: "JetBrains Mono"}
+
+navbar:
+  structure:
+    left: [home, gettingstarted, examples, help, reference]
+    right: [search, github]
+
+  components:
+
+    gettingstarted:
+      text: Getting Started
+      menu:
+      - text: Installing seabORD
+        href: articles/A_installing_seabord.html
+      - text: Model Overview
+        href: articles/B_seabord_overview.html
+      - text: Model Inputs
+        href: articles/C_seabord_inputs.html
+      - text: Main Functions
+        href: articles/J_main_functions.html
+
+    examples:
+      text: Example Cases
+      menu:
+      - text: Kittiwake Example - Distance decay
+        href: articles/G_KI_run_decay.html
+      - text: Kittiwake Example - GPS
+        href: articles/H_KI_run_gps.html
+      - text: Exploring Outputs
+        href: articles/I_exampleKI_output.html
+      - text: Distance Decay Maps
+        href: articles/D_DistanceDecayMap.html
+
+    help:
+      text: Help
+      menu:
+      - text: FAQs
+        href: articles/K_FAQs.html
+
 reference:
 - title: "Functions to run the model"
   contents:
   - seabord
+
 - title: "Main functions behind the seabORD model"
   contents:
   - calc_adultbmchange
@@ -24,12 +64,14 @@ reference:
   - calc_strategy
   - calc_foragecapture
   - memoised_calc_foragecapture
+
 - title: "Other functions behind seabORD"
   contents:
   - set_seedvalues
   - set_initialbirdtype
   - set_initialchickstate
   - set_initialbirdstate
+
 - title: "seabORD distance decay"
   contents:
   - calc_birddensmap_dd_pinfr
@@ -38,10 +80,12 @@ reference:
   - calc_dd_pinfr_from_phalf
   - calc_dist_restricted
   - voptimise
+
 - title: "Example data"
   contents:
   - starts_with("get_example")
   - get_spdat
+
 - title: "Preparing the input"
   contents:
   - set_colony_point
@@ -51,19 +95,7 @@ reference:
   - calc_calibration_range
   - summarise_ORD_impact
   - check_calibration_inputs
+
 - title: "Plotting input/output"
   contents:
   - starts_with("plot")
-articles:
-  - title: "Getting Started"
-    navbar: Getting Started
-    contents: [A_installing_seabord, B_explanation_model, C_KI_inputs, J_main_functions]
-  - title: "Kittiwake example case"
-    navbar: Kittiwake example case
-    contents: [D_DistanceDecayMap, E_KI_calib_decay, F_exampleKI_calib,G_KI_run_decay, H_exampleKI_run, I_exampleKI_output]
-  - title: "Help"
-    navbar: Help
-    contents: [K_FAQs]
-
-
-
