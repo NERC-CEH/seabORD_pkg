@@ -199,22 +199,23 @@ Now that the inputs have been prepared by loading them into our environment we c
 
 The **ORDpoly** is set to NULL in the calibration run, as this is not needed.
 
-Calculates (Slow):
+Calculates (Slow, \~45 minutes): This will start the calibration runs (30 steps per 20 days).
 
 ```{r, eval = FALSE}
-SeabORDoutput <- seabORD::seabord(Par = Par_example_calibration,
-                                  ordPar = ordPar_example_calibration,
-                                  modPar = modPar_example_calibration,
-                                  switches = switches_example_calibration,
-                                  seamask = seamask_example,
-                                  spadat1 = spadat1_example,
-                                  spadat2 = spadat2_example,
-                                  spdat = spdat_example,
-                                  BrdData = brddata_example,
-                                  FrgCompData = FrgCompData_example_dd,
-                                  fltdist_base = fltdist_base_example,
-                                  FlightGridcorrection = FlightGridcorrection_example,
-                                  ORDpoly = NULL
+sbordout_calibration  <- seabORD::seabord(
+  Par = Par_example_calibration,
+  ordPar = ordPar_example_calibration,
+  modPar = modPar_example_calibration,
+  switches = switches_example_calibration,
+  seamask = seamask_example,
+  spadat1 = spadat1_example,
+  spadat2 = spadat2_example,
+  spdat = spdat_example,
+  BrdData = brddata_example,
+  FrgCompData = FrgCompData_example,
+  fltdist_base = fltdist_base_example,
+  FlightGridcorrection = FlightGridcorrection_example,
+  ORDpoly = NULL
 )
 ```
 

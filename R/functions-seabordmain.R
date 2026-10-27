@@ -1053,25 +1053,29 @@ seabord <- function(Par, modPar, ordPar, switches, seamask, spadat1, spadat2,
     # are scaled according to which colony is being simulated:
     BFM_zeros <- reclassify(BirdFlightMap, cbind(0, NA))
     BFM_trim <- trim(BFM_zeros)
-    p <- ggplot() + ggspatial::layer_spatial(SeabORDSummary$BirdFlightMap) +
-      scale_fill_viridis_c(option = "B", direction = -1, na.value = "transparent") +
-      ggtitle("Foraging locations") +  ylim(BFM_trim@extent@ymin, BFM_trim@extent@ymax) + xlim(BFM_trim@extent@xmin, BFM_trim@extent@xmax)
+    p <- ggplot2::ggplot() +
+      ggspatial::layer_spatial(SeabORDSummary$BirdFlightMap) +
+      ggplot2::scale_fill_viridis_c(option = "B", direction = -1, na.value = "transparent") +
+      ggplot2::ggtitle("Foraging locations") +
+      ggplot2::ylim(BFM_trim@extent@ymin, BFM_trim@extent@ymax) +
+      ggplot2::xlim(BFM_trim@extent@xmin, BFM_trim@extent@xmax)
 
     if(switches$environment == "parallel"){
-      ggsave(file.path(modPar$outputdir,thisRun$stamp2, paste0("BFlightMap_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.Date()))),".png")),
+      ggplot2::ggsave(file.path(modPar$outputdir,thisRun$stamp2, paste0("BFlightMap_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.Date()))),".png")),
              p, device="png",width=9, height=9)
     } else {
-      ggsave(file.path(modPar$outputdir,thisRun$stamp2, paste0("BFlightMap_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.Date()))),".png")),
+      ggplot2::ggsave(file.path(modPar$outputdir,thisRun$stamp2, paste0("BFlightMap_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.Date()))),".png")),
              p, device="png",width=9, height=9)
     }
   }
 
-  if (switches$saverds) {
+  if (switches$saverds == T) {
     if (switches$environment =="parallel"){
-      saveRDS(SeabORDSummary, file.path(outputdir,thisRun$stamp2, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.time()))),".rds")))
+      saveRDS(SeabORDSummary, file.path(modPar$outputdir,thisRun$stamp2, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.time()))),".rds")))
+    } else if (switches$environment == "serial") {
+      saveRDS(SeabORDSummary, file.path(modPar$outputdir, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar$reference,"_", Sys.Date()))),".rds")))
     }
   }
-
 
   ## Return the list
   return(SeabORDSummary)
