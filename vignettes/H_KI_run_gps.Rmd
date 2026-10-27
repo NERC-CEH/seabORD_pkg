@@ -225,7 +225,7 @@ Where adult mass loss is the average percentage mass loss of adults over the dur
 
 ```{r}
 seabORD::plot_BirdFlightMap(
-  sbordout_calibration$BirdFlightMap
+  sbordout_calibration
 )
 ```
 

@@ -36,9 +36,9 @@ navbar:
         href: articles/G_KI_run_decay.html
       - text: Kittiwake Example - GPS
         href: articles/H_KI_run_gps.html
-      - text: Exploring Outputs
+      - text: Interpreting the outputs
         href: articles/I_exampleKI_output.html
-      - text: Distance Decay Maps
+      - text: Create a distance-decay map
         href: articles/D_DistanceDecayMap.html
 
     help:

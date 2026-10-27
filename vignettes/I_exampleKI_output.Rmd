@@ -59,7 +59,7 @@ Let's plot the flight map location output just to see that the run has performed
 
 ```{r}
 seabORD::plot_BirdFlightMap(
-  sbordout$BirdFlightMap
+  sbordout
 )
 ```
 

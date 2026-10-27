@@ -557,12 +557,25 @@ get_example_spadat1 <- function(type = NULL) {
   }
 
 
-  tibble::as_tibble(
+  df <- tibble::as_tibble(
     dplyr::filter(
       seabORD::spacoordinates,
       SITECODE == site_code
     )
   )
+
+  if (!is.null(type) && type == "dd"){
+    # Use the exact colony location of Whinnyfold
+    whinnyfold_lon <- -1.85849
+    whinnyfold_lat <- 57.388807
+
+    df$Longitude <- whinnyfold_lon
+    df$Latitude  <- whinnyfold_lat
+    df$flt.LONG  <- whinnyfold_lon
+    df$flt.LAT   <- whinnyfold_lat
+  }
+
+  return(df)
 
 }
 

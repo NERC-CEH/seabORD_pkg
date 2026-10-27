@@ -143,15 +143,16 @@ information here</a>).</p>
 57.388807).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spadat1_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_spadat1.html">get_example_spadat1</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Use the exact colony location of Whinnyfold</span></span>
-<span><span class="va">whinnyfold_lon</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">1.85849</span></span>
-<span><span class="va">whinnyfold_lat</span> <span class="op">&lt;-</span> <span class="fl">57.388807</span></span>
-<span></span>
-<span><span class="va">spadat1_example</span><span class="op">$</span><span class="va">Longitude</span> <span class="op">&lt;-</span> <span class="va">whinnyfold_lon</span></span>
-<span><span class="va">spadat1_example</span><span class="op">$</span><span class="va">Latitude</span>  <span class="op">&lt;-</span> <span class="va">whinnyfold_lat</span></span>
-<span><span class="va">spadat1_example</span><span class="op">$</span><span class="va">flt.LONG</span>  <span class="op">&lt;-</span> <span class="va">whinnyfold_lon</span></span>
-<span><span class="va">spadat1_example</span><span class="op">$</span><span class="va">flt.LAT</span>   <span class="op">&lt;-</span> <span class="va">whinnyfold_lat</span></span></code></pre></div>
+<span><span class="va">spadat1_example</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 23</span></span></span>
+<span><span class="co">#&gt;   SITECODE  CEF.include Marine Longitude Latitude dat.CELLNO dat.ATSEA flt.LONG</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> UK9002491 TRUE        FALSE      -<span style="color: #BB0000;">1.86</span>     57.4    1<span style="text-decoration: underline;">431</span>527 TRUE         -<span style="color: #BB0000;">1.86</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 15 more variables: flt.LAT &lt;dbl&gt;, flt.CELLNO &lt;int&gt;, flt.ATSEA &lt;lgl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   flt.DIST &lt;dbl&gt;, flt.near &lt;lgl&gt;, datxy.E &lt;dbl&gt;, datxy.N &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   datxy.CELLNO &lt;int&gt;, datxy.ATSEA &lt;lgl&gt;, fltxy.E &lt;int&gt;, fltxy.N &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   fltxy.CELLNO &lt;int&gt;, fltxy.ATSEA &lt;lgl&gt;, fltxy.DIST &lt;dbl&gt;, fltxy.near &lt;lgl&gt;</span></span></span></code></pre></div>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="spadat2">spadat2<a class="anchor" aria-label="anchor" href="#spadat2"></a>
@@ -169,23 +170,25 @@ information here</a>).</p>
 <div class="section level5">
 <h5 id="brddata-created-with-a-distance-decay-function">BrdData (created with a distance decay function)<a class="anchor" aria-label="anchor" href="#brddata-created-with-a-distance-decay-function"></a>
 </h5>
+<p>See the step-by-step guide <a href="https://nerc-ceh.github.io/seabORD_pkg/articles/D_DistanceDecayMap.html" class="external-link"><strong>Create
+a distance-decay map</strong></a>to see how this was created.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brddata_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_brddata.html">get_example_brddata</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="frgcompdata">FrgCompData<a class="anchor" aria-label="anchor" href="#frgcompdata"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">FrgCompData_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_frgcompdata.html">get_example_frgcompdata</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="fltdist_base">fltdist_base<a class="anchor" aria-label="anchor" href="#fltdist_base"></a>
 </h5>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fltdist_base_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_fltdist_base.html">get_example_fltdist_base</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="flightgridcorrection">FlightGridcorrection<a class="anchor" aria-label="anchor" href="#flightgridcorrection"></a>
@@ -198,7 +201,7 @@ information here</a>).</p>
 </h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ORDpoly_example</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/get_example_ORDpoly.html">get_example_ORDpoly</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"dd"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -335,21 +338,23 @@ environment we can set off the run using the following code. You can
 also use the example output.</p>
 <p>The <strong>ORDpoly</strong> is set to NULL in the calibration run,
 as this is not needed.</p>
-<p>Calculates (Slow):</p>
+<p>Calculates (Slow, ~45 minutes): This will start the calibration runs
+(30 steps per 20 days).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SeabORDoutput</span> <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="va">Par_example_calibration</span>,</span>
-<span>                                  ordPar <span class="op">=</span> <span class="va">ordPar_example_calibration</span>,</span>
-<span>                                  modPar <span class="op">=</span> <span class="va">modPar_example_calibration</span>,</span>
-<span>                                  switches <span class="op">=</span> <span class="va">switches_example_calibration</span>,</span>
-<span>                                  seamask <span class="op">=</span> <span class="va">seamask_example</span>,</span>
-<span>                                  spadat1 <span class="op">=</span> <span class="va">spadat1_example</span>,</span>
-<span>                                  spadat2 <span class="op">=</span> <span class="va">spadat2_example</span>,</span>
-<span>                                  spdat <span class="op">=</span> <span class="va">spdat_example</span>,</span>
-<span>                                  BrdData <span class="op">=</span> <span class="va">brddata_example</span>,</span>
-<span>                                  FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example_dd</span>,</span>
-<span>                                  fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
-<span>                                  FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection_example</span>,</span>
-<span>                                  ORDpoly <span class="op">=</span> <span class="cn">NULL</span></span>
+<code class="sourceCode R"><span><span class="va">sbordout_calibration</span>  <span class="op">&lt;-</span> <span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/seabord.html">seabord</a></span><span class="op">(</span></span>
+<span>  Par <span class="op">=</span> <span class="va">Par_example_calibration</span>,</span>
+<span>  ordPar <span class="op">=</span> <span class="va">ordPar_example_calibration</span>,</span>
+<span>  modPar <span class="op">=</span> <span class="va">modPar_example_calibration</span>,</span>
+<span>  switches <span class="op">=</span> <span class="va">switches_example_calibration</span>,</span>
+<span>  seamask <span class="op">=</span> <span class="va">seamask_example</span>,</span>
+<span>  spadat1 <span class="op">=</span> <span class="va">spadat1_example</span>,</span>
+<span>  spadat2 <span class="op">=</span> <span class="va">spadat2_example</span>,</span>
+<span>  spdat <span class="op">=</span> <span class="va">spdat_example</span>,</span>
+<span>  BrdData <span class="op">=</span> <span class="va">brddata_example</span>,</span>
+<span>  FrgCompData <span class="op">=</span> <span class="va">FrgCompData_example</span>,</span>
+<span>  fltdist_base <span class="op">=</span> <span class="va">fltdist_base_example</span>,</span>
+<span>  FlightGridcorrection <span class="op">=</span> <span class="va">FlightGridcorrection_example</span>,</span>
+<span>  ORDpoly <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Load example calibration output (used throughout this vignette)</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -395,9 +400,15 @@ aim of calibration is to find the shared prey values contained within
 the upper and lower bounds between each output.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_BirdFlightMap.html">plot_BirdFlightMap</a></span><span class="op">(</span></span>
-<span>  <span class="va">sbordout_calibration</span><span class="op">$</span><span class="va">BirdFlightMap</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<span>  <span class="va">sbordout_calibration</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span></code></pre></div>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>You can see from this map that there is no evidence of and ORD
 interactions, which is reassuring!</p>
 <p>Now we will plot the adult outputs (sbordout$output_a0) and the chick
@@ -423,7 +434,7 @@ runs going forward.</p>
 <span>  prodlower <span class="op">=</span> <span class="fl">0.45</span>,</span>
 <span>  produpper <span class="op">=</span> <span class="fl">0.55</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="G_KI_run_decay_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">

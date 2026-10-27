@@ -48,17 +48,19 @@ seabORD::plot_seamask(seamask = seamask_example)
 
 In this case study the exact colony location is at (-1.85849, 57.388807).
 
+spadat1_example
+
 ```{r}
 spadat1_example <- seabORD::get_example_spadat1(type = "dd")
+```
 
-# Use the exact colony location of Whinnyfold
-whinnyfold_lon <- -1.85849
-whinnyfold_lat <- 57.388807
-
-spadat1_example$Longitude <- whinnyfold_lon
-spadat1_example$Latitude  <- whinnyfold_lat
-spadat1_example$flt.LONG  <- whinnyfold_lon
-spadat1_example$flt.LAT   <- whinnyfold_lat
+```{r, echo=FALSE}
+# check the colony location is beside sea cells using a plot
+seabORD::plot_colony_location(
+  colony = seabORD::set_colony_point(
+    lon = spadat1_example$Longitude,
+    lat = spadat1_example$Latitude)
+  )
 ```
 
 #### spadat2
@@ -76,6 +78,8 @@ spdat_example  <- seabORD::get_example_spdat()
 ```
 
 #### BrdData (created with a distance decay function)
+
+See the step-by-step guide [**Create a distance-decay map**](https://nerc-ceh.github.io/seabORD_pkg/articles/D_DistanceDecayMap.html)to see how this was created.
 
 ```{r}
 brddata_example <- seabORD::get_example_brddata(type = "dd")
@@ -147,7 +151,7 @@ modPar_example_calibration <- seabORD::get_example_modpar(type = "cal_dd")
 str(modPar_example_calibration)
 ```
 
-Create the output folder , for example "output_seabORD_calibration" and assign it
+Create the output folder , for example "output_seabORD_calibration" and assign it as output directory
 
 ```{r, eval = FALSE}
 #set the output location in ModPar
@@ -238,7 +242,7 @@ Where adult mass loss is the average percentage mass loss of adults over the dur
 
 ```{r}
 seabORD::plot_BirdFlightMap(
-  sbordout_calibration$BirdFlightMap
+  sbordout_calibration
 )
 ```
 

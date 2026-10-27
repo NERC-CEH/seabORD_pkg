@@ -364,8 +364,14 @@ aim of calibration is to find the shared prey values contained within
 the upper and lower bounds between each output.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">seabORD</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_BirdFlightMap.html">plot_BirdFlightMap</a></span><span class="op">(</span></span>
-<span>  <span class="va">sbordout_calibration</span><span class="op">$</span><span class="va">BirdFlightMap</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="va">sbordout_calibration</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span>
+<span><span class="co">#&gt; Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm):</span></span>
+<span><span class="co">#&gt; collapsing to unique 'x' values</span></span></code></pre></div>
 <p><img src="H_KI_run_gps_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p>You can see from this map that there is no evidence of and ORD
 interactions, which is reassuring!</p>
