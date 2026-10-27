@@ -275,7 +275,7 @@ plot_brddata <- function(
     # Customize the plot
     theme_seabord() +
     ggplot2::scale_fill_viridis_c(
-      na.value = "gray",  # Set the color for NA (i.e., for 0 values)
+      na.value = "white",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title =  title)
 
@@ -389,7 +389,7 @@ plot_frgcompdata <- function(
     # Customize the plot
     theme_seabord() +
     ggplot2::scale_fill_viridis_c(
-      na.value = "gray",  # Set the color for NA (i.e., for 0 values)
+      na.value = "white",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title = title)
 
@@ -503,7 +503,7 @@ plot_fltdist_base <- function(
     # Customize the plot
     theme_seabord() +
     ggplot2::scale_fill_viridis_c(
-      na.value = "gray",  # Set the color for NA (i.e., for 0 values)
+      na.value = "white",  # Set the color for NA (i.e., for 0 values)
       name = layer_name, direction = -1) +
     ggplot2::labs(title = title)
 
@@ -796,7 +796,7 @@ plot_DBS_map <- function(
     ) +
     theme_seabord() +
     ggplot2::scale_fill_viridis_c(
-      na.value = "gray",
+      na.value = "white",
       direction = -1,
       name = "Distance by sea"
     ) +
@@ -1287,6 +1287,17 @@ plot_BirdFlightMap <- function(
 
   layer_name <- names(BirdFlightMap)[1]
 
+  #remove the 0s
+  BirdFlightMap_df[[layer_name]][
+    BirdFlightMap_df[[layer_name]] == 0
+  ] <- NA
+
+  breaks <- quantile(
+    BirdFlightMap_df[[layer_name]],
+    probs = c(0, 0.5, 0.9, 0.95, 0.99, 1),
+    na.rm = TRUE
+  )
+
   p <- ggplot2::ggplot() +
     ggplot2::geom_tile(
       data = BirdFlightMap_df,
@@ -1305,11 +1316,11 @@ plot_BirdFlightMap <- function(
       linewidth = 0.7
     ) +
     ggplot2::scale_fill_gradientn(
-      colours = c("white", viridisLite::viridis(100)),
-      limits = c(0, max(BirdFlightMap_df[[layer_name]], na.rm = TRUE)),
-      na.value = "grey",
+      colours = viridisLite::viridis(length(breaks)),
+      values = scales::rescale(breaks),
+      na.value = "white",
       name = "BirdFlightMap"
-    ) +
+    )+
     theme_seabord()
 
   #if ORDs are defined add them to the map
