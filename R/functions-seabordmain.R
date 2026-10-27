@@ -1051,14 +1051,18 @@ seabord <- function(Par, modPar, ordPar, switches, seamask, spadat1, spadat2,
 
     # change zeros to NAs to trim to extent of flights so that x and y limits
     # are scaled according to which colony is being simulated:
-    BFM_zeros <- reclassify(BirdFlightMap, cbind(0, NA))
-    BFM_trim <- trim(BFM_zeros)
-    p <- ggplot2::ggplot() +
-      ggspatial::layer_spatial(SeabORDSummary$BirdFlightMap) +
-      ggplot2::scale_fill_viridis_c(option = "B", direction = -1, na.value = "transparent") +
-      ggplot2::ggtitle("Foraging locations") +
-      ggplot2::ylim(BFM_trim@extent@ymin, BFM_trim@extent@ymax) +
-      ggplot2::xlim(BFM_trim@extent@xmin, BFM_trim@extent@xmax)
+    # BFM_zeros <- reclassify(BirdFlightMap, cbind(0, NA))
+    # BFM_trim <- trim(BFM_zeros)
+    # p <- ggplot2::ggplot() +
+    #   ggspatial::layer_spatial(SeabORDSummary$BirdFlightMap) +
+    #   ggplot2::scale_fill_viridis_c(option = "B", direction = -1, na.value = "transparent") +
+    #   ggplot2::ggtitle("Foraging locations") +
+    #   ggplot2::ylim(BFM_trim@extent@ymin, BFM_trim@extent@ymax) +
+    #   ggplot2::xlim(BFM_trim@extent@xmin, BFM_trim@extent@xmax)
+    p <- plot_BirdFlightMap(
+      sbordout = SeabORDSummary,
+      ORDpolys = ORDpoly
+    )
 
     if(switches$environment == "parallel"){
       ggplot2::ggsave(file.path(modPar$outputdir,thisRun$stamp2, paste0("BFlightMap_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.Date()))),".png")),
@@ -1069,11 +1073,20 @@ seabord <- function(Par, modPar, ordPar, switches, seamask, spadat1, spadat2,
     }
   }
 
+
   if (switches$saverds == T) {
+
     if (switches$environment =="parallel"){
+
       saveRDS(SeabORDSummary, file.path(modPar$outputdir,thisRun$stamp2, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(thisRun$refname,"_", Sys.time()))),".rds")))
     } else if (switches$environment == "serial") {
-      saveRDS(SeabORDSummary, file.path(modPar$outputdir, paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar$reference,"_", Sys.Date()))),".rds")))
+
+      file_name <- paste0("sb_out_", gsub("\\.", "_", make.names(paste0(modPar$reference,"_", Sys.Date()))),".rds")
+
+      file_loc <- file.path(modPar$outputdir, thisRun$stamp2, file_name)
+
+      saveRDS(SeabORDSummary, file_loc)
+
     }
   }
 

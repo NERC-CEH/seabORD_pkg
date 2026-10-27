@@ -5,14 +5,15 @@
 \title{Plot a bird-flight map}
 \usage{
 plot_BirdFlightMap(
-  BirdFlightMap,
+  sbordout,
+  ORDpolys = NULL,
   xlim = NULL,
   ylim = NULL,
   title = "Coastline and bird-flight map"
 )
 }
 \arguments{
-\item{BirdFlightMap}{A \code{RasterLayer}, \code{SpatRaster}, or compatible raster
+\item{sbordout}{list containing "BirdFlightMap" which is a \code{RasterLayer}, \code{SpatRaster}, or compatible raster
 object containing the number of simulated visits to each foraging
 location, such as \code{sbordout$BirdFlightMap}.}
 
@@ -51,7 +52,7 @@ used as the plotting extent.
 sbordout <- get_example_output()
 
 plot_BirdFlightMap(
-  BirdFlightMap = sbordout$BirdFlightMap
+  sbordout = sbordout
 )
 }
 

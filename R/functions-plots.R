@@ -21,15 +21,15 @@
 #' @noRd
 theme_seabord <- function() {
 
-  if (!"montserrat" %in% sysfonts::font_families()) {
-    sysfonts::font_add_google("Montserrat", "montserrat")
-  }
+  # if (!"montserrat" %in% sysfonts::font_families()) {
+  #   sysfonts::font_add_google("Montserrat", "montserrat")
+  # }
+  #
+  # if (!"jetbrains_mono" %in% sysfonts::font_families()) {
+  #   sysfonts::font_add_google("JetBrains Mono", "jetbrains_mono")
+  # }
 
-  if (!"jetbrains_mono" %in% sysfonts::font_families()) {
-    sysfonts::font_add_google("JetBrains Mono", "jetbrains_mono")
-  }
-
-  showtext::showtext_auto()
+  #showtext::showtext_auto()
 
   ggplot2::theme(
 
@@ -54,17 +54,17 @@ theme_seabord <- function() {
     # axes
     axis.text = ggplot2::element_text(
       color = "#292C2F",
-      family = "montserrat"
+      family = "sans"#"montserrat"
     ),
     axis.title = ggplot2::element_text(
       color = "#292C2F",
-      family = "montserrat"
+      family = "sans"#"montserrat"
     ),
 
     # title
     plot.title = ggplot2::element_text(
       color = "#0483A4",
-      family = "montserrat",
+      family = "sans",#"montserrat",
       size = 16,
       face = "bold",
       hjust = 0.5
@@ -73,7 +73,7 @@ theme_seabord <- function() {
     # caption
     plot.caption = ggplot2::element_text(
       color = "#292C2F",
-      family = "jetbrains_mono"
+      family = "sans"#"jetbrains_mono"
     ),
 
     # legend
@@ -87,11 +87,11 @@ theme_seabord <- function() {
     ),
     legend.text = ggplot2::element_text(
       color = "#292C2F",
-      family = "montserrat"
+      family = "sans" #"montserrat"
     ),
     legend.title = ggplot2::element_text(
       color = "#292C2F",
-      family = "montserrat",
+      family = "sans", #"montserrat",
       face = "bold"
     )
   )
@@ -1220,7 +1220,7 @@ plot_ORD_obstruction <- function(
 #' Creates a map of simulated bird foraging locations from a seabORD
 #' `BirdFlightMap` output and overlays coastlines for geographical context.
 #'
-#' @param BirdFlightMap A `RasterLayer`, `SpatRaster`, or compatible raster
+#' @param sbordout list containing "BirdFlightMap" which is a `RasterLayer`, `SpatRaster`, or compatible raster
 #'   object containing the number of simulated visits to each foraging
 #'   location, such as `sbordout$BirdFlightMap`.
 #' @param xlim Optional numeric vector of length two giving the lower and
@@ -1252,7 +1252,7 @@ plot_ORD_obstruction <- function(
 #' sbordout <- get_example_output()
 #'
 #' plot_BirdFlightMap(
-#'   BirdFlightMap = sbordout$BirdFlightMap
+#'   sbordout = sbordout
 #' )
 #' }
 #'
@@ -1262,22 +1262,23 @@ plot_ORD_obstruction <- function(
 #' @family plotting functions
 #' @export
 plot_BirdFlightMap <- function(
-    BirdFlightMap,
+    sbordout,
+    ORDpolys = NULL,
     xlim = NULL,
     ylim = NULL,
     title = "Coastline and bird-flight map"
 ) {
 
-  uk_map <- sf::st_as_sf(seabORD::cef_coast_4326)
+
+  BirdFlightMap <- sbordout$BirdFlightMap
+
+  uk_map <- sf::st_as_sf(seabORD::cef_coast_3035)
 
   uk_map <- uk_map[
     uk_map$ID_0 %in% c("GBR", "FRO", "GGY", "IMN"),
   ]
 
-  BirdFlightMap <- terra::rast(BirdFlightMap) %>%
-    terra::project(
-      terra::crs(uk_map)
-    )
+  BirdFlightMap <- terra::rast(BirdFlightMap)
 
   BirdFlightMap_df <- as.data.frame(
     BirdFlightMap,
@@ -1285,6 +1286,59 @@ plot_BirdFlightMap <- function(
   )
 
   layer_name <- names(BirdFlightMap)[1]
+
+  p <- ggplot2::ggplot() +
+    ggplot2::geom_tile(
+      data = BirdFlightMap_df,
+      ggplot2::aes(
+        x = x,
+        y = y,
+        fill = .data[[layer_name]]
+      ),
+      width = terra::res(BirdFlightMap)[1],
+      height = terra::res(BirdFlightMap)[2]
+    ) +
+    ggplot2::geom_sf(
+      data = uk_map,
+      fill = NA,
+      color = "#D63333",
+      linewidth = 0.7
+    ) +
+    ggplot2::scale_fill_gradientn(
+      colours = c("white", viridisLite::viridis(100)),
+      limits = c(0, max(BirdFlightMap_df[[layer_name]], na.rm = TRUE)),
+      na.value = "grey",
+      name = "BirdFlightMap"
+    ) +
+    theme_seabord()
+
+  #if ORDs are defined add them to the map
+  if (!is.null(sbordout$ordPar) && length(sbordout$ordPar) > 0) {
+
+    # add ORDs to map
+    if (!is.null(ORDpolys)){
+
+      ORDpolys_buffer <- set_ORD_buffer(
+        ORDpolys,
+        bufferwidth = sbordout$ordPar$FootprintBorder
+      )
+
+      p <- p +
+        ggplot2::geom_sf(
+          data = ORDpolys,
+          colour = "lightblue",
+          fill = NA
+        ) +
+        ggplot2::geom_sf(
+          data = ORDpolys_buffer,
+          colour = "lightblue",
+          fill = NA
+        )
+
+    }
+  }
+
+  #crop to limits
 
   # Derive plotting extent if not supplied
   if (is.null(xlim) || is.null(ylim)) {
@@ -1298,14 +1352,14 @@ plot_BirdFlightMap <- function(
       y_buffer <- diff(range(nonzero_cells$y)) * 0.01
 
       xlim <- c(
-          min(nonzero_cells$x) - x_buffer,
-          max(nonzero_cells$x) + x_buffer
-        )
+        min(nonzero_cells$x) - x_buffer,
+        max(nonzero_cells$x) + x_buffer
+      )
 
       ylim <- c(
-          min(nonzero_cells$y) - y_buffer,
-          max(nonzero_cells$y) + y_buffer
-        )
+        min(nonzero_cells$y) - y_buffer,
+        max(nonzero_cells$y) + y_buffer
+      )
 
 
     } else {
@@ -1317,43 +1371,23 @@ plot_BirdFlightMap <- function(
     }
   }
 
-
-  ggplot2::ggplot() +
-    ggplot2::geom_raster(
-      data = BirdFlightMap_df,
-      ggplot2::aes(
-        x = x,
-        y = y,
-        fill = .data[[layer_name]]
-      )
-    ) +
-    ggplot2::geom_sf(
-      data = uk_map,
-      fill = NA,
-      color = "#D63333",
-      linewidth = 0.5
-    ) +
-    ggplot2::scale_fill_gradientn(
-      colours = c("white", viridisLite::viridis(100)),
-      limits = c(0, max(BirdFlightMap_df[[layer_name]], na.rm = TRUE)),
-      na.value = "grey",
-      name = "BirdFlightMap"
-    ) +
-    # ggplot2::scale_fill_viridis_c(
-    #   na.value = "grey",
-    #   direction = -1,
-    #   name = "BirdFlightMap"
-    # ) +
+  p <- p +
     ggplot2::coord_sf(
+      crs = sf::st_crs(uk_map),
       xlim = xlim,
       ylim = ylim
-    ) +
-    theme_seabord() +
+    )
+
+  #add labels
+  p <- p +
     ggplot2::labs(
       title = title,
       x = "Longitude",
       y = "Latitude"
     )
+
+  return(p)
+
 }
 
 #' Plot calibration outputs across prey values
