@@ -1297,32 +1297,23 @@ plot_BirdFlightMap <- function(
       x_buffer <- diff(range(nonzero_cells$x)) * 0.01
       y_buffer <- diff(range(nonzero_cells$y)) * 0.01
 
-      if (is.null(xlim)) {
-        xlim <- c(
+      xlim <- c(
           min(nonzero_cells$x) - x_buffer,
           max(nonzero_cells$x) + x_buffer
         )
-      }
 
-      if (is.null(ylim)) {
-        ylim <- c(
+      ylim <- c(
           min(nonzero_cells$y) - y_buffer,
           max(nonzero_cells$y) + y_buffer
         )
-      }
+
 
     } else {
 
       bb <- sf::st_bbox(uk_map)
 
-      if (is.null(xlim)) {
-        xlim <- c(bb["xmin"], bb["xmax"])
-      }
-
-      if (is.null(ylim)) {
-        ylim <- c(bb["ymin"], bb["ymax"])
-      }
-
+      xlim <- c(bb["xmin"], bb["xmax"])
+      ylim <- c(bb["ymin"], bb["ymax"])
     }
   }
 
@@ -1342,18 +1333,26 @@ plot_BirdFlightMap <- function(
       color = "#D63333",
       linewidth = 0.5
     ) +
-    ggplot2::scale_fill_viridis_c(
+    ggplot2::scale_fill_gradientn(
+      colours = c("white", viridisLite::viridis(100)),
+      limits = c(0, max(BirdFlightMap_df[[layer_name]], na.rm = TRUE)),
       na.value = "grey",
-      direction = -1,
       name = "BirdFlightMap"
     ) +
+    # ggplot2::scale_fill_viridis_c(
+    #   na.value = "grey",
+    #   direction = -1,
+    #   name = "BirdFlightMap"
+    # ) +
     ggplot2::coord_sf(
       xlim = xlim,
       ylim = ylim
     ) +
     theme_seabord() +
     ggplot2::labs(
-      title = title
+      title = title,
+      x = "Longitude",
+      y = "Latitude"
     )
 }
 
